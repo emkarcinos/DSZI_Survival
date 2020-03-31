@@ -1,0 +1,2 @@
+class UiElement:
+    pass
