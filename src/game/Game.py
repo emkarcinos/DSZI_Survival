@@ -2,6 +2,7 @@ import pygame
 import json
 from pathlib import Path
 
+from game.EventManager import EventManager
 from game.Screen import Screen
 
 
@@ -35,10 +36,14 @@ class Game:
         self.screen = Screen(self, self.config["window"])
         print("OK")
 
+        self.eventManager = EventManager(self)
+
         self.spritesList = pygame.sprite.Group()
 
         self.mainLoop()
 
     def mainLoop(self):
-        self.spritesList.draw(self.screen.pygameScreen)
-        pygame.display.flip()
+        while self.running:
+            self.eventManager.handleEvents()
+            self.spritesList.draw(self.screen.pygameScreen)
+            pygame.display.flip()
