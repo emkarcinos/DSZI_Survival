@@ -1,5 +1,6 @@
 class Entity:
+
     def __init__(self):
-        self.texture
-        self.pos
-        self.id
+        self.texture = None
+        self.pos = None
+        self.id = None
