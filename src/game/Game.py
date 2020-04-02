@@ -11,7 +11,7 @@ class Game:
         print("Loading configuration...", end=" ")
 
         try:
-            configFolder = Path("../../data/config/")
+            configFolder = Path("../data/config/")
             configFile = configFolder / "mainConfig.json"
 
             self.config = json.loads(configFile.read_text())
@@ -42,6 +42,3 @@ class Game:
     def mainLoop(self):
         self.spritesList.draw(self.screen.pygameScreen)
         pygame.display.flip()
-
-
-game = Game()
