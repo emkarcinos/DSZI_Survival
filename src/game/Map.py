@@ -12,7 +12,7 @@ class Map:
             for line in f:
                 self.terrain.append(line)
 
-        self.tileSize = self.screen.mapSize/20
+        self.tileSize = int(self.screen.mapSize/20)
 
         self.tileWidth = len(self.terrain[0])
         self.tileHeight = len(self.terrain)
@@ -25,10 +25,10 @@ class Map:
         for row, tiles in enumerate(self.terrain):
             for col, tile in enumerate(tiles):
                 if tile == 'w':
-                    self.screen.draw(TerrainTile(self.game, col, row, 'wall.png', self.screen.mapSize), Locations.MAP, col, row)
-                if tile == ',':
-                    self.screen.draw(TerrainTile(self.game, col, row, 'floor.png', self.screen.mapSize), Locations.MAP, col, row)
-                if tile == '.':
-                    self.screen.draw(TerrainTile(self.game, col, row, 'grass.png', self.screen.mapSize), Locations.MAP, col, row)
+                    self.screen.draw(TerrainTile('wall.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
+                elif tile == ',':
+                    self.screen.draw(TerrainTile('floor.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
+                elif tile == '.':
+                    self.screen.draw(TerrainTile('grass.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
         
 
