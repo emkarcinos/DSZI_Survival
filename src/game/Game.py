@@ -5,6 +5,8 @@ from pathlib import Path
 from game.EventManager import EventManager
 from game.Screen import Screen
 
+from src.game.Timer import Timer
+
 
 class Game:
     def __init__(self):
@@ -24,6 +26,7 @@ class Game:
 
         print("Initializing pygame...", end=" ")
         pygame.init()
+        self.spritesList = pygame.sprite.Group()
         print("OK")
 
         print("Initializing screen, params: " + str(self.config["window"]) + "...", end=" ")
@@ -37,8 +40,6 @@ class Game:
         print("OK")
 
         self.eventManager = EventManager(self)
-
-        self.spritesList = pygame.sprite.Group()
 
         self.mainLoop()
 
