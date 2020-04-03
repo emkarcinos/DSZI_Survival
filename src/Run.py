@@ -1,3 +1,3 @@
-from src.game.Game import Game
+from game.Game import Game
 
 game = Game()

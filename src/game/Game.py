@@ -1,9 +1,11 @@
 import pygame
 import json
 from pathlib import Path
+from os import path
 
 from game.EventManager import EventManager
 from game.Screen import Screen
+from game.Map import Map
 
 
 class Game:
@@ -24,8 +26,8 @@ class Game:
 
         print("Initializing pygame...", end=" ")
         pygame.init()
+        self.spritesList = pygame.sprite.Group()
         print("OK")
-
         print("Initializing screen, params: " + str(self.config["window"]) + "...", end=" ")
 
         # Vertical rotation is unsupported due to UI layout
@@ -38,7 +40,10 @@ class Game:
 
         self.eventManager = EventManager(self)
 
-        self.spritesList = pygame.sprite.Group()
+        # Start Map implement
+        self.mapDataFolder = path.dirname("../data/mapdata/")
+        self.map = Map(path.join(self.mapDataFolder, 'map.txt'), self, self.screen)
+        # End Map implement
 
         self.mainLoop()
 
