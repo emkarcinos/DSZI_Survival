@@ -3,8 +3,7 @@ from game.TerrainTile import TerrainTile
 from game.Screen import Locations
 
 class Map:
-    def __init__(self, filename, game, screen):
-        self.game = game
+    def __init__(self, filename, screen):
         self.screen = screen
         self.terrain = []
         self.entities = []
