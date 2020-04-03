@@ -42,7 +42,7 @@ class Game:
 
         # Start Map implement
         self.mapDataFolder = path.dirname("../data/mapdata/")
-        self.map = Map(path.join(self.mapDataFolder, 'map.txt'), self, self.screen)
+        self.map = Map(path.join(self.mapDataFolder, 'map.txt'), self.screen)
         # End Map implement
 
         self.mainLoop()

@@ -4,11 +4,8 @@ from os import path
 
 
 class TerrainTile(pygame.sprite.Sprite):
-    def __init__(self, game, x, y, texture, mapSize):
-        self.tiles = []
-        self.groups = game.spritesList
-        pygame.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
+    def __init__(self, x, y, texture, mapSize):
+        super().__init__()
         self.imagesFolder = path.dirname("../data/images/")
         self.terrainFolder = path.join(self.imagesFolder, 'terrain')
         self.image = pygame.image.load(os.path.join(self.terrainFolder, texture)).convert()

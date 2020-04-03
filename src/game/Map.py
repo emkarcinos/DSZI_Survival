@@ -3,8 +3,7 @@ from game.TerrainTile import TerrainTile
 from game.Screen import Locations
 
 class Map:
-    def __init__(self, filename, game, screen):
-        self.game = game
+    def __init__(self, filename, screen):
         self.screen = screen
         self.terrain = []
         self.entities = []
@@ -25,10 +24,10 @@ class Map:
         for row, tiles in enumerate(self.terrain):
             for col, tile in enumerate(tiles):
                 if tile == 'w':
-                    self.screen.draw(TerrainTile(self.game, col, row, 'wall.png', self.screen.mapSize), Locations.MAP, col, row)
+                    self.screen.draw(TerrainTile(col, row, 'wall.png', self.screen.mapSize), Locations.MAP, col, row)
                 if tile == ',':
-                    self.screen.draw(TerrainTile(self.game, col, row, 'floor.png', self.screen.mapSize), Locations.MAP, col, row)
+                    self.screen.draw(TerrainTile(col, row, 'floor.png', self.screen.mapSize), Locations.MAP, col, row)
                 if tile == '.':
-                    self.screen.draw(TerrainTile(self.game, col, row, 'grass.png', self.screen.mapSize), Locations.MAP, col, row)
+                    self.screen.draw(TerrainTile(col, row, 'grass.png', self.screen.mapSize), Locations.MAP, col, row)
         
 
