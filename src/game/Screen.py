@@ -1,4 +1,6 @@
 import math
+from enum import Enum
+
 import pygame
 
 # minimum UI width
@@ -33,3 +35,20 @@ class Screen:
             result = expectedSize
 
         return result
+
+    # method to draw a sprite. Location param specifies where to draw the item (Locations enum)
+    def draw(self, sprite, location, posX, posY):
+        sprite.rect.x += posX
+        sprite.rect.y += posY
+        if location.value is Locations.RIGHT_UI.value:
+            sprite.rect.x += self.mapCoord + self.mapSize
+        elif location.value == Locations.MAP.value:
+            sprite.rect.x += self.mapCoord
+        self.gameObject.spritesList.add(sprite)
+
+
+# screen locations enum
+class Locations(Enum):
+    RIGHT_UI = 1
+    LEFT_UI = 2
+    MAP = 3
