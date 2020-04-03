@@ -10,13 +10,21 @@ class UiBar(UiElement):
         self.filledPercent = initialFilledPercent / 100
         self.emptyBarColor = emptyBarColor
         self.barColor = filledBarColor
+        self.outlineColor = outlineColor
+        self.outlineThickness = outlineThickness
+        self.filledBarColor = filledBarColor
 
-        self.image = pygame.Surface((rect.width, rect.height))
+        self.__genBar__()
 
-        filledPartRect = pygame.rect.Rect(outlineThickness / 2, outlineThickness / 2,
-                                          (rect.width - outlineThickness) * self.filledPercent,
-                                          rect.height - outlineThickness)
-        self.image.fill(filledBarColor, filledPartRect)
+    def __genBar__(self):
+        self.image = pygame.Surface((self.rect.width, self.rect.height))
+        filledPartRect = pygame.rect.Rect(self.outlineThickness / 2, self.outlineThickness / 2,
+                                          (self.rect.width - self.outlineThickness) * self.filledPercent,
+                                          self.rect.height - self.outlineThickness)
+        self.image.fill(self.filledBarColor, filledPartRect)
+        pygame.draw.rect(self.image, self.outlineColor, pygame.rect.Rect(0, 0, self.rect.width, self.rect.height),
+                         self.outlineThickness)
 
-        pygame.draw.rect(self.image, outlineColor, pygame.rect.Rect(0, 0, rect.width, rect.height),
-                         outlineThickness)
+    def updateFill(self, filledPercent):
+        self.filledPercent = filledPercent / 100
+        self.__genBar__()
