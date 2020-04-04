@@ -13,7 +13,8 @@ class UiButton(UiElement):
         """
         super().__init__(rect)
         if font is None:
-            self.font = pygame.font.Font(None, 25)
+            font = pygame.font.Font(None, 25)
+        self.font = font
         self.textColor = textColor
         self.clickedBtnColor = clickedBtnColor
         self.notClickedBtnColor = notClickedBtnColor

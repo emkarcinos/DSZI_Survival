@@ -13,5 +13,6 @@ class UiText(UiElement):
 
         if font is None:
             font = pygame.font.Font(None, 12)
+        self.font = font
 
         self.image = font.render(text, antialias, textColor, backgroundColor)
