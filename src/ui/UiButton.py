@@ -24,7 +24,9 @@ class UiButton(UiElement):
         self.beingClicked = False
         self.image = self._images[0]
 
-        self.functionsToInvokeWhenClicked = functionsToInvokeWhenClicked
+        self.functionsToInvokeWhenClicked = []
+
+        self.functionsToInvokeWhenClicked.extend(functionsToInvokeWhenClicked)
 
     def eventHandler(self, event):
         # change selected color if rectangle clicked
