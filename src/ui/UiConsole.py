@@ -21,6 +21,7 @@ class UiConsole(UiElement):
 
         self.consoleLines = []
         self.linesCount = 0
+        self.topWrittenLineInd = 0
 
         self.linesImages = []
         self.lineHeight = font.render("sampleText", False, textColor) .get_height()
@@ -32,6 +33,11 @@ class UiConsole(UiElement):
 
     def writeConsoleLines(self, startingLineInd=0):
         self.image.fill(self.bgColor)
+        if startingLineInd < 0:
+            startingLineInd = 0
+        elif startingLineInd > self.linesImagesCount:
+            startingLineInd = self.linesImagesCount
+        self.topWrittenLineInd = startingLineInd
         writtenLines = 0
         for i in range(startingLineInd, min(self.maxLines + startingLineInd, self.linesImagesCount)):
             self.image.blit(self.linesImages[i], (0, writtenLines * self.lineHeight))
