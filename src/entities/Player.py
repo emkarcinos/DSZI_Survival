@@ -16,6 +16,19 @@ class Player(Entity, pygame.sprite.Sprite):
         # Where the player is facing, 0 - north, 1
         self.rotation = Rotations.NORTH
 
+    # Move in a desired direction
+    def move(self, rotation):
+        # If the player is not facing given direction, it will not move the first time, it will only get rotated
+        if self.rotation.value != rotation.value:
+            self.rotate(rotation)
+        # Otherwise, move one tile to a given direction
+        else:
+            return 1
+
+    def rotate(self, rotation):
+        self.image = pygame.transform.rotate(self.image, (abs(self.rotation.value - rotation.value) * 90))
+        self.rotation = rotation
+
 
 class Rotations(Enum):
     NORTH = 0
