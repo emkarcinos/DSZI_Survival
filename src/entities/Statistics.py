@@ -1,9 +1,9 @@
 class Statistics:
-    def __init__(self):
-        self.hp = 100
-        self.hunger = 100
-        self.thirst = 100
-        self.stamina = 100
+    def __init__(self, hp, hunger, thirst, stamina):
+        self.hp = hp
+        self.hunger = hunger
+        self.thirst = thirst
+        self.stamina = stamina
 
     # methods that don't let the values pass below 0 and over 100 during change
     def set_hp(self, hp_diff):
