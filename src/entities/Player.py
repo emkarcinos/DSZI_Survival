@@ -14,7 +14,7 @@ class Player(Entity):
 
     # Move in a desired direction
     def move(self, rotation):
-        self.statistics.stamina -= 1
+        self.statistics.set_stamina(-1)
         if rotation.value == Rotations.NORTH.value:
             self.rect.y -= self.rect.w
         elif rotation.value == Rotations.EAST.value:
