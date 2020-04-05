@@ -78,7 +78,7 @@ class Map:
     def getEntityOnCoord(self, coord):
         result = None
         for entity in self.collidables:
-            if entity.rect.x == coord[0] and entity.rect.y == coord[1]
+            if entity.rect.x == coord[0] and entity.rect.y == coord[1]:
                 result = entity
         return result
 
