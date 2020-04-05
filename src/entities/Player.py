@@ -12,11 +12,15 @@ class Player(Entity):
         super().__init__("player.png", size, (spawnpoint[0] * size, spawnpoint[1] * size))
         # Where the player is facing, 0 - north, 1
         self.rotation = Rotations.NORTH
-        self.statistics = Statistics(100, 0, 0, 100)
+        self.statistics = Statistics(100, 100, 0, 100)
+        # How many steps has the player taken through its lifetime
+        self.movePoints = 0
 
     # Move in a desired direction
     def move(self, rotation):
-        self.statistics.set_stamina(-1)
+        self.movePoints += 1
+        # Player gets tired aswell!
+        self.applyFatigue()
         if rotation.value == Rotations.NORTH.value:
             self.rect.y -= self.rect.w
         elif rotation.value == Rotations.EAST.value:
@@ -25,6 +29,16 @@ class Player(Entity):
             self.rect.y += self.rect.w
         elif rotation.value == Rotations.WEST.value:
             self.rect.x -= self.rect.w
+
+    def applyFatigue(self):
+        # looses hunger every 10 steps taken
+        if self.movePoints % 10 == 0:
+            self.statistics.set_hunger(-10)
+        # gets more thirsty every 5 steps
+        if self.movePoints % 5 == 0:
+            self.statistics.set_thirst(10)
+        # gets tired every step
+        self.statistics.set_stamina(-2)
 
     def getFacingCoord(self):
         if self.rotation == Rotations.NORTH:
