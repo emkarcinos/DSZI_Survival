@@ -6,3 +6,6 @@ Skład zespołu:
 - Mateusz Tylka
 - Michał Czekański
 - Marcin Kostrzewski
+
+Poruszanie się: *WASD*
+Podnoszenie obiektów: *SPACJA*
