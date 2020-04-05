@@ -18,7 +18,7 @@ class Player(Entity):
             self.rotate(rotation)
         # Otherwise, move one tile to a given direction
         else:
-            # TODO: Collision checks
+            # TODO: Collision checks "and not to events"
             if rotation.value == Rotations.NORTH.value:
                 self.rect.y -= self.rect.w
             elif rotation.value == Rotations.EAST.value:
@@ -31,7 +31,6 @@ class Player(Entity):
     def rotate(self, rotation):
         self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
         self.rotation = rotation
-
 
 class Rotations(Enum):
     NORTH = 0

@@ -28,6 +28,7 @@ class Game:
         print("Initializing pygame...", end=" ")
         pygame.init()
         self.spritesList = pygame.sprite.Group()
+
         print("OK")
         print("Initializing screen, params: " + str(self.config["window"]) + "...", end=" ")
 
@@ -39,15 +40,11 @@ class Game:
         self.screen = Screen(self, self.config["window"])
         print("OK")
 
-
-
         self.mapDataFolder = path.dirname("../data/mapdata/")
         self.map = Map(path.join(self.mapDataFolder, 'map.txt'), self.screen)
         self.player = Player((0, 0), self.map.tileSize)
         self.map.addEntity(self.player)
         self.eventManager = EventManager(self, self.player)
-
-
 
         self.mainLoop()
 

@@ -8,6 +8,7 @@ class Map:
         self.terrain = []
         self.entities = []
         self.collidableTerrain = []
+        self.collidables = pygame.sprite.Group()
 
         with open(filename, 'rt') as f:
             for line in f:
@@ -26,12 +27,13 @@ class Map:
         for row, tiles in enumerate(self.terrain):
             for col, tile in enumerate(tiles):
                 if tile == 'w':
-                    self.screen.draw(TerrainTile('wall.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
-                    self.collidableTerrain.append(self.terrain)
+                    object = TerrainTile(col, row, 'wall.png', self.tileSize)
+                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.collidables.add(object)
                 elif tile == ',':
-                    self.screen.draw(TerrainTile('floor.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
+                    self.screen.draw(TerrainTile(col, row, 'floor.png', self.tileSize), Locations.MAP, 0, 0)
                 elif tile == '.':
-                    self.screen.draw(TerrainTile('grass.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
+                    self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize), Locations.MAP, 0, 0)
 
     def addEntity(self, entity):
         self.entities.append(entity)
