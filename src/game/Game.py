@@ -6,8 +6,10 @@ from os import path
 from game.EventManager import EventManager
 from game.Screen import Screen
 from game.Map import Map
+
+from src.entities.Pickupable import Pickupable
 from src.entities.Player import Player
-from src.game.Timer import Timer
+from src.entities.Statistics import Statistics
 
 
 class Game:
@@ -38,11 +40,6 @@ class Game:
             print("The screen cannot be in a vertical orientation. Exiting...")
             exit(1)
 
-        # Initialize timers
-        self.pgTimer = pygame.time.Clock()
-        self.ingameTimer = Timer()
-        self.ingameTimer.startClock()
-
         self.screen = Screen(self, self.config["window"])
         print("OK")
 
@@ -52,13 +49,11 @@ class Game:
         self.map.addEntity(self.player)
         self.eventManager = EventManager(self, self.player)
 
+
         self.mainLoop()
 
     def mainLoop(self):
         while self.running:
-            # Update ingame clock
-            self.ingameTimer.updateTime(self.pgTimer.tick())
-
             self.eventManager.handleEvents()
             self.spritesList.draw(self.screen.pygameScreen)
             pygame.display.flip()
