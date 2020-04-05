@@ -38,6 +38,11 @@ class Map:
         self.screen.draw(entity, Locations.MAP, 0, 0)
         self.collidables.add(entity)
 
+    def removeSpriteFromMap(self, entity):
+        if self.collidables.has(entity):
+            self.collidables.remove(entity)
+        self.screen.removeSprite(entity)
+
     # add object to map.collidables list to be collidable
     def collision(self, x, y):
         for b in self.collidables:
