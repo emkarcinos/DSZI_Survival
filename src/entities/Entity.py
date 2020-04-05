@@ -5,10 +5,9 @@ import pygame
 class Entity(pygame.sprite.Sprite):
     nextId = 1
 
-    def __init__(self, texture, pos):
+    def __init__(self, texture, size, pos):
         super().__init__()
-        self.image = texture
-        self.rect = self.image.get_rect()
+        self.image, self.rect = self.getTexture(texture, size)
         self.rect.x = pos[0]
         self.rect.y = pos[1]
         self.id = self.getId()
@@ -20,8 +19,7 @@ class Entity(pygame.sprite.Sprite):
         return id
 
     # A method that returns image and rect from a file
-    @staticmethod
-    def getTexture(textureName, tileSize):
+    def getTexture(self, textureName, tileSize):
         texturesFolder = ""
         textureFile = ""
         try:
