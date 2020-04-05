@@ -22,7 +22,7 @@ class EventManager:
     def handleEvents(self):
         pygame.event.pump()
 
-        self.game.screen.ui.timerTextView.changeText(self.game.ingameTimer.getPrettyTime())
+        self.game.screen.ui.updateTime()
 
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
