@@ -18,7 +18,7 @@
     "name" : "cranberry",
     "position" : {
       "x": 7,
-      "y": 1
+      "y": 3
     },
     "isPickupable" : true,
     "effect" : {
@@ -56,8 +56,23 @@
     "name" : "rock",
     "position" : {
       "x": 13,
-      "y": 1
+      "y": 2
     },
     "isPickupable" : false
+  },
+
+  {
+    "name" : "mushroom",
+    "position" : {
+      "x": 14,
+      "y": 3
+    },
+    "isPickupable": true,
+    "effect" : {
+      "hp": -50,
+      "stamina": 0,
+      "thirst": 0,
+      "hunger": 25
+    }
   }
 ]

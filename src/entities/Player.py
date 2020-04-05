@@ -9,7 +9,7 @@ class Player(Entity):
     statistics: Statistics
 
     def __init__(self, spawnpoint, size):
-        super().__init__("player.jpg", size, (spawnpoint[0] * size, spawnpoint[1] * size))
+        super().__init__("player.png", size, (spawnpoint[0] * size, spawnpoint[1] * size))
         # Where the player is facing, 0 - north, 1
         self.rotation = Rotations.NORTH
         self.statistics = Statistics(100, 0, 0, 100)
