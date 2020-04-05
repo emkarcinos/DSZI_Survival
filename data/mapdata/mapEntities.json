@@ -13,6 +13,7 @@
       "hunger" : 20
     }
   },
+
   {
     "name" : "cranberry",
     "position" : {
@@ -26,5 +27,29 @@
       "thirst" : 2,
       "hunger" : 10
     }
+  },
+
+  {
+    "name" : "rabbit",
+    "position" : {
+      "x": 12,
+      "y": 16
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp": 30,
+      "stamina": -5,
+      "thirst": -5,
+      "hunger": 40
+    }
+  },
+
+  {
+    "name" : "bush",
+    "position" : {
+      "x": 15,
+      "y": 9
+    },
+    "isPickupable" : false,
   }
 ]
