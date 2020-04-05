@@ -66,19 +66,19 @@ class Ui():
         consoleLines = []
         if self.healthBar.value != statistics.hp:
             self.healthBar.updateFill(statistics.hp)
-            consoleLines.append("Health: " + str(statistics.hp))
+            consoleLines.append(self.timer.getPrettyTime() + " - Health: " + str(statistics.hp))
 
         if self.hungerBar.value != statistics.hunger:
             self.hungerBar.updateFill(statistics.hunger)
-            consoleLines.append("Hunger: " + str(statistics.hunger))
+            consoleLines.append(self.timer.getPrettyTime() + " - Hunger: " + str(statistics.hunger))
 
         if self.staminaBar.value != statistics.stamina:
             self.staminaBar.updateFill(statistics.stamina)
-            consoleLines.append("Stamina: " + str(statistics.stamina))
+            consoleLines.append(self.timer.getPrettyTime() + " - Stamina: " + str(statistics.stamina))
 
         if self.thirstBar.value != statistics.thirst:
             self.thirstBar.updateFill(statistics.thirst)
-            consoleLines.append("Stamina: " + str(statistics.thirst))
+            consoleLines.append(self.timer.getPrettyTime() + " - Stamina: " + str(statistics.thirst))
 
         if len(consoleLines) > 0:
             self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
