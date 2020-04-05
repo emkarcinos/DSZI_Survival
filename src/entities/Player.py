@@ -24,6 +24,11 @@ class Player(Entity):
         elif rotation.value == Rotations.WEST.value:
             self.rect.x -= self.rect.w
 
+    def getFacingCoord(self):
+        if self.rotation == Rotations.NORTH:
+            return (0, -1)
+        elif self.rotation == Rotations.SOUTH:
+
     # Returns given statistic
     def getStatistic(self, stat):
         if stat.value == StatisticNames.HP:
