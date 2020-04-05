@@ -7,6 +7,7 @@ TIMEOUT = 100
 class EventManager:
     keyTimeout = 0
 
+    #self.game.map
     def __init__(self, gameObject, player):
         self.game = gameObject
         self.player = player
@@ -33,12 +34,14 @@ class EventManager:
         # Key names are temporary
         # TODO: Load key bindings from JSON
 
-        if keys[pygame.K_w]:
+        if keys[pygame.K_w] and not self.game.map.collision(self.player.rect.x, self.player.rect.y - self.player.rect.w):
             self.player.move(Rotations.NORTH)
-        if keys[pygame.K_s]:
+        if keys[pygame.K_s] and not self.game.map.collision(self.player.rect.x, self.player.rect.y + self.player.rect.w):
             self.player.move(Rotations.SOUTH)
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d] and not self.game.map.collision(self.player.rect.x + self.player.rect.w, self.player.rect.y):
             self.player.move(Rotations.EAST)
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a] and not self.game.map.collision(self.player.rect.x - self.player.rect.w, self.player.rect.y):
             self.player.move(Rotations.WEST)
+
+
 

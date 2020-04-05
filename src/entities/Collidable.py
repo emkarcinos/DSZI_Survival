@@ -14,7 +14,7 @@ class Collidable(Entity):
         return False
 
 
-col = Collidable(1, 1, 1)
+#col = Collidable(1, 1, 1)
 
 
 """
