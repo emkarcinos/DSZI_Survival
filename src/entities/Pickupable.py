@@ -1,9 +1,10 @@
-import src.entities.Interactable as Interactable
 from src.entities import Statistics, Player
+from src.entities.Interactable import Interactable
+
 
 class Pickupable(Interactable):
-    def __init__(self, texture, pos, id, Statistics):
-        super().__init__(texture, pos, id)
+    def __init__(self, texture, size, pos, Statistics):
+        super().__init__(texture, size, pos)
         self.is_pickupable = True
         self.Statistics = Statistics
 
