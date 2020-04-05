@@ -22,32 +22,33 @@ class Ui():
         self.font = font
 
         self.timer = timer
-        self.timerTextView = UiText(pygame.Rect(0, 0, leftUiWidth, self.barHeight), text="",
-                                    textColor=Colors.WHITE.value, backgroundColor=Colors.GRAY.value)
-
-        self.isDayTextView = UiText(pygame.Rect(0, 0, leftUiWidth, self.barHeight), text="", font=self.font)
-
-        self.healthBar = UiBar(pygame.Rect(0, 0, rightUiWidth, self.barHeight))
-        self.hungerBar = UiBar(pygame.Rect(0, 0, rightUiWidth, self.barHeight), initialFilledPercent=0,
-                               filledBarColor=Colors.YELLOW.value)
-        self.staminaBar = UiBar(pygame.Rect(0, 0, rightUiWidth, self.barHeight), filledBarColor=Colors.GREEN.value)
-        self.thirstBar = UiBar(pygame.Rect(0, 0, rightUiWidth, self.barHeight), initialFilledPercent=0,
-                               filledBarColor=Colors.BLUE.value)
+        self.timerTextView = UiText(pygame.Rect(0, 0, leftUiWidth, self.barHeight), font=self.font,
+                                    text=timer.getPrettyTime(), textColor=Colors.WHITE.value,
+                                    backgroundColor=Colors.GRAY.value)
+        self.isDayTextView = UiText(pygame.Rect(0, self.timerTextView.rect.y + self.barHeight, leftUiWidth, self.barHeight), text="Day",
+                                    font=self.font, backgroundColor=Colors.GRAY.value, textColor=Colors.WHITE.value)
 
         self.healthTextView = UiText(pygame.Rect(0, 0, rightUiWidth, self.barHeight), text="Health points",
                                      font=self.font, textColor=Colors.WHITE.value)
+        self.healthBar = UiBar(pygame.Rect(0, self.healthTextView.rect.y + self.barHeight, rightUiWidth, self.barHeight))
 
-        self.hungerTextView = UiText(pygame.Rect(0, 0, rightUiWidth, self.barHeight), text="Hunger",
-                                     font=self.font, textColor=Colors.WHITE.value)
+        self.hungerTextView = UiText(pygame.Rect(0, self.healthBar.rect.y + self.barHeight, rightUiWidth, self.barHeight),
+                                     text="Hunger", font=self.font, textColor=Colors.WHITE.value)
+        self.hungerBar = UiBar(pygame.Rect(0, self.hungerTextView.rect.y + self.barHeight, rightUiWidth, self.barHeight), initialFilledPercent=0,
+                               filledBarColor=Colors.YELLOW.value)
 
-        self.staminaTextView = UiText(pygame.Rect(0, 0, rightUiWidth, self.barHeight), text="Stamina",
+        self.staminaTextView = UiText(pygame.Rect(0, self.hungerBar.rect.y + self.barHeight, rightUiWidth, self.barHeight), text="Stamina",
                                       font=self.font, textColor=Colors.WHITE.value)
+        self.staminaBar = UiBar(pygame.Rect(0, self.staminaTextView.rect.y + self.barHeight, rightUiWidth, self.barHeight), filledBarColor=Colors.GREEN.value)
 
-        self.thirstTextView = UiText(pygame.Rect(0, 0, rightUiWidth, self.barHeight), text="Thirst",
+        self.thirstTextView = UiText(pygame.Rect(0, self.staminaBar.rect.y + self.barHeight, rightUiWidth, self.barHeight), text="Thirst",
                                      font=self.font, textColor=Colors.WHITE.value)
+        self.thirstBar = UiBar(pygame.Rect(0, self.thirstTextView.rect.y + self.barHeight, rightUiWidth, self.barHeight), initialFilledPercent=0,
+                               filledBarColor=Colors.BLUE.value)
 
-        self.console = UiConsole(pygame.Rect(0, 0, leftUiWidth,
-                                             screenHeight - self.timerTextView.rect.h - self.isDayTextView.rect.h))
+        self.console = UiConsole(pygame.Rect(0, self.timerTextView.rect.h + self.isDayTextView.rect.h, leftUiWidth,
+                                             screenHeight - self.timerTextView.rect.h - self.isDayTextView.rect.h),
+                                 font=self.font)
 
 
 class Colors(Enum):
