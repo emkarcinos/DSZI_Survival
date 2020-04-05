@@ -8,6 +8,8 @@ class Map:
         self.screen = screen
         self.terrain = []
         self.entities = []
+        self.collidableTerrain = []
+
         with open(filename, 'rt') as f:
             for line in f:
                 self.terrain.append(line)
@@ -26,6 +28,7 @@ class Map:
             for col, tile in enumerate(tiles):
                 if tile == 'w':
                     self.screen.draw(TerrainTile('wall.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
+                    self.collidableTerrain.append(self.terrain)
                 elif tile == ',':
                     self.screen.draw(TerrainTile('floor.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
                 elif tile == '.':

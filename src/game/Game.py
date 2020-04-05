@@ -39,14 +39,15 @@ class Game:
         self.screen = Screen(self, self.config["window"])
         print("OK")
 
-        self.eventManager = EventManager(self)
 
-        # Start Map implement
+
         self.mapDataFolder = path.dirname("../data/mapdata/")
         self.map = Map(path.join(self.mapDataFolder, 'map.txt'), self.screen)
         self.player = Player((0, 0), self.map.tileSize)
         self.map.addEntity(self.player)
-        # End Map implement
+        self.eventManager = EventManager(self, self.player)
+
+
 
         self.mainLoop()
 
