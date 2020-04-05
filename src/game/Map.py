@@ -29,28 +29,32 @@ class Map:
 
         self.terrainDraw()
 
+        for entity in self.loadEntities(filename):
+            self.addEntity(entity)
+
     # Returns a list of entities loaded from mapfile
     def loadEntities(self, mapFileName):
-        mapFile = mapFileName.split('.')[0]
-        entitiesFile = mapFile + "Entities.json"
-        entityListJson = json.loads(entitiesFile)
+        mapFile = mapFileName.split('.txt')[0]
+        entitiesFilePath = mapFile + "Entities.json"
         actualEntities = []
-        for entity in entityListJson:
-            try:
-                if entity["isPickupable"]:
-                    actualEntities.append(Pickupable(entity["name"],
-                                                     (entity["position"]["x"], entity["position"]["y"]),
-                                                     self.tileSize,
-                                                     Statistics(entity["effect"]["hp"],
-                                                                entity["effect"]["hunger"],
-                                                                entity["effect"]["thirst"],
-                                                                entity["effect"]["stamina"])))
-                else:
-                    actualEntities.append(Entity(entity["name"],
-                                                    (entity["position"]["x"], entity["position"]["y"]),
-                                                    self.tileSize))
-            except KeyError:
-                print("Failed to load entity " + entity)
+        with open(entitiesFilePath, 'rt') as file:
+            entityListJson = json.loads(file.read())
+            for entity in entityListJson:
+                try:
+                    if entity["isPickupable"]:
+                        actualEntities.append(Pickupable(entity["name"] + ".jpg",
+                                                         self.tileSize,
+                                                         (entity["position"]["x"] * self.tileSize, entity["position"]["y"] * self.tileSize),
+                                                         Statistics(entity["effect"]["hp"],
+                                                                    entity["effect"]["hunger"],
+                                                                    entity["effect"]["thirst"],
+                                                                    entity["effect"]["stamina"])))
+                    else:
+                        actualEntities.append(Entity(entity["name"],
+                                                        self.tileSize,
+                                                        (entity["position"]["x"] * self.tileSize, entity["position"]["y"] * self.tileSize)))
+                except KeyError:
+                    print("Failed to load entity " + entity)
         return actualEntities
 
     def terrainDraw(self):
