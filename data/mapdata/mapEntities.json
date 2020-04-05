@@ -13,6 +13,7 @@
       "hunger" : 20
     }
   },
+
   {
     "name" : "cranberry",
     "position" : {
@@ -27,18 +28,36 @@
       "hunger" : 10
     }
   },
+
+  {
+    "name" : "rabbit",
+    "position" : {
+      "x": 12,
+      "y": 16
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp": 30,
+      "stamina": -5,
+      "thirst": -5,
+      "hunger": 40
+    }
+  },
+
+  {
+    "name" : "bush",
+    "position" : {
+      "x": 15,
+      "y": 9
+    },
+    "isPickupable" : false
+  },
   {
     "name" : "rock",
     "position" : {
       "x": 13,
       "y": 1
     },
-    "isPickupable" : false,
-    "effect" : {
-      "hp" : 0,
-      "stamina" : 0,
-      "thirst" : 0,
-      "hunger" : 0
-    }
+    "isPickupable" : false
   }
 ]
