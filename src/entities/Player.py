@@ -6,6 +6,8 @@ import pygame
 
 
 class Player(Entity):
+    statistics: Statistics
+
     def __init__(self, spawnpoint, size):
         super().__init__("player.jpg", size, (spawnpoint[0] * size, spawnpoint[1] * size))
         # Where the player is facing, 0 - north, 1
@@ -35,6 +37,9 @@ class Player(Entity):
         elif stat.value == StatisticNames.STAMINA:
             return self.statistics.stamina
         return None
+
+    def getStatistics(self):
+        return self.statistics
 
     def rotate(self, rotation):
         # If the player is not facing given direction, it will not move the first time, it will only get rotated
