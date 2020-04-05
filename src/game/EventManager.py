@@ -1,5 +1,6 @@
 import pygame
 
+from src.entities.Pickupable import Pickupable
 from src.entities.Player import Rotations
 
 # Player can move every given milliseconds
@@ -36,7 +37,11 @@ class EventManager:
     def handlePlayerControls(self, keys):
         # Key names are temporary
         # TODO: Load key bindings from JSON
-
+        if keys[pygame.K_SPACE]:
+            object = self.game.map.getEntityOnCoord(self.player.getFacingCoord())
+            if type(object) is Pickupable:
+                object.on_pickup(self.player)
+                self.game.map.removeSpriteFromMap(object)
         if keys[pygame.K_w]:
             self.player.rotate(Rotations.NORTH)
             if not self.game.map.collision(self.player.rect.x, self.player.rect.y - self.player.rect.w):
