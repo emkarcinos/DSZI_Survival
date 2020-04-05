@@ -6,6 +6,7 @@ from os import path
 from game.EventManager import EventManager
 from game.Screen import Screen
 from game.Map import Map
+from src.entities.Player import Player
 
 
 class Game:
@@ -43,6 +44,8 @@ class Game:
         # Start Map implement
         self.mapDataFolder = path.dirname("../data/mapdata/")
         self.map = Map(path.join(self.mapDataFolder, 'map.txt'), self.screen)
+        self.player = Player((0, 0), self.map.tileSize)
+        self.map.addEntity(self.player)
         # End Map implement
 
         self.mainLoop()

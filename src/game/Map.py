@@ -1,6 +1,7 @@
 import pygame
 from game.TerrainTile import TerrainTile
 from game.Screen import Locations
+from src.entities.Player import Player
 
 class Map:
     def __init__(self, filename, screen):
@@ -19,7 +20,7 @@ class Map:
         self.height = self.tileHeight * self.tileSize
 
         self.terrainDraw()
-        
+
     def terrainDraw(self):
         for row, tiles in enumerate(self.terrain):
             for col, tile in enumerate(tiles):
@@ -29,5 +30,8 @@ class Map:
                     self.screen.draw(TerrainTile('floor.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
                 elif tile == '.':
                     self.screen.draw(TerrainTile('grass.png', self.tileSize), Locations.MAP, col*self.tileSize, row*self.tileSize)
-        
+
+    def addEntity(self, entity):
+        self.entities.append(entity)
+        self.screen.draw(entity, Locations.MAP, 0, 0)
 
