@@ -46,6 +46,9 @@ class Screen:
             sprite.rect.x += self.mapCoord
         self.gameObject.spritesList.add(sprite)
 
+    def removeSprite(self, sprite):
+        self.gameObject.spritesList.remove(sprite)
+
 
 # screen locations enum
 class Locations(Enum):
