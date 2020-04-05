@@ -10,7 +10,7 @@
       "hp" : -10,
       "stamina" : 5,
       "thirst" : 0,
-      "hunger" : 20
+      "hunger" : -20
     }
   },
 
@@ -24,8 +24,8 @@
     "effect" : {
       "hp" : 0,
       "stamina" : 5,
-      "thirst" : 2,
-      "hunger" : 10
+      "thirst" : -2,
+      "hunger" : -10
     }
   },
 
@@ -40,7 +40,7 @@
       "hp": 30,
       "stamina": -5,
       "thirst": -5,
-      "hunger": 40
+      "hunger": -40
     }
   },
 
@@ -72,7 +72,7 @@
       "hp": -50,
       "stamina": 0,
       "thirst": 0,
-      "hunger": 25
+      "hunger": -25
     }
   }
 ]
