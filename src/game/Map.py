@@ -6,7 +6,6 @@ class Map:
     def __init__(self, filename, screen):
         self.screen = screen
         self.terrain = []
-        self.entities = []
         self.collidableTerrain = []
         self.collidables = pygame.sprite.Group()
 
@@ -36,8 +35,8 @@ class Map:
                     self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize), Locations.MAP, 0, 0)
 
     def addEntity(self, entity):
-        self.entities.append(entity)
         self.screen.draw(entity, Locations.MAP, 0, 0)
+        self.collidables.add(entity)
 
     # add object to map.collidables list to be collidable
     def collision(self, x, y):
