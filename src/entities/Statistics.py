@@ -42,5 +42,3 @@ class Statistics:
             else:
                 self.hp = 100
 
-
-
