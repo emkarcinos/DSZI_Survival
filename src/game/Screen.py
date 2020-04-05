@@ -7,6 +7,13 @@ import pygame
 MARGIN = 300
 
 
+# screen locations enum
+class Locations(Enum):
+    RIGHT_UI = 1
+    LEFT_UI = 2
+    MAP = 3
+
+
 class Screen:
     def __init__(self, gameObject, windowConfig):
         self.gameObject = gameObject
@@ -46,9 +53,10 @@ class Screen:
             sprite.rect.x += self.mapCoord
         self.gameObject.spritesList.add(sprite)
 
-
-# screen locations enum
-class Locations(Enum):
-    RIGHT_UI = 1
-    LEFT_UI = 2
-    MAP = 3
+    def getUiWidth(self, location: Locations):
+        if location is Locations.RIGHT_UI:
+            return self.winX - (self.mapCoord + self.mapSize)
+        elif location is Locations.LEFT_UI:
+            return self.mapCoord
+        elif location is Locations.MAP:
+            return self.mapSize
