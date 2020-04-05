@@ -1,7 +1,6 @@
 import pygame
 from game.TerrainTile import TerrainTile
 from game.Screen import Locations
-from src.entities.Player import Player
 
 class Map:
     def __init__(self, filename, screen):
