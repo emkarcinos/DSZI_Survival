@@ -24,7 +24,7 @@ class UiConsole(UiElement):
         self.topWrittenLineInd = 0
 
         self.linesImages = []
-        self.lineHeight = font.render("sampleText", False, textColor) .get_height()
+        self.lineHeight = font.render("sampleText", False, textColor).get_height()
 
         self.maxLines = int(self.image.get_height() / self.lineHeight)
 
@@ -65,8 +65,15 @@ class UiConsole(UiElement):
                     row.fill(self.bgColor)
                     howMuchRowIsFilled = 0
 
-                    row.blit(wordImage,  (howMuchRowIsFilled, 0))
+                    row.blit(wordImage, (howMuchRowIsFilled, 0))
                     howMuchRowIsFilled += wordImage.get_width()
 
             self.linesImages.append(row)
             self.linesImagesCount += 1
+
+    def addLinesToConsoleAndScrollToDisplayThem(self, linesToAdd):
+        self.addLinesToConsole(linesToAdd)
+        ind = 0
+        if self.linesImagesCount > self.maxLines:
+            ind = self.linesImagesCount - self.maxLines
+        self.writeConsoleLines(ind)
