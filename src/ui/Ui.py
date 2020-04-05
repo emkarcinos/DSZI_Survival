@@ -78,7 +78,7 @@ class Ui():
 
         if self.thirstBar.value != statistics.thirst:
             self.thirstBar.updateFill(statistics.thirst)
-            consoleLines.append(self.timer.getPrettyTime() + " - Stamina: " + str(statistics.thirst))
+            consoleLines.append(self.timer.getPrettyTime() + " - Thirst: " + str(statistics.thirst))
 
         if len(consoleLines) > 0:
             self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
