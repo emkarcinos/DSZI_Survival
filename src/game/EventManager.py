@@ -21,6 +21,8 @@ class EventManager:
     def handleEvents(self):
         pygame.event.pump()
 
+        self.game.screen.ui.timerTextView.changeText(self.game.ingameTimer.getPrettyTime())
+
         keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
