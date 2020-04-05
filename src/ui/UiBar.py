@@ -13,6 +13,7 @@ class UiBar(UiElement):
         self.outlineColor = outlineColor
         self.outlineThickness = outlineThickness
         self.filledBarColor = filledBarColor
+        self.value = initialFilledPercent
 
         self.__genBar__()
 
@@ -27,4 +28,5 @@ class UiBar(UiElement):
 
     def updateFill(self, filledPercent):
         self.filledPercent = filledPercent / 100
+        self.value = filledPercent
         self.__genBar__()
