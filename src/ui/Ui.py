@@ -80,10 +80,16 @@ class Ui():
             self.thirstBar.updateFill(statistics.thirst)
             consoleLines.append("Stamina: " + str(statistics.thirst))
 
-        self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
+        if len(consoleLines) > 0:
+            self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
 
     def updateBasedOnPygameEvent(self, event: pygame.event):
-        pass
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            console = self.console
+            if event.button == 4:
+                console.writeConsoleLines(console.topWrittenLineInd + 1)
+            elif event.button == 5:
+                console.writeConsoleLines(console.topWrittenLineInd - 1)
 
 
 class Colors(Enum):

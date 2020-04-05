@@ -35,8 +35,8 @@ class UiConsole(UiElement):
         self.image.fill(self.bgColor)
         if startingLineInd < 0:
             startingLineInd = 0
-        elif startingLineInd > self.linesImagesCount:
-            startingLineInd = self.linesImagesCount
+        elif startingLineInd >= self.linesImagesCount:
+            startingLineInd = self.linesImagesCount - 1
         self.topWrittenLineInd = startingLineInd
         writtenLines = 0
         for i in range(startingLineInd, min(self.maxLines + startingLineInd, self.linesImagesCount)):
