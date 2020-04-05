@@ -1,0 +1,30 @@
+[
+  {
+    "name" : "berry",
+    "position" : {
+      "x": 5,
+      "y": 5
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : -10,
+      "stamina" : 5,
+      "thirst" : 0,
+      "hunger" : 20
+    }
+  },
+  {
+    "name" : "cranberry",
+    "position" : {
+      "x": 7,
+      "y": 1
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : 0,
+      "stamina" : 5,
+      "thirst" : 2,
+      "hunger" : 10
+    }
+  }
+]
