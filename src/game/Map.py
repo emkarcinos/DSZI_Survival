@@ -1,8 +1,8 @@
 import json
 
 import pygame
-from game.TerrainTile import TerrainTile
-from game.Screen import Locations
+from src.game.TerrainTile import TerrainTile
+from src.game.Screen import Locations
 
 from src.entities.Entity import Entity
 from src.entities.Pickupable import Pickupable
@@ -42,7 +42,7 @@ class Map:
             for entity in entityListJson:
                 try:
                     if entity["isPickupable"]:
-                        actualEntities.append(Pickupable(entity["name"] + ".jpg",
+                        actualEntities.append(Pickupable(entity["name"] + ".png",
                                                          self.tileSize,
                                                          (entity["position"]["x"] * self.tileSize, entity["position"]["y"] * self.tileSize),
                                                          Statistics(entity["effect"]["hp"],
@@ -50,7 +50,7 @@ class Map:
                                                                     entity["effect"]["thirst"],
                                                                     entity["effect"]["stamina"])))
                     else:
-                        actualEntities.append(Entity(entity["name"],
+                        actualEntities.append(Entity(entity["name"] + ".png",
                                                         self.tileSize,
                                                         (entity["position"]["x"] * self.tileSize, entity["position"]["y"] * self.tileSize)))
                 except KeyError:
@@ -67,13 +67,20 @@ class Map:
                 elif tile == '.':
                     self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize), Locations.MAP, 0, 0)
                 elif tile == 'x':
-                    object = TerrainTile(col, row, 'water.jpg', self.tileSize)
+                    object = TerrainTile(col, row, 'water.png', self.tileSize)
                     self.screen.draw(object, Locations.MAP, 0, 0)
                     self.collidables.add(object)
                 elif tile == 'w':
                     object = TerrainTile(col, row, 'wall.png', self.tileSize)
                     self.screen.draw(object, Locations.MAP, 0, 0)
                     self.collidables.add(object)
+
+    def getEntityOnCoord(self, coord):
+        result = None
+        for entity in self.collidables:
+            if entity.rect.x == coord[0] and entity.rect.y == coord[1]:
+                result = entity
+        return result
 
     def addEntity(self, entity):
         self.screen.draw(entity, Locations.MAP, 0, 0)

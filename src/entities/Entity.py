@@ -8,6 +8,7 @@ class Entity(pygame.sprite.Sprite):
     def __init__(self, texture, size, pos):
         super().__init__()
         self.image, self.rect = self.getTexture(texture, size)
+        self.image.set_colorkey((255, 255, 255))
         self.rect.x = pos[0]
         self.rect.y = pos[1]
         self.id = self.getId()
