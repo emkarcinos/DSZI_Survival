@@ -34,14 +34,22 @@ class EventManager:
         # Key names are temporary
         # TODO: Load key bindings from JSON
 
-        if keys[pygame.K_w] and not self.game.map.collision(self.player.rect.x, self.player.rect.y - self.player.rect.w):
-            self.player.move(Rotations.NORTH)
-        if keys[pygame.K_s] and not self.game.map.collision(self.player.rect.x, self.player.rect.y + self.player.rect.w):
-            self.player.move(Rotations.SOUTH)
-        if keys[pygame.K_d] and not self.game.map.collision(self.player.rect.x + self.player.rect.w, self.player.rect.y):
-            self.player.move(Rotations.EAST)
-        if keys[pygame.K_a] and not self.game.map.collision(self.player.rect.x - self.player.rect.w, self.player.rect.y):
-            self.player.move(Rotations.WEST)
+        if keys[pygame.K_w]:
+            self.player.rotate(Rotations.NORTH)
+            if not self.game.map.collision(self.player.rect.x, self.player.rect.y - self.player.rect.w):
+                self.player.move(Rotations.NORTH)
+        if keys[pygame.K_s]:
+            self.player.rotate(Rotations.SOUTH)
+            if not self.game.map.collision(self.player.rect.x, self.player.rect.y + self.player.rect.w):
+                self.player.move(Rotations.SOUTH)
+        if keys[pygame.K_d]:
+            self.player.rotate(Rotations.EAST)
+            if not self.game.map.collision(self.player.rect.x + self.player.rect.w, self.player.rect.y):
+                self.player.move(Rotations.EAST)
+        if keys[pygame.K_a]:
+            self.player.rotate(Rotations.WEST)
+            if not self.game.map.collision(self.player.rect.x - self.player.rect.w, self.player.rect.y):
+                self.player.move(Rotations.WEST)
 
 
 
