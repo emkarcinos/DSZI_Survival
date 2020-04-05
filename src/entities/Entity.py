@@ -2,10 +2,11 @@ from pathlib import Path
 import pygame
 
 
-class Entity:
+class Entity(pygame.sprite.Sprite):
     nextId = 1
 
     def __init__(self, texture, pos):
+        super().__init__()
         self.image = texture
         self.rect = self.image.get_rect()
         self.rect.x = pos[0]
