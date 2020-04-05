@@ -63,10 +63,24 @@ class Ui():
                                  font=self.font)
 
     def updateBasedOnPlayerStats(self, statistics: Statistics):
-        self.healthBar.updateFill(statistics.hp)
-        self.hungerBar.updateFill(statistics.hunger)
-        self.staminaBar.updateFill(statistics.stamina)
-        self.thirstBar.updateFill(statistics.thirst)
+        consoleLines = []
+        if self.healthBar.value != statistics.hp:
+            self.healthBar.updateFill(statistics.hp)
+            consoleLines.append("Health: " + str(statistics.hp))
+
+        if self.hungerBar.value != statistics.hunger:
+            self.hungerBar.updateFill(statistics.hunger)
+            consoleLines.append("Hunger: " + str(statistics.hunger))
+
+        if self.staminaBar.value != statistics.stamina:
+            self.staminaBar.updateFill(statistics.stamina)
+            consoleLines.append("Stamina: " + str(statistics.stamina))
+
+        if self.thirstBar.value != statistics.thirst:
+            self.thirstBar.updateFill(statistics.thirst)
+            consoleLines.append("Stamina: " + str(statistics.thirst))
+
+        self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
 
     def updateBasedOnPygameEvent(self, event: pygame.event):
         pass
