@@ -91,6 +91,13 @@ class Ui():
             elif event.button == 5:
                 console.writeConsoleLines(console.topWrittenLineInd - 1)
 
+    def updateTime(self):
+        self.timerTextView.changeText(self.timer.getPrettyTime())
+        if self.timer.isItDay():
+            self.isDayTextView.changeText("Day")
+        else:
+            self.isDayTextView.changeText("Night")
+
 
 class Colors(Enum):
     RED = (255, 0, 0)
