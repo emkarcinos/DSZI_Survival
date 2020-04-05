@@ -15,11 +15,11 @@ class Ui():
         self.rightUiWidth = rightUiWidth
         self.screenHeight = screenHeight
 
+        self.barHeight = 25
+
         if font is None:
             font = pygame.font.Font(None, self.barHeight)
         self.font = font
-
-        self.barHeight = 25
 
         self.timer = timer
         self.timerTextView = UiText(pygame.Rect(0, 0, leftUiWidth, self.barHeight), textColor=Colors.WHITE,
