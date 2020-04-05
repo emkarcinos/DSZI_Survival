@@ -10,6 +10,7 @@ class Player(Entity):
         super().__init__("player.jpg", size, (spawnpoint[0] * size, spawnpoint[1] * size))
         # Where the player is facing, 0 - north, 1
         self.rotation = Rotations.NORTH
+        self.statistics = Statistics(100, 0, 0, 100)
 
     # Move in a desired direction
     def move(self, rotation):
@@ -27,6 +28,7 @@ class Player(Entity):
         if self.rotation.value != rotation.value:
             self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
             self.rotation = rotation
+
 
 class Rotations(Enum):
     NORTH = 0
