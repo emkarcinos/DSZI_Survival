@@ -2,6 +2,7 @@ import math
 from enum import Enum
 
 import pygame
+from src.ui.Ui import Ui
 
 # minimum UI width
 MARGIN = 300
@@ -30,6 +31,8 @@ class Screen:
 
         # draw a white rect to resemble map
         pygame.draw.rect(self.pygameScreen, (255, 255, 255), [self.mapCoord, 0, self.mapSize, self.mapSize])
+
+        self.__initUi__()
 
     def calculateMapDimensions(self):
         result = 0
@@ -60,3 +63,18 @@ class Screen:
             return self.mapCoord
         elif location is Locations.MAP:
             return self.mapSize
+
+    def __initUi__(self):
+        self.ui = Ui(self.getUiWidth(Locations.RIGHT_UI), self.getUiWidth(Locations.LEFT_UI), self.winY,
+                     self.gameObject.ingameTimer)
+        self.draw(self.ui.timerTextView, Locations.LEFT_UI, 0, 0)
+        self.draw(self.ui.isDayTextView, Locations.LEFT_UI, 0, 0)
+        self.draw(self.ui.console, Locations.LEFT_UI, 0, 0)
+        self.draw(self.ui.healthTextView, Locations.RIGHT_UI, 0, 0)
+        self.draw(self.ui.healthBar, Locations.RIGHT_UI, 0, 0)
+        self.draw(self.ui.hungerTextView, Locations.RIGHT_UI, 0, 0)
+        self.draw(self.ui.hungerBar, Locations.RIGHT_UI, 0, 0)
+        self.draw(self.ui.staminaTextView, Locations.RIGHT_UI, 0, 0)
+        self.draw(self.ui.staminaBar, Locations.RIGHT_UI, 0, 0)
+        self.draw(self.ui.thirstTextView, Locations.RIGHT_UI, 0, 0)
+        self.draw(self.ui.thirstBar, Locations.RIGHT_UI, 0, 0)
