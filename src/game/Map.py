@@ -39,3 +39,9 @@ class Map:
         self.entities.append(entity)
         self.screen.draw(entity, Locations.MAP, 0, 0)
 
+    # add object to map.collidables list to be collidable
+    def collision(self, x, y):
+        for b in self.collidables:
+            if b.rect.x == x and b.rect.y == y:
+                return True
+        return False
