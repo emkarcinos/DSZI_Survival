@@ -42,7 +42,7 @@ class Game:
 
         self.mapDataFolder = path.dirname("../data/mapdata/")
         self.map = Map(path.join(self.mapDataFolder, 'map.txt'), self.screen)
-        self.player = Player((0, 0), self.map.tileSize)
+        self.player = Player((6, 2), self.map.tileSize)
         self.map.addEntity(self.player)
         self.eventManager = EventManager(self, self.player)
 
