@@ -13,7 +13,6 @@
       "hunger" : 20
     }
   },
-
   {
     "name" : "cranberry",
     "position" : {
@@ -51,5 +50,19 @@
       "y": 9
     },
     "isPickupable" : false,
+  },
+  {
+    "name" : "rock",
+    "position" : {
+      "x": 13,
+      "y": 1
+    },
+    "isPickupable" : false,
+    "effect" : {
+      "hp" : 0,
+      "stamina" : 0,
+      "thirst" : 0,
+      "hunger" : 0
+    }
   }
 ]

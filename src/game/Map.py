@@ -50,7 +50,7 @@ class Map:
                                                                     entity["effect"]["thirst"],
                                                                     entity["effect"]["stamina"])))
                     else:
-                        actualEntities.append(Entity(entity["name"],
+                        actualEntities.append(Entity(entity["name"] + ".jpg",
                                                         self.tileSize,
                                                         (entity["position"]["x"] * self.tileSize, entity["position"]["y"] * self.tileSize)))
                 except KeyError:
