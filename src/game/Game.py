@@ -7,6 +7,7 @@ from game.EventManager import EventManager
 from game.Screen import Screen
 from game.Map import Map
 from src.entities.Player import Player
+from src.game.Timer import Timer
 
 
 class Game:
