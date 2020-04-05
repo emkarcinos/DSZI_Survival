@@ -19,4 +19,8 @@ class UiText(UiElement):
             font = pygame.font.Font(None, 12)
         self.font = font
 
-        self.image = font.render(text, antialias, textColor, backgroundColor)
+        self.image = pygame.Surface((rect.w, rect.h))
+        if backgroundColor is not None:
+            self.image.fill(backgroundColor)
+        wordImage = self.font.render(text, antialias, textColor)
+        self.image.blit(wordImage, (0, 0))
