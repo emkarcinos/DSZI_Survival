@@ -24,3 +24,11 @@ class UiText(UiElement):
             self.image.fill(backgroundColor)
         wordImage = self.font.render(text, antialias, textColor)
         self.image.blit(wordImage, (0, 0))
+
+    def changeText(self, newText):
+        self.text = newText
+
+        if self.backgroundColor is not None:
+            self.image.fill(self.backgroundColor)
+        wordImage = self.font.render(self.text, self.antialias, self.textColor)
+        self.image.blit(wordImage, (0, 0))
