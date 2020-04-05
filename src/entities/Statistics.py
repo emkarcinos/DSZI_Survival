@@ -16,29 +16,29 @@ class Statistics:
                 self.hp = 100
 
     def set_hunger(self, hunger_diff):
-        if 0 <= self.hp + hunger_diff <= 100:
-            self.hp = self.hp + hunger_diff
+        if 0 <= self.hunger + hunger_diff <= 100:
+            self.hunger = self.hunger + hunger_diff
         else:
-            if self.hp + hunger_diff <= 0:
-                self.hp = 0
+            if self.hunger + hunger_diff <= 0:
+                self.hunger = 0
             else:
-                self.hp = 100
+                self.hunger = 100
 
     def set_thirst(self, thirst_diff):
-        if 0 <= self.hp + thirst_diff <= 100:
-            self.hp = self.hp + thirst_diff
+        if 0 <= self.thirst + thirst_diff <= 100:
+            self.thirst = self.thirst + thirst_diff
         else:
-            if self.hp + thirst_diff <= 0:
-                self.hp = 0
+            if self.thirst + thirst_diff <= 0:
+                self.thirst = 0
             else:
-                self.hp = 100
+                self.thirst = 100
 
     def set_stamina(self, stamina_diff):
-        if 0 <= self.hp + stamina_diff <= 100:
-            self.hp = self.hp + stamina_diff
+        if 0 <= self.stamina + stamina_diff <= 100:
+            self.stamina = self.stamina + stamina_diff
         else:
-            if self.hp + stamina_diff <= 0:
-                self.hp = 0
+            if self.stamina + stamina_diff <= 0:
+                self.stamina = 0
             else:
-                self.hp = 100
+                self.stamina = 100
 
