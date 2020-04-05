@@ -9,7 +9,7 @@ class Player(Entity):
     statistics: Statistics
 
     def __init__(self, spawnpoint, size):
-        super().__init__("player.jpg", size, (spawnpoint[0] * size, spawnpoint[1] * size))
+        super().__init__("player.png", size, (spawnpoint[0] * size, spawnpoint[1] * size))
         # Where the player is facing, 0 - north, 1
         self.rotation = Rotations.NORTH
         self.statistics = Statistics(100, 0, 0, 100)
@@ -28,9 +28,14 @@ class Player(Entity):
 
     def getFacingCoord(self):
         if self.rotation == Rotations.NORTH:
-            return (0, -1)
+            return self.rect.x, self.rect.y - (self.rect.h)
         elif self.rotation == Rotations.SOUTH:
-            pass
+            return self.rect.x, self.rect.y + (self.rect.h)
+        elif self.rotation == Rotations.EAST:
+            return self.rect.x + (self.rect.h), self.rect.y
+        elif self.rotation == Rotations.WEST:
+            return self.rect.x - (self.rect.h), self.rect.y
+
     # Returns given statistic
     def getStatistic(self, stat):
         if stat.value == StatisticNames.HP:

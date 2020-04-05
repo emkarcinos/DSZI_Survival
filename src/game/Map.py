@@ -42,7 +42,7 @@ class Map:
             for entity in entityListJson:
                 try:
                     if entity["isPickupable"]:
-                        actualEntities.append(Pickupable(entity["name"] + ".jpg",
+                        actualEntities.append(Pickupable(entity["name"] + ".png",
                                                          self.tileSize,
                                                          (entity["position"]["x"] * self.tileSize, entity["position"]["y"] * self.tileSize),
                                                          Statistics(entity["effect"]["hp"],
@@ -50,7 +50,7 @@ class Map:
                                                                     entity["effect"]["thirst"],
                                                                     entity["effect"]["stamina"])))
                     else:
-                        actualEntities.append(Entity(entity["name"] + ".jpg",
+                        actualEntities.append(Entity(entity["name"] + ".png",
                                                         self.tileSize,
                                                         (entity["position"]["x"] * self.tileSize, entity["position"]["y"] * self.tileSize)))
                 except KeyError:
@@ -67,7 +67,7 @@ class Map:
                 elif tile == '.':
                     self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize), Locations.MAP, 0, 0)
                 elif tile == 'x':
-                    object = TerrainTile(col, row, 'water.jpg', self.tileSize)
+                    object = TerrainTile(col, row, 'water.png', self.tileSize)
                     self.screen.draw(object, Locations.MAP, 0, 0)
                     self.collidables.add(object)
                 elif tile == 'w':
