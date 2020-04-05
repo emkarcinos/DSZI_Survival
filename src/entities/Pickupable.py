@@ -1,10 +1,10 @@
-import src.entities.Interactable as Interactable
 from src.entities import Statistics, Player
-from game.MapNew import Map
+from src.entities.Interactable import Interactable
+
 
 class Pickupable(Interactable):
-    def __init__(self, texture, pos, id, Statistics):
-        super().__init__(texture, pos, id)
+    def __init__(self, texture, size, pos, Statistics):
+        super().__init__(texture, size, pos)
         self.is_pickupable = True
         self.Statistics = Statistics
 
@@ -14,4 +14,3 @@ class Pickupable(Interactable):
         Player.statistics.set_thirst(self.Statistics.thirst)
         Player.statistics.set_hunger(self.Statistics.hunger)
 
-        Map.removeSpriteFromMap(self)

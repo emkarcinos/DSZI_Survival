@@ -60,16 +60,18 @@ class Map:
     def terrainDraw(self):
         for row, tiles in enumerate(self.terrain):
             for col, tile in enumerate(tiles):
-                if tile == 'w':
-                    object = TerrainTile(col, row, 'wall.png', self.tileSize)
-                    self.screen.draw(object, Locations.MAP, 0, 0)
-                    self.collidables.add(object)
+                if tile == 's':
+                    self.screen.draw(TerrainTile(col, row, 'sand.png', self.tileSize), Locations.MAP, 0, 0)
                 elif tile == ',':
                     self.screen.draw(TerrainTile(col, row, 'floor.png', self.tileSize), Locations.MAP, 0, 0)
                 elif tile == '.':
                     self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize), Locations.MAP, 0, 0)
                 elif tile == 'x':
                     object = TerrainTile(col, row, 'water.jpg', self.tileSize)
+                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.collidables.add(object)
+                elif tile == 'w':
+                    object = TerrainTile(col, row, 'wall.png', self.tileSize)
                     self.screen.draw(object, Locations.MAP, 0, 0)
                     self.collidables.add(object)
 
