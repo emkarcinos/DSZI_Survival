@@ -37,6 +37,11 @@ class Game:
             print("The screen cannot be in a vertical orientation. Exiting...")
             exit(1)
 
+        # Initialize timers
+        self.pgTimer = pygame.time.Clock()
+        self.ingameTimer = Timer()
+        self.ingameTimer.startClock()
+
         self.screen = Screen(self, self.config["window"])
         print("OK")
 
@@ -50,6 +55,9 @@ class Game:
 
     def mainLoop(self):
         while self.running:
+            # Update ingame clock
+            self.ingameTimer.updateTime(self.pgTimer.tick())
+
             self.eventManager.handleEvents()
             self.spritesList.draw(self.screen.pygameScreen)
             pygame.display.flip()
