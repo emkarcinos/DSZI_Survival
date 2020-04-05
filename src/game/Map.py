@@ -1,6 +1,13 @@
+import json
+
 import pygame
 from game.TerrainTile import TerrainTile
 from game.Screen import Locations
+
+from src.entities.Entity import Entity
+from src.entities.Pickupable import Pickupable
+from src.entities.Statistics import Statistics
+
 
 class Map:
     def __init__(self, filename, screen):
@@ -21,6 +28,30 @@ class Map:
         self.height = self.tileHeight * self.tileSize
 
         self.terrainDraw()
+
+    # Returns a list of entities loaded from mapfile
+    def loadEntities(self, mapFileName):
+        mapFile = mapFileName.split('.')[0]
+        entitiesFile = mapFile + "Entities.json"
+        entityListJson = json.loads(entitiesFile)
+        actualEntities = []
+        for entity in entityListJson:
+            try:
+                if entity["isPickupable"]:
+                    actualEntities.append(Pickupable(entity["name"],
+                                                     (entity["position"]["x"], entity["position"]["y"]),
+                                                     self.tileSize,
+                                                     Statistics(entity["effect"]["hp"],
+                                                                entity["effect"]["hunger"],
+                                                                entity["effect"]["thirst"],
+                                                                entity["effect"]["stamina"])))
+                else:
+                    actualEntities.append(Entity(entity["name"],
+                                                    (entity["position"]["x"], entity["position"]["y"]),
+                                                    self.tileSize))
+            except KeyError:
+                print("Failed to load entity " + entity)
+        return actualEntities
 
     def terrainDraw(self):
         for row, tiles in enumerate(self.terrain):
