@@ -25,10 +25,13 @@ class EventManager:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.game.running = False
+            self.game.screen.ui.updateBasedOnPygameEvent(event)
         self.keyTimeout += self.keyTimer.tick()
         if self.keyTimeout >= TIMEOUT:
             self.handlePlayerControls(keys)
             self.keyTimeout = 0
+
+        self.game.screen.ui.updateBasedOnPlayerStats(self.player.statistics)
 
     def handlePlayerControls(self, keys):
         # Key names are temporary

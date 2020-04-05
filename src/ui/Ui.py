@@ -2,6 +2,7 @@ from enum import Enum
 
 import pygame
 
+from src.entities.Statistics import Statistics
 from src.ui.UiBar import UiBar
 from src.ui.UiConsole import UiConsole
 from src.ui.UiText import UiText
@@ -49,6 +50,17 @@ class Ui():
         self.console = UiConsole(pygame.Rect(0, self.timerTextView.rect.h + self.isDayTextView.rect.h, leftUiWidth,
                                              screenHeight - self.timerTextView.rect.h - self.isDayTextView.rect.h),
                                  font=self.font)
+
+    def updateBasedOnPlayerStats(self, statistics: Statistics):
+        self.healthBar.updateFill(statistics.hp)
+        self.hungerBar.updateFill(statistics.hunger)
+        self.staminaBar.updateFill(statistics.stamina)
+        self.thirstBar.updateFill(statistics.thirst)
+
+    def updateBasedOnPygameEvent(self, event: pygame.event):
+        pass
+
+
 
 
 class Colors(Enum):
