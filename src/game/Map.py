@@ -1,8 +1,8 @@
 import json
 
 import pygame
-from game.TerrainTile import TerrainTile
-from game.Screen import Locations
+from src.game.TerrainTile import TerrainTile
+from src.game.Screen import Locations
 
 from src.entities.Entity import Entity
 from src.entities.Pickupable import Pickupable
@@ -74,6 +74,13 @@ class Map:
                     object = TerrainTile(col, row, 'wall.png', self.tileSize)
                     self.screen.draw(object, Locations.MAP, 0, 0)
                     self.collidables.add(object)
+
+    def getEntityOnCoord(self, coord):
+        result = None
+        for entity in self.collidables:
+            if entity.rect.x == coord[0] and entity.rect.y == coord[1]
+                result = entity
+        return result
 
     def addEntity(self, entity):
         self.screen.draw(entity, Locations.MAP, 0, 0)
