@@ -33,6 +33,10 @@ class Map:
                     self.screen.draw(TerrainTile(col, row, 'floor.png', self.tileSize), Locations.MAP, 0, 0)
                 elif tile == '.':
                     self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize), Locations.MAP, 0, 0)
+                elif tile == 'x':
+                    object = TerrainTile(col, row, 'water.jpg', self.tileSize)
+                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.collidables.add(object)
 
     def addEntity(self, entity):
         self.screen.draw(entity, Locations.MAP, 0, 0)
