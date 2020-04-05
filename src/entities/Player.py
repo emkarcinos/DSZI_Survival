@@ -30,6 +30,7 @@ class Player(Entity):
         if self.rotation == Rotations.NORTH:
             return (0, -1)
         elif self.rotation == Rotations.SOUTH:
+            pass
 
     # Returns given statistic
     def getStatistic(self, stat):
