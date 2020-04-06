@@ -22,15 +22,17 @@ class Player(Entity):
     # Move in a desired direction
     def move(self, rotation):
         self.movePoints += 1
-        self.applyWalkingFatigue()
-        if rotation.value == Rotations.NORTH.value:
-            self.rect.y -= self.rect.w
-        elif rotation.value == Rotations.EAST.value:
-            self.rect.x += self.rect.w
-        elif rotation.value == Rotations.SOUTH.value:
-            self.rect.y += self.rect.w
-        elif rotation.value == Rotations.WEST.value:
-            self.rect.x -= self.rect.w
+        # You can only move if you have enough stamina
+        if self.statistics.stamina > 1:
+            self.applyWalkingFatigue()
+            if rotation.value == Rotations.NORTH.value:
+                self.rect.y -= self.rect.w
+            elif rotation.value == Rotations.EAST.value:
+                self.rect.x += self.rect.w
+            elif rotation.value == Rotations.SOUTH.value:
+                self.rect.y += self.rect.w
+            elif rotation.value == Rotations.WEST.value:
+                self.rect.x -= self.rect.w
 
     def applyWalkingFatigue(self):
         # looses hunger every 10 steps taken
