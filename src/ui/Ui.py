@@ -64,24 +64,20 @@ class Ui():
 
     def updateBasedOnPlayerStats(self, statistics: Statistics):
         consoleLines = []
-        if self.healthBar.value != statistics.hp:
-            self.healthBar.updateFill(statistics.hp)
-            consoleLines.append(self.timer.getPrettyTime() + " - Health: " + str(statistics.hp))
 
-        if self.hungerBar.value != statistics.hunger:
-            self.hungerBar.updateFill(statistics.hunger)
-            consoleLines.append(self.timer.getPrettyTime() + " - Hunger: " + str(statistics.hunger))
+        self.healthBar.updateFill(statistics.hp)
+        consoleLines.append("Health: " + str(statistics.hp))
 
-        if self.staminaBar.value != statistics.stamina:
-            self.staminaBar.updateFill(statistics.stamina)
-            consoleLines.append(self.timer.getPrettyTime() + " - Stamina: " + str(statistics.stamina))
+        self.hungerBar.updateFill(statistics.hunger)
+        consoleLines.append("Hunger: " + str(statistics.hunger))
 
-        if self.thirstBar.value != statistics.thirst:
-            self.thirstBar.updateFill(statistics.thirst)
-            consoleLines.append(self.timer.getPrettyTime() + " - Thirst: " + str(statistics.thirst))
+        self.staminaBar.updateFill(statistics.stamina)
+        consoleLines.append("Stamina: " + str(statistics.stamina))
 
-        if len(consoleLines) > 0:
-            self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
+        self.thirstBar.updateFill(statistics.thirst)
+        consoleLines.append("Thirst: " + str(statistics.thirst))
+
+        self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
 
     def updateBasedOnPygameEvent(self, event: pygame.event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -90,6 +86,10 @@ class Ui():
                 console.writeConsoleLines(console.topWrittenLineInd + 1)
             elif event.button == 5:
                 console.writeConsoleLines(console.topWrittenLineInd - 1)
+
+    def updateOnPlayerPickup(self, playerStats, pickedObject):
+        self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Picked object " + str(pickedObject.id) + ":"])
+        self.updateBasedOnPlayerStats(playerStats)
 
     def updateTime(self):
         self.timerTextView.changeText(self.timer.getPrettyTime())
