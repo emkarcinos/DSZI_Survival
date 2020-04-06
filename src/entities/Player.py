@@ -20,6 +20,9 @@ class Player(Entity):
         # Used to determine fatigue
         self.fatigueTimeout = 0
 
+        self.alive = True
+        # If a player dies, the death reason is stored here
+        self.deathReason = None
     # Move in a desired direction
     def move(self, rotation):
         self.movePoints += 1
@@ -87,12 +90,30 @@ class Player(Entity):
             self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
             self.rotation = rotation
 
+    # Updates self.alive if any of the statistic reaches critical value
+    def determineLife(self):
+        if self.statistics.hunger == 100:
+            self.alive = False
+            self.deathReason = StatisticNames.HUNGER
+        elif self.statistics.thirst == 100:
+            self.alive = False
+            self.deathReason = StatisticNames.THIRST
+        elif self.statistics.hp == 0:
+            self.alive = False
+            self.deathReason = StatisticNames.HP
+
+        # Change texture after dying
+        if not self.alive:
+            self.image, null = self.getTexture("gravestone.png", self.rect.h)
+
     # Called every frame
     def update(self):
-        self.timeAlive += self.timer.get_time()
-        # Player gets tired every once in a while
-        self.applyTimeFatigue(self.timer.get_time())
-        self.timer.tick()
+        if self.alive:
+            self.timeAlive += self.timer.get_time()
+            # Player gets tired every once in a while
+            self.applyTimeFatigue(self.timer.get_time())
+            self.timer.tick()
+            self.determineLife()
 
 
 class Rotations(Enum):
