@@ -42,7 +42,7 @@ class EventManager:
         if keys[pygame.K_SPACE]:
             object = self.game.map.getEntityOnCoord(self.player.getFacingCoord())
             if type(object) is Pickupable:
-                object.on_pickup(self.player)
+                object.on_interaction(self.player)
                 self.game.map.removeSpriteFromMap(object)
         if keys[pygame.K_w]:
             self.player.rotate(Rotations.NORTH)
