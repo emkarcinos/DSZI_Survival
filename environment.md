@@ -26,6 +26,6 @@ klasa realizacyjna, w niej wywoływane są wszystkie inne główne obiekty, obs�
 ## Reprezentacja wiedzy
 *Wiedzą w naszym projekcie są statystyki agenta, które mowią o tym w jakim stanie toczy się proces przetrwania.   
 Posiadamy również konsolę, która wypisuje wartości statystyk na ekranie.*  
-![](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/data/images/adventure.png)
+![screenshot](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/data/images/adventure.png)
 
 ## Uruchomienie projektu
