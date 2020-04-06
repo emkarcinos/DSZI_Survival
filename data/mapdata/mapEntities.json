@@ -196,5 +196,161 @@
       "y": 5
     },
     "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 2,
+      "y": 2
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 2,
+      "y": 3
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 2,
+      "y": 4
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 3,
+      "y": 2
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 3,
+      "y": 3
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 8
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 7
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 12,
+      "y": 17
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 12,
+      "y": 14
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 14
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 15,
+      "y": 14
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 15
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 16
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 10,
+      "y": 16
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 10,
+      "y": 17
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 11,
+      "y": 17
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "cranberry",
+    "position" : {
+      "x": 12,
+      "y": 15
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : 0,
+      "stamina" : 5,
+      "thirst" : -2,
+      "hunger" : -10
+    }
+  },
+  {
+    "name" : "berry",
+    "position" : {
+      "x": 11,
+      "y": 16
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : -10,
+      "stamina" : 5,
+      "thirst" : 0,
+      "hunger" : -20
+    }
   }
 ]
