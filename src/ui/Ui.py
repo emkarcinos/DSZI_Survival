@@ -2,6 +2,7 @@ from enum import Enum
 
 import pygame
 
+from src.entities.Player import StatisticNames
 from src.entities.Statistics import Statistics
 from src.ui.UiBar import UiBar
 from src.ui.UiConsole import UiConsole
@@ -88,6 +89,28 @@ class Ui():
     def updateOnPlayerInteraction(self, playerStats, interactedObject):
         self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Player interacted with " + str(interactedObject.id) + ":"])
         self.updateConsoleBasedOnPlayerStats(playerStats)
+
+    def updateOnDeath(self, player):
+        consoleLines = []
+
+        deathReason: StatisticNames = player.deathReason
+
+        consoleLines.append(self.timer.getPrettyTime() + " - Game Over")
+        deathReasonString = ""
+        if deathReason is StatisticNames.HP:
+            deathReasonString = "Health issues"
+        elif deathReason is StatisticNames.HUNGER:
+            deathReasonString = "Hunger"
+        elif deathReason is StatisticNames.STAMINA:
+            deathReasonString = "Exhaustion"
+        elif deathReason is StatisticNames.THIRST:
+            deathReasonString = "Dehydration"
+
+        consoleLines.append("Death reason: " + deathReasonString)
+
+        consoleLines.append("Time alive: " + str(player.timeAlive / 1000))
+
+        self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
 
     def updateTime(self):
         self.timerTextView.changeText(self.timer.getPrettyTime())
