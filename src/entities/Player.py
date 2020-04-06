@@ -1,4 +1,5 @@
 from enum import Enum
+import random
 
 from src.entities.Entity import Entity
 from src.entities.Statistics import Statistics
@@ -49,6 +50,9 @@ class Player(Entity):
         if self.fatigueTimeout >= 700:
             self.statistics.set_thirst(5)
             self.statistics.set_hunger(3)
+            # A player can randomly regenerate stamina
+            if random.randrange(5) == 0:
+                self.statistics.set_stamina(2)
             self.fatigueTimeout = 0
 
 
