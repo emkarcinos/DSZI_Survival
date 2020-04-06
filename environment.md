@@ -5,7 +5,7 @@
 
 ## Koncepcja
 * *Środowiskiem naszego agenta jest bezludna wyspa*
-* *Celem naszego agenta jest przetrwanie*
+* *Celem naszego agenta jest przetrwanie jak najdłużej*
 * *Na wyspie znajdują się różnorodne elementy, które pomagają lub przeszkadzają przetrwać*
 * *Agent ma zasoby, które musi uzupełniać aby przeżyć, np. głód*
 * *Agent porusza się w środowisku 20x20*
@@ -28,8 +28,9 @@ klasa realizacyjna, w niej wywoływane są wszystkie inne główne obiekty, obs�
 * [Statistics.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/src/entities/Statistics.py) - reprezentuje zasoby agenta, które odpowiednio zwiększają się, lub zmniejszają po interakcji z jakimś elementem.
 
 ## Reprezentacja wiedzy
-*Wiedzą w naszym projekcie są statystyki agenta, które mowią o tym w jakim stanie toczy się proces przetrwania.   
-Posiadamy również konsolę, która wypisuje wartości statystyk na ekranie.*  
+*Wiedzą w naszym projekcie są statystyki agenta, które mowią o tym w jakim stanie toczy się proces przetrwania.*   
+*Posiadamy również konsolę, która wypisuje różnorodne zdarzenia i ich skutki, na przykład gry agent coś podniesie.  
+W konsoli znajduję się również Timer, który pozwala nam ustalić ile czasu udało się agentowi przetrwać.*  
 ![screenshot](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/data/images/adventure.png)  
 
 ## Uruchomienie projektu
