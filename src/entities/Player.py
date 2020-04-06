@@ -35,10 +35,10 @@ class Player(Entity):
     def applyWalkingFatigue(self):
         # looses hunger every 10 steps taken
         if self.movePoints % 10 == 0:
-            self.statistics.set_hunger(10)
+            self.statistics.set_hunger(5)
         # gets more thirsty every 5 steps
         if self.movePoints % 5 == 0:
-            self.statistics.set_thirst(10)
+            self.statistics.set_thirst(6)
         # gets tired every step
         self.statistics.set_stamina(-2)
 
