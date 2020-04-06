@@ -2,6 +2,7 @@ from enum import Enum
 
 import pygame
 
+from src.entities.Player import StatisticNames
 from src.entities.Statistics import Statistics
 from src.ui.UiBar import UiBar
 from src.ui.UiConsole import UiConsole
@@ -62,26 +63,16 @@ class Ui():
                                              screenHeight - self.timerTextView.rect.h - self.isDayTextView.rect.h),
                                  font=self.font)
 
-    def updateBasedOnPlayerStats(self, statistics: Statistics):
-        consoleLines = []
-        if self.healthBar.value != statistics.hp:
-            self.healthBar.updateFill(statistics.hp)
-            consoleLines.append(self.timer.getPrettyTime() + " - Health: " + str(statistics.hp))
+    def updateConsoleBasedOnPlayerStats(self, statistics: Statistics):
+        consoleLines = ["Health: " + str(statistics.hp), "Hunger: " + str(statistics.hunger),
+                        "Stamina: " + str(statistics.stamina), "Thirst: " + str(statistics.thirst)]
+        self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
 
-        if self.hungerBar.value != statistics.hunger:
-            self.hungerBar.updateFill(statistics.hunger)
-            consoleLines.append(self.timer.getPrettyTime() + " - Hunger: " + str(statistics.hunger))
-
-        if self.staminaBar.value != statistics.stamina:
-            self.staminaBar.updateFill(statistics.stamina)
-            consoleLines.append(self.timer.getPrettyTime() + " - Stamina: " + str(statistics.stamina))
-
-        if self.thirstBar.value != statistics.thirst:
-            self.thirstBar.updateFill(statistics.thirst)
-            consoleLines.append(self.timer.getPrettyTime() + " - Thirst: " + str(statistics.thirst))
-
-        if len(consoleLines) > 0:
-            self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
+    def updateBarsBasedOnPlayerStats(self, statistics: Statistics):
+        self.healthBar.updateFill(statistics.hp)
+        self.hungerBar.updateFill(statistics.hunger)
+        self.staminaBar.updateFill(statistics.stamina)
+        self.thirstBar.updateFill(statistics.thirst)
 
     def updateBasedOnPygameEvent(self, event: pygame.event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -90,6 +81,36 @@ class Ui():
                 console.writeConsoleLines(console.topWrittenLineInd + 1)
             elif event.button == 5:
                 console.writeConsoleLines(console.topWrittenLineInd - 1)
+
+    def updateOnPlayerPickup(self, playerStats, pickedObject):
+        self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Picked object " + str(pickedObject.id) + ":"])
+        self.updateConsoleBasedOnPlayerStats(playerStats)
+
+    def updateOnPlayerInteraction(self, playerStats, interactedObject):
+        self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Player interacted with " + str(interactedObject.id) + ":"])
+        self.updateConsoleBasedOnPlayerStats(playerStats)
+
+    def updateOnDeath(self, player):
+        consoleLines = []
+
+        deathReason: StatisticNames = player.deathReason
+
+        consoleLines.append(self.timer.getPrettyTime() + " - Game Over")
+        deathReasonString = ""
+        if deathReason is StatisticNames.HP:
+            deathReasonString = "Health issues"
+        elif deathReason is StatisticNames.HUNGER:
+            deathReasonString = "Hunger"
+        elif deathReason is StatisticNames.STAMINA:
+            deathReasonString = "Exhaustion"
+        elif deathReason is StatisticNames.THIRST:
+            deathReasonString = "Dehydration"
+
+        consoleLines.append("Death reason: " + deathReasonString)
+
+        consoleLines.append("Time alive: " + str(player.timeAlive / 1000))
+
+        self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
 
     def updateTime(self):
         self.timerTextView.changeText(self.timer.getPrettyTime())
