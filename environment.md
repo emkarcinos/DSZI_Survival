@@ -44,6 +44,4 @@ W konsoli znajduję się również Timer, który pozwala nam ustalić ile czasu 
 **Wystarczy uruchomić plik:** [Run.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/Run.py)
 
 ## Poradnik
-_Podejdź odpowiednio odwrócony do czystej wody i kliknij **SPACE** aby zaspokoić swoje **pragnienie**!
-Króliki i różnorodne rośliny zapewnią Tobie **pożywienie**! Odpocznij co jakiś czas w swoim domku przy
-**ognisku**, aby sprawnie **funkcjonować**! Uważaj na Siebie, **życie** wśród dziczy, bywa brutalne._
+_Poruszaj się klawiszami **WASD**! Podejdź odpowiednio odwrócony do czystej wody i kliknij **SPACE** aby zaspokoić swoje **pragnienie**! Króliki i różnorodne rośliny zapewnią Tobie **pożywienie**! Odpocznij co jakiś czas w swoim domku przy **ognisku**, aby sprawnie **funkcjonować**! Uważaj na Siebie, **życie** wśród dziczy, bywa brutalne._
