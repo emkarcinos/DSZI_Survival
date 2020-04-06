@@ -1,3 +1,6 @@
+from pathlib import Path
+
 from src.game.Game import Game
 
-game = Game()
+programPath = Path(".").resolve()
+game = Game(programPath)

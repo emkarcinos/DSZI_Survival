@@ -12,12 +12,12 @@ from src.game.Timer import Timer
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, filesPath):
         self.running = True
         print("Loading configuration...", end=" ")
 
         try:
-            configFolder = Path("../data/config/")
+            configFolder = Path(str(filesPath) + "/data/config/")
             configFile = configFolder / "mainConfig.json"
 
             self.config = json.loads(configFile.read_text())
@@ -47,8 +47,8 @@ class Game:
         self.screen = Screen(self, self.config["window"])
         print("OK")
 
-        self.mapDataFolder = path.dirname("../data/mapdata/")
-        self.map = Map(path.join(self.mapDataFolder, 'map.txt'), self.screen)
+        mapFile = Path(str(filesPath) + "/data/mapdata/")
+        self.map = Map(path.join(mapFile, 'map.txt'), self.screen)
         self.player = Player((6, 2), self.map.tileSize)
         self.map.addEntity(self.player)
         self.eventManager = EventManager(self, self.player)
