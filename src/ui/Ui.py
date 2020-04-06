@@ -62,22 +62,16 @@ class Ui():
                                              screenHeight - self.timerTextView.rect.h - self.isDayTextView.rect.h),
                                  font=self.font)
 
-    def updateBasedOnPlayerStats(self, statistics: Statistics):
-        consoleLines = []
-
-        self.healthBar.updateFill(statistics.hp)
-        consoleLines.append("Health: " + str(statistics.hp))
-
-        self.hungerBar.updateFill(statistics.hunger)
-        consoleLines.append("Hunger: " + str(statistics.hunger))
-
-        self.staminaBar.updateFill(statistics.stamina)
-        consoleLines.append("Stamina: " + str(statistics.stamina))
-
-        self.thirstBar.updateFill(statistics.thirst)
-        consoleLines.append("Thirst: " + str(statistics.thirst))
-
+    def updateConsoleBasedOnPlayerStats(self, statistics: Statistics):
+        consoleLines = ["Health: " + str(statistics.hp), "Hunger: " + str(statistics.hunger),
+                        "Stamina: " + str(statistics.stamina), "Thirst: " + str(statistics.thirst)]
         self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
+
+    def updateBarsBasedOnPlayerStats(self, statistics: Statistics):
+        self.healthBar.updateFill(statistics.hp)
+        self.hungerBar.updateFill(statistics.hunger)
+        self.staminaBar.updateFill(statistics.stamina)
+        self.thirstBar.updateFill(statistics.thirst)
 
     def updateBasedOnPygameEvent(self, event: pygame.event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -89,7 +83,11 @@ class Ui():
 
     def updateOnPlayerPickup(self, playerStats, pickedObject):
         self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Picked object " + str(pickedObject.id) + ":"])
-        self.updateBasedOnPlayerStats(playerStats)
+        self.updateConsoleBasedOnPlayerStats(playerStats)
+
+    def updateOnPlayerInteraction(self, playerStats, interactedObject):
+        self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Player interacted with " + str(interactedObject.id) + ":"])
+        self.updateConsoleBasedOnPlayerStats(playerStats)
 
     def updateTime(self):
         self.timerTextView.changeText(self.timer.getPrettyTime())
