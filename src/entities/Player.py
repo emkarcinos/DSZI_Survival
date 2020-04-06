@@ -85,10 +85,11 @@ class Player(Entity):
         return self.statistics
 
     def rotate(self, rotation):
-        # If the player is not facing given direction, it will not move the first time, it will only get rotated
-        if self.rotation.value != rotation.value:
-            self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
-            self.rotation = rotation
+        if self.alive:
+            # If the player is not facing given direction, it will not move the first time, it will only get rotated
+            if self.rotation.value != rotation.value:
+                self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
+                self.rotation = rotation
 
     # Updates self.alive if any of the statistic reaches critical value
     def determineLife(self):
