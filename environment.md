@@ -11,7 +11,7 @@
 * *Agent porusza się w środowisku 20x20*
  
 ## Struktura projektu
-*Plik przedstawiający strukturę katalogów oraz klas:* [structure.pdf](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/data/structure.pdf)
+*Plik przedstawiający strukturę katalogów oraz klas:* [structure.pdf](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/data/structure.pdf)
 
 ## Główne klasy projektu
 * [Run.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/Run.py) - plik, względem którego uruchamia się całe środowisko.
