@@ -9,8 +9,8 @@ Skład zespołu:
 
 ## Wymagania
 ```
-Python
-pygame
+Python 3.x
+pygame: 1.9.x
 ```
 ## Uruchomienie
 ```
