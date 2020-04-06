@@ -28,10 +28,22 @@ klasa realizacyjna, w niej wywoływane są wszystkie inne główne obiekty, obs�
 * [Statistics.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/src/entities/Statistics.py) - reprezentuje zasoby agenta, które odpowiednio zwiększają się, lub zmniejszają po interakcji z jakimś elementem.
 
 ## Reprezentacja wiedzy
-*Wiedzą w naszym projekcie są statystyki agenta, które mowią o tym w jakim stanie toczy się proces przetrwania.*   
-*Posiadamy również konsolę, która wypisuje różnorodne zdarzenia i ich skutki, na przykład gry agent coś podniesie.  
+*Wiedzą w naszym projekcie są statystyki agenta, które mowią o tym w jakim stanie toczy się proces przetrwania oraz czas jaki udało się przetrwać.  
+Statystyki agenta można zmieniać poprzez interakcję z objektami **entities**, dla przykładu wypicie czystej wody zaspokoi
+nasze pragnienie, a zjedzenie królika nasz głód, możemy również odpocząć przy ognisku.*
+*Posiadamy również konsolę, która wypisuje różnorodne zdarzenia i ich skutki, na przykład gry agent coś podniesie. 
 W konsoli znajduję się również Timer, który pozwala nam ustalić ile czasu udało się agentowi przetrwać.*  
-![screenshot](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/data/images/adventure.png)  
+![screenshot](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/data/images/adventure.png)
+### Statystyki
+**Health points:** *Punkty życia agenta, gdy pasek spadnie do zera agent umiera.*
+**Hunger:** *Głód agenta, gdy pasek podniesie się do wartości 100, agent umiera.*
+**Stamina:** *Energia agenta, gdy pasek spadnie do zera agent nie może się poruszać.*
+**Thirst:** *Pragnienie agenta, gdy pasek osiągnie maksimum (wartość 100), agent umiera.*  
 
 ## Uruchomienie projektu
 **Wystarczy uruchomić plik:** [Run.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/Run.py)
+
+## Poradnik
+*Podejdź odpowiednio odwrócony do czystej wody i kliknij **SPACE** aby zaspokoić swoje **pragnienie**! 
+Króliki i różnorodne rośliny zapewnią Tobie **pożywienie**! Odpocznij co jakiś czas w swoim domku przy 
+**ognisku**, aby sprawnie **funkcjonować**! Uważaj na Siebie, **życie** wśród dziczy, bywa brutalne.* 
