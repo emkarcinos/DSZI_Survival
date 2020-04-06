@@ -16,6 +16,8 @@ class EventManager:
         self.game = gameObject
         self.player = player
         self.keyTimer = pygame.time.Clock()
+
+        self.turnOff = False
         # Player controls
 
     # TODO
@@ -24,6 +26,10 @@ class EventManager:
 
     def handleEvents(self):
         pygame.event.pump()
+
+        if self.turnOff:
+            sleep(5)
+            exit(0)
 
         self.game.screen.ui.updateTime()
 
@@ -37,6 +43,9 @@ class EventManager:
             if self.player.alive:
                 self.handlePlayerControls(keys)
                 self.keyTimeout = 0
+            else:
+                self.game.screen.ui.updateOnDeath(self.player)
+                self.turnOff = True
 
         self.game.screen.ui.updateBarsBasedOnPlayerStats(self.player.statistics)
 
