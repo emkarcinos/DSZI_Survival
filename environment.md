@@ -35,9 +35,9 @@ Posiadamy również konsolę, która wypisuje różnorodne zdarzenia i ich skutk
 W konsoli znajduję się również Timer, który pozwala nam ustalić ile czasu udało się agentowi przetrwać._
 ![screenshot](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/data/images/adventure.png)
 ### Statystyki
-**Health points:** *Punkty życia agenta, gdy pasek spadnie do zera agent umiera.*
-**Hunger:** *Głód agenta, gdy pasek podniesie się do wartości 100, agent umiera.*
-**Stamina:** *Energia agenta, gdy pasek spadnie do zera agent nie może się poruszać.*
+**Health points:** *Punkty życia agenta, gdy pasek spadnie do zera agent umiera.*  
+**Hunger:** *Głód agenta, gdy pasek podniesie się do wartości 100, agent umiera.*  
+**Stamina:** *Energia agenta, gdy pasek spadnie do zera agent nie może się poruszać.*  
 **Thirst:** *Pragnienie agenta, gdy pasek osiągnie maksimum (wartość 100), agent umiera.*  
 
 ## Uruchomienie projektu
