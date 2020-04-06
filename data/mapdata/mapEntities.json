@@ -88,5 +88,113 @@
       "thirst": 0,
       "hunger": 0
     }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 3,
+      "y": 5
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 3,
+      "y": 6
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 3,
+      "y": 7
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 2,
+      "y": 7
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 2,
+      "y": 8
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 1,
+      "y": 8
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "rock",
+    "position" : {
+      "x": 3,
+      "y": 4
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "rock",
+    "position" : {
+      "x": 2,
+      "y": 5
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "rock",
+    "position" : {
+      "x": 4,
+      "y": 5
+    },
+    "isPickupable" : false
   }
 ]
