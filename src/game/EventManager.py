@@ -1,5 +1,6 @@
 import pygame
 
+from src.entities.Interactable import Interactable
 from src.entities.Pickupable import Pickupable
 from src.entities.Player import Rotations
 
@@ -39,11 +40,18 @@ class EventManager:
     def handlePlayerControls(self, keys):
         # Key names are temporary
         # TODO: Load key bindings from JSON
+
+        # Picking up items
         if keys[pygame.K_SPACE]:
             object = self.game.map.getEntityOnCoord(self.player.getFacingCoord())
+            # Picked up item gets removed from the map
             if type(object) is Pickupable:
                 object.on_interaction(self.player)
                 self.game.map.removeSpriteFromMap(object)
+            elif type(object) is Interactable:
+                object.on_interaction(self.player)
+
+        # Movement
         if keys[pygame.K_w]:
             self.player.rotate(Rotations.NORTH)
             if not self.game.map.collision(self.player.rect.x, self.player.rect.y - self.player.rect.w):
