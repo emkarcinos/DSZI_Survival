@@ -2,23 +2,13 @@ from src.entities.Entity import Entity
 
 
 class Interactable(Entity):
+    def __init__(self, texture, size, pos, Statistics):
+        super().__init__(texture, size, pos)
+        self.Statistics = Statistics
 
-    def __init__(self, texture, pos, id):
-        super().__init__(texture, pos, id)
-
-    @staticmethod
-    def interact_with_hp(hp, Statistics):
-        Statistics.set_hp(hp)
-
-    @staticmethod
-    def interact_with_hunger(hunger, Statistics):
-        Statistics.set_hunger(hunger)
-
-    @staticmethod
-    def interact_with_thirst(thirst, Statistics):
-        Statistics.set_thirst(thirst)
-
-    @staticmethod
-    def interact_with_stamina(stamina, Statistics):
-        Statistics.set_stamina(stamina)
+    def on_interaction(self, Player):
+        Player.statistics.set_hp(self.Statistics.hp)
+        Player.statistics.set_stamina(self.Statistics.stamina)
+        Player.statistics.set_thirst(self.Statistics.thirst)
+        Player.statistics.set_hunger(self.Statistics.hunger)
 

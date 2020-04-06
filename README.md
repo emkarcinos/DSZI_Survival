@@ -7,5 +7,18 @@ Skład zespołu:
 - Michał Czekański
 - Marcin Kostrzewski
 
-Poruszanie się: *WASD*
-Podnoszenie obiektów: *SPACJA*
+## Wymagania
+```
+Python 3.x
+pygame: 1.9.x
+```
+## Uruchomienie
+```
+$ python Run.py
+```
+## Konfiguracja
+Plik z konfiguracją znajduje w ```data/config/mainConfig.json```.
+
+## Sterowanie
+* Poruszanie się: *WASD*
+* Interakcja: *SPACJA*

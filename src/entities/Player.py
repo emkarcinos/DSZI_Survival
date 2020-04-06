@@ -1,4 +1,5 @@
 from enum import Enum
+import random
 
 from src.entities.Entity import Entity
 from src.entities.Statistics import Statistics
@@ -6,8 +7,6 @@ import pygame
 
 
 class Player(Entity):
-    statistics: Statistics
-
     def __init__(self, spawnpoint, size):
         super().__init__("player.png", size, (spawnpoint[0] * size, spawnpoint[1] * size))
         # Where the player is facing, 0 - north, 1
@@ -15,30 +14,50 @@ class Player(Entity):
         self.statistics = Statistics(100, 0, 0, 100)
         # How many steps has the player taken through its lifetime
         self.movePoints = 0
+        # Tracks how much time has passed since the player is alive
+        self.timer = pygame.time.Clock()
+        self.timeAlive = 1
+        # Used to determine fatigue
+        self.fatigueTimeout = 0
 
+        self.alive = True
+        # If a player dies, the death reason is stored here
+        self.deathReason = None
     # Move in a desired direction
     def move(self, rotation):
         self.movePoints += 1
-        # Player gets tired aswell!
-        self.applyFatigue()
-        if rotation.value == Rotations.NORTH.value:
-            self.rect.y -= self.rect.w
-        elif rotation.value == Rotations.EAST.value:
-            self.rect.x += self.rect.w
-        elif rotation.value == Rotations.SOUTH.value:
-            self.rect.y += self.rect.w
-        elif rotation.value == Rotations.WEST.value:
-            self.rect.x -= self.rect.w
+        # You can only move if you have enough stamina
+        if self.statistics.stamina > 1:
+            self.applyWalkingFatigue()
+            if rotation.value == Rotations.NORTH.value:
+                self.rect.y -= self.rect.w
+            elif rotation.value == Rotations.EAST.value:
+                self.rect.x += self.rect.w
+            elif rotation.value == Rotations.SOUTH.value:
+                self.rect.y += self.rect.w
+            elif rotation.value == Rotations.WEST.value:
+                self.rect.x -= self.rect.w
 
-    def applyFatigue(self):
+    def applyWalkingFatigue(self):
         # looses hunger every 10 steps taken
         if self.movePoints % 10 == 0:
-            self.statistics.set_hunger(10)
+            self.statistics.set_hunger(5)
         # gets more thirsty every 5 steps
         if self.movePoints % 5 == 0:
-            self.statistics.set_thirst(10)
+            self.statistics.set_thirst(6)
         # gets tired every step
         self.statistics.set_stamina(-2)
+
+    def applyTimeFatigue(self, tickTime):
+        self.fatigueTimeout += tickTime
+        if self.fatigueTimeout >= 700:
+            self.statistics.set_thirst(5)
+            self.statistics.set_hunger(3)
+            # A player can randomly regenerate stamina
+            if random.randrange(5) == 0:
+                self.statistics.set_stamina(2)
+            self.fatigueTimeout = 0
+
 
     def getFacingCoord(self):
         if self.rotation == Rotations.NORTH:
@@ -70,6 +89,31 @@ class Player(Entity):
         if self.rotation.value != rotation.value:
             self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
             self.rotation = rotation
+
+    # Updates self.alive if any of the statistic reaches critical value
+    def determineLife(self):
+        if self.statistics.hunger == 100:
+            self.alive = False
+            self.deathReason = StatisticNames.HUNGER
+        elif self.statistics.thirst == 100:
+            self.alive = False
+            self.deathReason = StatisticNames.THIRST
+        elif self.statistics.hp == 0:
+            self.alive = False
+            self.deathReason = StatisticNames.HP
+
+        # Change texture after dying
+        if not self.alive:
+            self.image, null = self.getTexture("gravestone.png", self.rect.h)
+
+    # Called every frame
+    def update(self):
+        if self.alive:
+            self.timeAlive += self.timer.get_time()
+            # Player gets tired every once in a while
+            self.applyTimeFatigue(self.timer.get_time())
+            self.timer.tick()
+            self.determineLife()
 
 
 class Rotations(Enum):

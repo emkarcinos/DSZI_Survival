@@ -74,5 +74,416 @@
       "thirst": 0,
       "hunger": -25
     }
+  },
+  {
+    "name" : "firepit",
+    "position" : {
+      "x": 10,
+      "y": 7
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 10,
+      "stamina": 15,
+      "thirst": 0,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 3,
+      "y": 5
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 3,
+      "y": 6
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 3,
+      "y": 7
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 2,
+      "y": 7
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 2,
+      "y": 8
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "purewater",
+    "position" : {
+      "x": 1,
+      "y": 8
+    },
+    "isPickupable": false,
+    "effect" : {
+      "hp": 2,
+      "stamina": 2,
+      "thirst": -40,
+      "hunger": 0
+    }
+  },
+  {
+    "name" : "rock",
+    "position" : {
+      "x": 3,
+      "y": 4
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "rock",
+    "position" : {
+      "x": 2,
+      "y": 5
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "rock",
+    "position" : {
+      "x": 4,
+      "y": 5
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 2,
+      "y": 2
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 2,
+      "y": 3
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 2,
+      "y": 4
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 3,
+      "y": 2
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 3,
+      "y": 3
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 8
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 7
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 12,
+      "y": 17
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 12,
+      "y": 14
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 14
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 15,
+      "y": 14
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 15
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 13,
+      "y": 16
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 10,
+      "y": 16
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 10,
+      "y": 17
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 11,
+      "y": 17
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "cranberry",
+    "position" : {
+      "x": 12,
+      "y": 15
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : 0,
+      "stamina" : 5,
+      "thirst" : -2,
+      "hunger" : -10
+    }
+  },
+  {
+    "name" : "berry",
+    "position" : {
+      "x": 11,
+      "y": 16
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : -10,
+      "stamina" : 5,
+      "thirst" : 0,
+      "hunger" : -20
+    }
+  },
+  {
+    "name" : "cranberry",
+    "position" : {
+      "x": 5,
+      "y": 12
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : 0,
+      "stamina" : 5,
+      "thirst" : -2,
+      "hunger" : -10
+    }
+  },
+  {
+    "name" : "cranberry",
+    "position" : {
+      "x": 5,
+      "y": 13
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : 0,
+      "stamina" : 5,
+      "thirst" : -2,
+      "hunger" : -10
+    }
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 6,
+      "y": 13
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "rock",
+    "position" : {
+      "x": 7,
+      "y": 15
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 6,
+      "y": 15
+    },
+    "isPickupable" : false
+  }
+  ,
+  {
+    "name" : "tree",
+    "position" : {
+      "x": 6,
+      "y": 14
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "rabbit",
+    "position" : {
+      "x": 17,
+      "y": 6
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp": 30,
+      "stamina": -5,
+      "thirst": -5,
+      "hunger": -40
+    }
+  },
+  {
+    "name" : "rabbit",
+    "position" : {
+      "x": 3,
+      "y": 14
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp": 30,
+      "stamina": -5,
+      "thirst": -5,
+      "hunger": -40
+    }
+  },
+  {
+    "name" : "berry",
+    "position" : {
+      "x": 5,
+      "y": 16
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : -10,
+      "stamina" : 5,
+      "thirst" : 0,
+      "hunger" : -20
+    }
+  },
+  {
+    "name" : "berry",
+    "position" : {
+      "x": 7,
+      "y": 13
+    },
+    "isPickupable" : true,
+    "effect" : {
+      "hp" : -10,
+      "stamina" : 5,
+      "thirst" : 0,
+      "hunger" : -20
+    }
+  },
+  {
+    "name" : "bush",
+    "position" : {
+      "x": 7,
+      "y": 5
+    },
+    "isPickupable" : false
+  },
+  {
+    "name" : "bush",
+    "position" : {
+      "x": 10,
+      "y": 15
+    },
+    "isPickupable" : false
   }
 ]

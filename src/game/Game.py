@@ -3,13 +3,11 @@ import json
 from pathlib import Path
 from os import path
 
-from game.EventManager import EventManager
-from game.Screen import Screen
-from game.Map import Map
+from src.game.EventManager import EventManager
+from src.game.Screen import Screen
+from src.game.Map import Map
 
-from src.entities.Pickupable import Pickupable
 from src.entities.Player import Player
-from src.entities.Statistics import Statistics
 from src.game.Timer import Timer
 
 
@@ -61,6 +59,7 @@ class Game:
         while self.running:
             # Update ingame clock
             self.ingameTimer.updateTime(self.pgTimer.tick())
+            self.spritesList.update()
             self.eventManager.handleEvents()
             self.spritesList.draw(self.screen.pygameScreen)
             pygame.display.flip()
