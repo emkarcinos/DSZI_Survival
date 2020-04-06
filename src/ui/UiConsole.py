@@ -4,7 +4,7 @@ from src.ui.UiElement import UiElement
 
 
 class UiConsole(UiElement):
-    def __init__(self, rect: pygame.Rect, bgColor=(125, 125, 125), textColor=(255, 255, 255), font=None):
+    def __init__(self, rect: pygame.Rect, bgColor=(125, 125, 125), textColor=(255, 255, 255), font=None, antialias=True):
         super().__init__(rect)
         self.textColor = textColor
 
@@ -12,6 +12,7 @@ class UiConsole(UiElement):
             font = pygame.font.Font(None, 25)
         self.font = font
         self.bgColor = bgColor
+        self.antialias = antialias
 
         self.image = pygame.Surface((rect.width, rect.height))
         self.image.fill(bgColor)
@@ -54,7 +55,7 @@ class UiConsole(UiElement):
             howMuchRowIsFilled = 0
             words = line.split(' ')
             for word in words:
-                wordImage = self.font.render(' ' + word, False, self.textColor)
+                wordImage = self.font.render(' ' + word, self.antialias, self.textColor)
                 if howMuchRowIsFilled + wordImage.get_width() <= self.consoleWidth:
                     row.blit(wordImage, (howMuchRowIsFilled, 0))
                     howMuchRowIsFilled += wordImage.get_width()

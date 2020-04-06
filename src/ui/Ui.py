@@ -1,4 +1,5 @@
 from enum import Enum
+from pathlib import Path
 
 import pygame
 
@@ -10,7 +11,7 @@ from src.ui.UiText import UiText
 
 
 class Ui():
-    def __init__(self, rightUiWidth, leftUiWidth, screenHeight, timer, font=None):
+    def __init__(self, rightUiWidth, leftUiWidth, screenHeight, timer, font=None, antialias=True):
         self.elements = pygame.sprite.Group()
 
         self.leftUiWidth = leftUiWidth
@@ -19,26 +20,38 @@ class Ui():
 
         self.barHeight = 25
 
+        self.antialias = antialias
+
+        fontName = "FiraCode-Light.ttf"
+        fontFolder = ""
+        fontFile = ""
+        try:
+            fontFolder = Path("./data/fonts")
+            fontFile = fontFolder / fontName
+        except IOError:
+            print("Cannot load texture from " + fontFolder + ". Exiting...")
+            exit(1)
+        fontPath = str(fontFile.resolve())
         if font is None:
-            font = pygame.font.Font(None, self.barHeight)
+            font = pygame.font.Font(fontPath, int(self.barHeight / 1.5))
         self.font = font
 
         self.timer = timer
         self.timerTextView = UiText(pygame.Rect(0, 0, leftUiWidth, self.barHeight), font=self.font,
                                     text=timer.getPrettyTime(), textColor=Colors.WHITE.value,
-                                    backgroundColor=Colors.GRAY.value)
+                                    backgroundColor=Colors.GRAY.value, antialias=self.antialias)
         self.isDayTextView = UiText(
             pygame.Rect(0, self.timerTextView.rect.y + self.barHeight, leftUiWidth, self.barHeight), text="Day",
-            font=self.font, backgroundColor=Colors.GRAY.value, textColor=Colors.WHITE.value)
+            font=self.font, backgroundColor=Colors.GRAY.value, textColor=Colors.WHITE.value, antialias=self.antialias)
 
         self.healthTextView = UiText(pygame.Rect(0, 0, rightUiWidth, self.barHeight), text="Health points",
-                                     font=self.font, textColor=Colors.WHITE.value)
+                                     font=self.font, textColor=Colors.WHITE.value, antialias=self.antialias)
         self.healthBar = UiBar(
             pygame.Rect(0, self.healthTextView.rect.y + self.barHeight, rightUiWidth, self.barHeight))
 
         self.hungerTextView = UiText(
             pygame.Rect(0, self.healthBar.rect.y + self.barHeight, rightUiWidth, self.barHeight),
-            text="Hunger", font=self.font, textColor=Colors.WHITE.value)
+            text="Hunger", font=self.font, textColor=Colors.WHITE.value, antialias=self.antialias)
         self.hungerBar = UiBar(
             pygame.Rect(0, self.hungerTextView.rect.y + self.barHeight, rightUiWidth, self.barHeight),
             initialFilledPercent=0,
@@ -46,14 +59,14 @@ class Ui():
 
         self.staminaTextView = UiText(
             pygame.Rect(0, self.hungerBar.rect.y + self.barHeight, rightUiWidth, self.barHeight), text="Stamina",
-            font=self.font, textColor=Colors.WHITE.value)
+            font=self.font, textColor=Colors.WHITE.value, antialias=self.antialias)
         self.staminaBar = UiBar(
             pygame.Rect(0, self.staminaTextView.rect.y + self.barHeight, rightUiWidth, self.barHeight),
             filledBarColor=Colors.GREEN.value)
 
         self.thirstTextView = UiText(
             pygame.Rect(0, self.staminaBar.rect.y + self.barHeight, rightUiWidth, self.barHeight), text="Thirst",
-            font=self.font, textColor=Colors.WHITE.value)
+            font=self.font, textColor=Colors.WHITE.value, antialias=self.antialias)
         self.thirstBar = UiBar(
             pygame.Rect(0, self.thirstTextView.rect.y + self.barHeight, rightUiWidth, self.barHeight),
             initialFilledPercent=0,
@@ -61,7 +74,7 @@ class Ui():
 
         self.console = UiConsole(pygame.Rect(0, self.timerTextView.rect.h + self.isDayTextView.rect.h, leftUiWidth,
                                              screenHeight - self.timerTextView.rect.h - self.isDayTextView.rect.h),
-                                 font=self.font)
+                                 font=self.font, antialias=self.antialias)
 
     def updateConsoleBasedOnPlayerStats(self, statistics: Statistics):
         consoleLines = ["Health: " + str(statistics.hp), "Hunger: " + str(statistics.hunger),
