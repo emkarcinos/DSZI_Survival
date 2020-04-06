@@ -1,6 +1,8 @@
 import json
 
 import pygame
+
+from src.entities.Interactable import Interactable
 from src.game.TerrainTile import TerrainTile
 from src.game.Screen import Locations
 
@@ -41,6 +43,7 @@ class Map:
             entityListJson = json.loads(file.read())
             for entity in entityListJson:
                 try:
+                    # Creates a pickupable object
                     if entity["isPickupable"]:
                         actualEntities.append(Pickupable(entity["name"] + ".png",
                                                          self.tileSize,
@@ -49,6 +52,17 @@ class Map:
                                                                     entity["effect"]["hunger"],
                                                                     entity["effect"]["thirst"],
                                                                     entity["effect"]["stamina"])))
+                    # Creates an interactable object
+                    elif "effect" in entity:
+                        actualEntities.append(Interactable(entity["name"] + ".png",
+                                                         self.tileSize,
+                                                         (entity["position"]["x"] * self.tileSize,
+                                                          entity["position"]["y"] * self.tileSize),
+                                                         Statistics(entity["effect"]["hp"],
+                                                                    entity["effect"]["hunger"],
+                                                                    entity["effect"]["thirst"],
+                                                                    entity["effect"]["stamina"])))
+                    # Creates plain entity
                     else:
                         actualEntities.append(Entity(entity["name"] + ".png",
                                                         self.tileSize,
