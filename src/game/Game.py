@@ -59,6 +59,7 @@ class Game:
         while self.running:
             # Update ingame clock
             self.ingameTimer.updateTime(self.pgTimer.tick())
+            self.spritesList.update()
             self.eventManager.handleEvents()
             self.spritesList.draw(self.screen.pygameScreen)
             pygame.display.flip()
