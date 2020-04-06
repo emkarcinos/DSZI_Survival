@@ -24,12 +24,12 @@ class Entity(pygame.sprite.Sprite):
         texturesFolder = ""
         textureFile = ""
         try:
-            texturesFolder = Path("../data/images/entities")
+            texturesFolder = Path("./data/images/entities")
             textureFile = texturesFolder / textureName
         except IOError:
             print("Cannot load texture from " + texturesFolder + ". Exiting...")
             exit(1)
-        image = pygame.image.load(str(textureFile)).convert_alpha()
+        image = pygame.image.load(str(textureFile.resolve())).convert_alpha()
         image = pygame.transform.scale(image, (tileSize, tileSize))
         rect = image.get_rect()
         return image, rect
