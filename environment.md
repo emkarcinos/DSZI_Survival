@@ -33,3 +33,4 @@ Posiadamy również konsolę, która wypisuje wartości statystyk na ekranie.*
 ![screenshot](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/data/images/adventure.png)  
 
 ## Uruchomienie projektu
+**Wystarczy uruchomić plik:** [Run.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/Run.py)
