@@ -13,12 +13,16 @@ class Player(Entity):
         self.statistics = Statistics(100, 0, 0, 100)
         # How many steps has the player taken through its lifetime
         self.movePoints = 0
+        # Tracks how much time has passed since the player is alive
+        self.timer = pygame.time.Clock()
+        self.timeAlive = 1
+        # Used to determine fatigue
+        self.fatigueTimeout = 0
 
     # Move in a desired direction
     def move(self, rotation):
         self.movePoints += 1
-        # Player gets tired aswell!
-        self.applyFatigue()
+        self.applyWalkingFatigue()
         if rotation.value == Rotations.NORTH.value:
             self.rect.y -= self.rect.w
         elif rotation.value == Rotations.EAST.value:
@@ -28,7 +32,7 @@ class Player(Entity):
         elif rotation.value == Rotations.WEST.value:
             self.rect.x -= self.rect.w
 
-    def applyFatigue(self):
+    def applyWalkingFatigue(self):
         # looses hunger every 10 steps taken
         if self.movePoints % 10 == 0:
             self.statistics.set_hunger(10)
@@ -37,6 +41,14 @@ class Player(Entity):
             self.statistics.set_thirst(10)
         # gets tired every step
         self.statistics.set_stamina(-2)
+
+    def applyTimeFatigue(self, tickTime):
+        self.fatigueTimeout += tickTime
+        if self.fatigueTimeout >= 700:
+            self.statistics.set_thirst(5)
+            self.statistics.set_hunger(3)
+            self.fatigueTimeout = 0
+
 
     def getFacingCoord(self):
         if self.rotation == Rotations.NORTH:
@@ -68,6 +80,13 @@ class Player(Entity):
         if self.rotation.value != rotation.value:
             self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
             self.rotation = rotation
+
+    # Called every frame
+    def update(self):
+        self.timeAlive += self.timer.get_time()
+        # Player gets tired every once in a while
+        self.applyTimeFatigue(self.timer.get_time())
+        self.timer.tick()
 
 
 class Rotations(Enum):
