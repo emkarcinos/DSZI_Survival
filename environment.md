@@ -41,7 +41,7 @@ W konsoli znajduję się również Timer, który pozwala nam ustalić ile czasu 
 **Thirst:** *Pragnienie agenta, gdy pasek osiągnie maksimum (wartość 100), agent umiera.*  
 
 ## Uruchomienie projektu
-**Wystarczy uruchomić plik:** _python [Run.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/Run.py)_
+**Wystarczy uruchomić plik:** *python* [Run.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/Run.py)
 
 ## Poradnik
 _Poruszaj się klawiszami **WASD**! Podejdź odpowiednio odwrócony do czystej wody i kliknij **SPACE** aby zaspokoić swoje **pragnienie**! Króliki i różnorodne rośliny zapewnią Tobie **pożywienie**! Odpocznij co jakiś czas w swoim domku przy **ognisku**, aby sprawnie **funkcjonować**! Uważaj na Siebie, **życie** wśród dziczy, bywa brutalne._
