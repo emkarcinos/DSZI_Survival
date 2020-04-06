@@ -35,8 +35,6 @@ class EventManager:
             self.handlePlayerControls(keys)
             self.keyTimeout = 0
 
-        self.game.screen.ui.updateBasedOnPlayerStats(self.player.statistics)
-
     def handlePlayerControls(self, keys):
         # Key names are temporary
         # TODO: Load key bindings from JSON
@@ -48,6 +46,7 @@ class EventManager:
                 # Picked up item gets removed from the map
                 if type(object) is Pickupable:
                     object.on_interaction(self.player)
+                    self.game.screen.ui.updateOnPlayerPickup(self.player.statistics, object)
                     self.game.map.removeSpriteFromMap(object)
                 elif type(object) is Interactable:
                     object.on_interaction(self.player)
