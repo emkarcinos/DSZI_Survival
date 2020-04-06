@@ -108,7 +108,7 @@ class Ui():
 
         consoleLines.append("Death reason: " + deathReasonString)
 
-        consoleLines.append("Time alive: " + str(player.timeAlive / 1000))
+        consoleLines.append("Time alive: " + str(player.timeAlive / 1000) + "s")
 
         self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
 
