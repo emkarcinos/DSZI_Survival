@@ -33,7 +33,7 @@ Statystyki agenta można zmieniać poprzez interakcję z objektami **entities**,
 nasze pragnienie, a zjedzenie królika nasz głód, możemy również odpocząć przy ognisku.
 Posiadamy również konsolę, która wypisuje różnorodne zdarzenia i ich skutki, na przykład gry agent coś podniesie. 
 W konsoli znajduję się również Timer, który pozwala nam ustalić ile czasu udało się agentowi przetrwać._
-![screenshot](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/data/images/adventure.png)
+![screenshot](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/raw/master/data/images/adventure.png?fbclid=IwAR0lBN3bQIK4-LQuVPw-vTLxBrN3xMTrNjKjcrOp4idzaZvkOwdbYZQRQc0)
 ### Statystyki
 **Health points:** *Punkty życia agenta, gdy pasek spadnie do zera agent umiera.*  
 **Hunger:** *Głód agenta, gdy pasek podniesie się do wartości 100, agent umiera.*  
