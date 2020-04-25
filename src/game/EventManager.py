@@ -86,10 +86,8 @@ class EventManager:
             # TODO: Collision ckecks
             self.player.move(Movement.FORWARD)
         if keys[pygame.K_a]:
-            # TODO: Collision ckecks
             self.player.move(Movement.ROTATE_L)
         if keys[pygame.K_d]:
-            # TODO: Collision ckecks
             self.player.move(Movement.ROTATE_R)
 
 

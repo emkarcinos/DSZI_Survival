@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from os import path
 
+from src.AI.AutomaticMovement import AutomaticMovement
 from src.game.EventManager import EventManager
 from src.game.Screen import Screen
 from src.game.Map import Map
@@ -52,6 +53,8 @@ class Game:
         self.player = Player((6, 2), self.map.tileSize)
         self.map.addEntity(self.player)
         self.eventManager = EventManager(self, self.player)
+
+        self.movement = AutomaticMovement(self.player, self.map)
 
         self.mainLoop()
 
