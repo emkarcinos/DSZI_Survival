@@ -75,17 +75,19 @@ class Map:
         for row, tiles in enumerate(self.terrain):
             for col, tile in enumerate(tiles):
                 if tile == 's':
-                    self.screen.draw(TerrainTile(col, row, 'sand.png', self.tileSize), Locations.MAP, 0, 0)
+                    self.screen.draw(TerrainTile(col, row, 'sand.png', self.tileSize, 15), Locations.MAP, 0, 0)
                 elif tile == ',':
-                    self.screen.draw(TerrainTile(col, row, 'floor.png', self.tileSize), Locations.MAP, 0, 0)
+                    self.screen.draw(TerrainTile(col, row, 'floor.png', self.tileSize, 0), Locations.MAP, 0, 0)
                 elif tile == '.':
-                    self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize), Locations.MAP, 0, 0)
+                    self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize, 10), Locations.MAP, 0, 0)
+                elif tile == 'c':
+                    self.screen.draw(TerrainTile(col, row, 'clay.png', self.tileSize, 20), Locations.MAP, 0, 0)
                 elif tile == 'x':
-                    object = TerrainTile(col, row, 'water.png', self.tileSize)
+                    object = TerrainTile(col, row, 'water.png', self.tileSize, 0)
                     self.screen.draw(object, Locations.MAP, 0, 0)
                     self.collidables.add(object)
                 elif tile == 'w':
-                    object = TerrainTile(col, row, 'wall.png', self.tileSize)
+                    object = TerrainTile(col, row, 'wall.png', self.tileSize, 0)
                     self.screen.draw(object, Locations.MAP, 0, 0)
                     self.collidables.add(object)
 
