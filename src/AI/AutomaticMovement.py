@@ -57,13 +57,21 @@ class AutomaticMovement:
     def succesor(self):
         movesList = [Movement.ROTATE_L, Movement.ROTATE_R]
 
-        # Check if can move forward
-        facingCoord = self.player.getFacingCoord()
-        facingEntity = self.map.getEntityOnCoord(facingCoord)
-        if facingEntity is not None:
-            movesList.append(Movement.FORWARD)
+    def succesor(self, elemState):
+        '''
+        :param elemState: [x, y, Rotation]
+        :return: list of (Movement, NewState)
+        '''
+        result = [(Movement.ROTATE_R, self.newStateAfterAction(elemState, Movement.ROTATE_R)),
+                  (Movement.ROTATE_L, self.newStateAfterAction(elemState, Movement.ROTATE_L))]
 
-        return movesList
+        stateAfterForward = self.newStateAfterAction(elemState, Movement.FORWARD)
+        facingEntity = self.map.getEntityOnCoord(stateAfterForward)
+
+        if facingEntity is not None:
+            result.append((Movement.FORWARD, stateAfterForward))
+
+        return result
 
     def goalTest(self, coords):
         entity = self.map.getEntityOnCoord(coords)
