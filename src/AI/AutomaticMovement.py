@@ -2,7 +2,10 @@ from copy import copy
 
 from src.entities.Entity import Entity
 from src.entities.Player import Movement, Rotations
+from src.AI.AStarNode import AStarNode
 from queue import PriorityQueue
+
+from src.game.TerrainTile import TerrainTile
 
 
 class AutomaticMovement:
@@ -81,22 +84,21 @@ class AutomaticMovement:
 
         return False
 
-    def approximateDistanceFromTarget(self, nextTileX, nextTileY):
-        return abs(nextTileX - self.actualTarget.x) + abs(nextTileY - self.actualTarget.y)
+    def approximateDistanceFromTarget(self, tileX, tileY):
+        return abs(tileX - self.actualTarget.x) + abs(tileY - self.actualTarget.y)
 
-    def stepCost(self, destinationTile):
-        # TODO : w oparciu o koszt danej kratki
-        return 1
+    def stepCost(self, terrainTile: TerrainTile):
+        return terrainTile.cost
 
-    def priority(self, apprDist, stepCost):
-        return apprDist + stepCost
-
+    def priority(self, elem: AStarNode):
+        return self.approximateDistanceFromTarget(elem.state[0], elem.state[1]) + self.stepCost(self.map.getTileOnCoord(elem.state))
 
     '''
     state[0] - x
     state[1] - y
     state[2] - rotation
     '''
+
     def newStateAfterAction(self, state, action: Movement):
         newState = copy(state)
 
