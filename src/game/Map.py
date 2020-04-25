@@ -16,6 +16,7 @@ class Map:
         self.screen = screen
         self.terrain = []
         self.collidableTerrain = []
+        self.terrainTilesList = []
         self.collidables = pygame.sprite.Group()
 
         with open(filename, 'rt') as f:
@@ -75,17 +76,24 @@ class Map:
         for row, tiles in enumerate(self.terrain):
             for col, tile in enumerate(tiles):
                 if tile == 's':
-                    self.screen.draw(TerrainTile(col, row, 'sand.png', self.tileSize, 15), Locations.MAP, 0, 0)
+                    object = TerrainTile(col, row, 'sand.png', self.tileSize, 15)
+                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.terrainTilesList.append(object)
                 elif tile == ',':
-                    self.screen.draw(TerrainTile(col, row, 'floor.png', self.tileSize, 0), Locations.MAP, 0, 0)
+                    object = TerrainTile(col, row, 'floor.png', self.tileSize, 0)
+                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.terrainTilesList.append(object)
                 elif tile == '.':
+                    object = TerrainTile(col, row, 'grass.png', self.tileSize, 10)
                     self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize, 10), Locations.MAP, 0, 0)
+                    self.terrainTilesList.append(object)
                 elif tile == 'c':
-                    self.screen.draw(TerrainTile(col, row, 'clay.png', self.tileSize, 20), Locations.MAP, 0, 0)
+                    object = TerrainTile(col, row, 'clay.png', self.tileSize, 20)
+                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.terrainTilesList.append(object)
                 elif tile == 'x':
                     object = TerrainTile(col, row, 'water.png', self.tileSize, 0)
                     self.screen.draw(object, Locations.MAP, 0, 0)
-                    self.collidables.add(object)
                 elif tile == 'w':
                     object = TerrainTile(col, row, 'wall.png', self.tileSize, 0)
                     self.screen.draw(object, Locations.MAP, 0, 0)
@@ -100,7 +108,7 @@ class Map:
 
     def getTileOnCoord(self, coord):
         result = None
-        for entity in self.terrain:
+        for entity in self.:
             if entity.rect.x == coord[0] and entity.rect.y == coord[1]:
                 result = entity
         return result
