@@ -14,3 +14,5 @@ class TerrainTile(pygame.sprite.Sprite):
         self.y = y
         self.rect.x = x * tileSize
         self.rect.y = y * tileSize
+
+    # TODO : rozne koszty map tilesów
