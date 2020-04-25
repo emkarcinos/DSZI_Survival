@@ -23,19 +23,35 @@ class Player(Entity):
         self.alive = True
         # If a player dies, the death reason is stored here
         self.deathReason = None
-    # Move in a desired direction
-    def move(self, rotation):
+
+    # Update player's rotation
+    def updateRotation(self, movement):
+        if movement == Movement.ROTATE_L:
+            self.rotate(Rotations((self.rotation.value + 1) % 4))
+        elif movement == Movement.ROTATE_R:
+            self.rotate(Rotations((self.rotation.value - 1) % 4))
+
+    # Move; movement - Enum
+    def move(self, movement):
+        # Rotation
+        if movement.value != Movement.FORWARD.value:
+            self.updateRotation(movement)
+        # Else move
+        else:
+            self.moveForward()
+
+    def moveForward(self):
         self.movePoints += 1
         # You can only move if you have enough stamina
         if self.statistics.stamina > 1:
             self.applyWalkingFatigue()
-            if rotation.value == Rotations.NORTH.value:
+            if self.rotation.value == Rotations.NORTH.value:
                 self.rect.y -= self.rect.w
-            elif rotation.value == Rotations.EAST.value:
+            elif self.rotation.value == Rotations.EAST.value:
                 self.rect.x += self.rect.w
-            elif rotation.value == Rotations.SOUTH.value:
+            elif self.rotation.value == Rotations.SOUTH.value:
                 self.rect.y += self.rect.w
-            elif rotation.value == Rotations.WEST.value:
+            elif self.rotation.value == Rotations.WEST.value:
                 self.rect.x -= self.rect.w
 
     def applyWalkingFatigue(self):
@@ -128,3 +144,8 @@ class StatisticNames(Enum):
     STAMINA = 1
     HUNGER = 2
     THIRST = 3
+
+class Movement(Enum):
+    ROTATE_R = 0
+    ROTATE_L = 1
+    FORWARD = 2
