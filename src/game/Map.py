@@ -96,6 +96,13 @@ class Map:
                 result = entity
         return result
 
+    def getTileOnCoord(self, coord):
+        result = None
+        for entity in self.terrain:
+            if entity.rect.x == coord[0] and entity.rect.y == coord[1]:
+                result = entity
+        return result
+
     def addEntity(self, entity):
         self.screen.draw(entity, Locations.MAP, 0, 0)
         self.collidables.add(entity)
