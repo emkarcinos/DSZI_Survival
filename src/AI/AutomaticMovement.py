@@ -32,33 +32,50 @@ class AutomaticMovement:
                 self.actualTarget = None
 
     def a_Star(self):
-        # todo: A*!!!
         fringe = PriorityQueue()
         explored = []
 
-        startingPos = (self.player.x, self.player.y, self.player.rotation.value)
+        startingState = (self.player.x, self.player.y, self.player.rotation)
         startingPriority = 0
 
-        fringe.put((startingPriority, node(None, None)))
+        fringe.put((startingPriority, AStarNode(None, None, startingState)))
         while True:
             if fringe.empty():
                 # target is unreachable
                 self.movesList = None
                 self.nextMove = None
 
-            elem = fringe.get()
+            elem: AStarNode = fringe.get()
 
-            if self.goalTest():
-                # TODO : listaRuchow
-                return None
+            if self.goalTest(elem.state):
+                result = []
+                p = elem.parent
+                while p is not None:
+                    result.append((elem.parent, elem.action))
+                return result
 
+            explored.append(elem)
 
-        self.movesList = fringe
-        self.nextMove = self.fringe[0]
+            for (movement, newState) in self.succesor(elem.state):
+                newNode = AStarNode(elem, movement, newState)
+                newPriority = self.priority(newNode)
 
-
-    def succesor(self):
-        movesList = [Movement.ROTATE_L, Movement.ROTATE_R]
+                # Check if state is not in fringe queue ...
+                if not any(newNode.state == node[1].state for node in fringe.queue):
+                    # ... and is not in explored list
+                    if not any(newNode.state == node[1].state for node in explored):
+                        fringe.put((newPriority, newNode))
+                # If state is in fringe queue ...
+                else:
+                    node: AStarNode
+                    for (pr, node) in fringe.queue:
+                        # Compare nodes
+                        if node.state == newNode.state and node.parent is newNode.parent and node.action == newNode.action:
+                            # ... and if it has priority > newPriority
+                            if pr > newPriority:
+                                # Replace it with new priority
+                                fringe.queue.remove((pr, node))
+                                fringe.put((newPriority, node))
 
     def succesor(self, elemState):
         '''
