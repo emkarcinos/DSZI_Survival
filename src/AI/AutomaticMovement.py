@@ -110,6 +110,7 @@ class AutomaticMovement:
 
 
 class node:
-    def __init__(self, parent, action):
+    def __init__(self, parent, action, coords):
+        self.coords = coords
         self.parent = parent
         self.action = action
