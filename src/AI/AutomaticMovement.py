@@ -1,5 +1,7 @@
+from copy import copy
+
 from src.entities.Entity import Entity
-from src.entities.Player import Movement
+from src.entities.Player import Movement, Rotations
 from queue import PriorityQueue
 
 
@@ -11,6 +13,7 @@ class AutomaticMovement:
         self.nextMove = None
         self.movesList = None
         self.actualTarget = None
+        self.moveOffset = self.player.rect.w
 
     def gotoToTarget(self, target: Entity):
         self.actualTarget = target
@@ -79,6 +82,31 @@ class AutomaticMovement:
 
     def priority(self, apprDist, stepCost):
         return apprDist + stepCost
+
+
+    '''
+    state[0] - x
+    state[1] - y
+    state[2] - rotation
+    '''
+    def newStateAfterAction(self, state, action: Movement):
+        newState = copy(state)
+
+        if action == Movement.FORWARD:
+            if state[2] == Rotations.NORTH:
+                newState[1] -= self.moveOffset
+            elif state[2] == Rotations.EAST.value:
+                newState[0] += self.moveOffset
+            elif state[2] == Rotations.SOUTH.value:
+                newState[1] += self.moveOffset
+            elif state[2] == Rotations.WEST.value:
+                newState[0] -= self.moveOffset
+        elif action == Movement.ROTATE_L:
+            newState[2] = Rotations((state[2] + 1) % 4)
+        elif action == Movement.ROTATE_R:
+            newState[2] = Rotations((state[2] - 1) % 4)
+
+        return newState
 
 
 class node:
