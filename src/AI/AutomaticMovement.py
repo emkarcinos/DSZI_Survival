@@ -115,10 +115,3 @@ class AutomaticMovement:
             newState[2] = Rotations((state[2] - 1) % 4)
 
         return newState
-
-
-class node:
-    def __init__(self, parent, action, state):
-        self.state = state
-        self.parent = parent
-        self.action = action
