@@ -14,11 +14,13 @@ from src.entities.Statistics import Statistics
 class Map:
     def __init__(self, filename, screen):
         self.screen = screen
+        # tekstowa macierz terenów
         self.terrain = []
-        self.collidableTerrain = []
+        # tereny bez kolizji
         self.terrainTilesList = []
+        # grupa objektów kolizyjnych (tereny kolizyjne i entities)
         self.collidables = pygame.sprite.Group()
-
+        # lista wszystkich entity
         self.entities = []
 
         with open(filename, 'rt') as f:
@@ -108,26 +110,33 @@ class Map:
                 result = entity
         return result
 
+    # W przypadku podania kordynatów playera, powinno zwrócić teren na którym jest player
     def getTileOnCoord(self, coord):
         result = None
-        for entity in self.terrainTilesList:
-            if entity.rect.x == coord[0] and entity.rect.y == coord[1]:
-                result = entity
+        for tile in self.terrainTilesList:
+            if tile.rect.x == coord[0] and tile.rect.y == coord[1]:
+                result = tile
         return result
 
     # TODO: REMOVE DONT ADD
     def addEntity(self, entity, DONTADD=False):
         self.screen.draw(entity, Locations.MAP, 0, 0)
+        # dodajemy bo wszystkie entity są kolizyjne
         self.collidables.add(entity)
         if not DONTADD:
             self.entities.append(entity)
 
-    def removeSpriteFromMap(self, entity):
-        if self.collidables.has(entity):
-            self.collidables.remove(entity)
-        self.screen.removeSprite(entity)
+    # Usuwa entity lub teren z mapy
+    def removeSpriteFromMap(self, sprite):
+        if self.collidables.has(sprite):
+            self.collidables.remove(sprite)
+        if sprite in self.entities:
+            self.entities.remove(sprite)
+        if sprite in self.terrainTilesList:
+            self.terrainTilesList.remove(sprite)
+        self.screen.removeSprite(sprite)
 
-        self.entities.remove(entity)
+
 
     # add object to map.collidables list to be collidable
     def collision(self, x, y):
