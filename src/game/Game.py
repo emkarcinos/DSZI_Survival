@@ -45,6 +45,13 @@ class Game:
         self.ingameTimer = Timer()
         self.ingameTimer.startClock()
 
+        self.deltaTime = 0
+        self.lastTimePassed = self.ingameTimer.timePassed
+
+        self.moveTimer = 0
+        self.moveTime = 300
+
+
         self.screen = Screen(self, self.config["window"])
         print("OK")
 
@@ -69,8 +76,17 @@ class Game:
         while self.running:
             # Update ingame clock
             self.ingameTimer.updateTime(self.pgTimer.tick())
+
+            self.deltaTime = self.ingameTimer.timePassed - self.lastTimePassed
+            self.lastTimePassed = self.ingameTimer.timePassed
+
             self.spritesList.update()
             self.eventManager.handleEvents()
-            self.movement.updatePlayerCoords()
+
+            if self.moveTimer > 0:
+                self.moveTimer -= self.deltaTime
+            else:
+                self.movement.updatePlayerCoords()
+                self.moveTimer = self.moveTime
             self.spritesList.draw(self.screen.pygameScreen)
             pygame.display.flip()
