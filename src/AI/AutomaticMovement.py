@@ -28,7 +28,8 @@ class AutomaticMovement:
             self.targetCoords = (self.actualTarget.rect.x - self.leftUiWidth, self.actualTarget.rect.y)
             self.movesList = self.a_Star()
             if self.movesList is not None:
-                self.nextMove = self.movesList[0]
+                if len(self.movesList) > 0:
+                    self.nextMove = self.movesList[0]
             else:
                 self.actualTarget = None
 
