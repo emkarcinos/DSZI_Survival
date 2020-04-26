@@ -97,7 +97,7 @@ class EventManager:
                 try:
                     self.game.movement.gotoToTarget(self.game.map.entities[Random().randint(0, len(self.game.map.entities))])
                     break
-                except Exception:
+                except IndexError:
                     pass
 
 
