@@ -49,7 +49,7 @@ class Game:
         self.lastTimePassed = self.ingameTimer.timePassed
 
         self.moveTimer = 0
-        self.moveTime = 300
+        self.moveTime = 100
 
 
         self.screen = Screen(self, self.config["window"])

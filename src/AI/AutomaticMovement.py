@@ -52,14 +52,10 @@ class AutomaticMovement:
         startingState = (self.player.rect.x - self.leftUiWidth, self.player.rect.y, self.player.rotation)
         startingPriority = 0
 
-
-
         fringe.put((startingPriority, self.testCount, AStarNode(None, None, startingState)))
         self.testCount += 1
         while True:
             print("DEBUG: A* in progress")
-
-
 
             if fringe.empty():
                 # target is unreachable
@@ -74,8 +70,11 @@ class AutomaticMovement:
                 movesList = []
 
                 coordsWithUiOffset = [elem.state[0] + self.leftUiWidth, elem.state[0]]
-                if self.map.getEntityOnCoord(coordsWithUiOffset) is not None:   # If goal was some entity - omit one forward movement, because player shouldn't step on entity.
+                if self.map.collision(coordsWithUiOffset[0], coordsWithUiOffset[1]):  # If goal was some entity - omit one forward movement, because player shouldn't step on entity.
                     elem = elem.parent
+                else:   # debug
+                    a = 1
+                    a += 1
 
                 while elem.action is not None:
                     movesList.append(elem.action)
@@ -90,8 +89,9 @@ class AutomaticMovement:
                 # Sprawdzam czy nie jest poza mapa
                 coordsWithUiOffset = [newState[0] + self.leftUiWidth, newState[1]]
 
-                if 0 <= newState[0] <= self.map.width - self.moveOffset and 0 <= newState[1] <= self.map.height - self.moveOffset:
-                #if self.map.getTileOnCoord(coordsWithUiOffset) is not None:
+                if 0 <= newState[0] <= self.map.width - self.moveOffset and 0 <= newState[
+                    1] <= self.map.height - self.moveOffset:
+                    # if self.map.getTileOnCoord(coordsWithUiOffset) is not None:
                     newNode = AStarNode(elem, movement, newState)
                     newPriority = self.priority(newNode)
 
@@ -124,11 +124,15 @@ class AutomaticMovement:
                   (Movement.ROTATE_L, self.newStateAfterAction(elemState, Movement.ROTATE_L))]
 
         stateAfterForward = self.newStateAfterAction(elemState, Movement.FORWARD)
-        if 0 <= stateAfterForward[0] <= self.map.width - self.moveOffset and 0 <= stateAfterForward[1] <= self.map.height - self.moveOffset:
+        if 0 <= stateAfterForward[0] <= self.map.width - self.moveOffset and 0 <= stateAfterForward[
+            1] <= self.map.height - self.moveOffset:
             coordsWithUiOffset = [stateAfterForward[0] + self.leftUiWidth, stateAfterForward[1]]
-            #facingEntity = self.map.getEntityOnCoord(coordsWithUiOffset)    # TU JEST BLAD BO U CELU JEST ZAWSZE JAKIES ENTITY
-            facingEntity = None
-            if facingEntity is None:
+            facingEntity = self.map.getEntityOnCoord(coordsWithUiOffset)
+
+            if facingEntity is not None:
+                if facingEntity.id == self.actualTarget.id:
+                    result.append((Movement.FORWARD, stateAfterForward))
+            elif not self.map.collision(coordsWithUiOffset[0], coordsWithUiOffset[1]):
                 result.append((Movement.FORWARD, stateAfterForward))
 
         return result
@@ -155,12 +159,13 @@ class AutomaticMovement:
         # TODO: Nie znajduje terraina na ktorym stoi player
         if terrainTile is None:
             return 0
-        #return terrainTile.cost
+        # return terrainTile.cost
         return 0
 
     def priority(self, elem: AStarNode):
         coordsWithUiOffset = [elem.state[0] + self.leftUiWidth, elem.state[1]]
-        return self.approximateDistanceFromTarget(elem.state[0], elem.state[1]) + self.stepCost(self.map.getTileOnCoord(coordsWithUiOffset))
+        return self.approximateDistanceFromTarget(elem.state[0], elem.state[1]) + self.stepCost(
+            self.map.getTileOnCoord(coordsWithUiOffset))
 
     '''
     state[0] - x
@@ -187,7 +192,6 @@ class AutomaticMovement:
             newRotation = Rotations((state[2].value - 1) % 4)
         elif action == Movement.ROTATE_R:
             newRotation = Rotations((state[2].value + 1) % 4)
-
 
         newState = (newX, newY, newRotation)
 
