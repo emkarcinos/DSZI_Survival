@@ -158,9 +158,8 @@ class AutomaticMovement:
 
         # TODO: Nie znajduje terraina na ktorym stoi player
         if terrainTile is None:
-            return 0
-        # return terrainTile.cost
-        return 0
+            return 1000
+        return terrainTile.cost
 
     def priority(self, elem: AStarNode):
         coordsWithUiOffset = [elem.state[0] + self.leftUiWidth, elem.state[1]]

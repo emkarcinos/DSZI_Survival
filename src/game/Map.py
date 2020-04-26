@@ -119,6 +119,15 @@ class Map:
                 result = tile
         return result
 
+
+    def getTileOnCoord(self, coord):
+        result = None
+        for tile in self.terrainTilesList:
+            if tile.rect.collidepoint(coord[0], coord[1]):
+                result = tile
+                break
+        return result
+
     # TODO: REMOVE DONT ADD
     def addEntity(self, entity, DONTADD=False):
         self.screen.draw(entity, Locations.MAP, 0, 0)
