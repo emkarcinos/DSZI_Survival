@@ -42,19 +42,7 @@ class EventManager:
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
 
-                # get a list of all sprites that are under the mouse cursor
-                clicked_collidables = [s for s in self.game.map.collidables if s.rect.collidepoint(pos)]
-                # do something with the clicked sprites...
-                if len(clicked_collidables) > 0:
-                    self.game.movement.gotoToTarget(Random().choice(clicked_collidables))
-                else:
-                    clicked_terrains = [tile for tile in self.game.map.terrainTilesList if tile.rect.collidepoint(pos)]
-                    if len(clicked_terrains) > 0:
-                        print("Terrains under clik:")
-                        for terrain in clicked_terrains:
-                            print(terrain)
-                    else:
-                        print("NO TERRAIN FOUND UNDER CLICK")
+                self.handleClickingOnCollidablesAndTerrains(pos)
 
             self.game.screen.ui.updateBasedOnPygameEvent(event)
         self.keyTimeout += self.keyTimer.tick()
@@ -67,6 +55,22 @@ class EventManager:
                 self.turnOff = True
 
         self.game.screen.ui.updateBarsBasedOnPlayerStats(self.player.statistics)
+
+    def handleClickingOnCollidablesAndTerrains(self, pos):
+        # get a list of all collidables that are under the mouse cursor
+        clicked_collidables = [s for s in self.game.map.collidables if s.rect.collidepoint(pos)]
+
+        if len(clicked_collidables) > 0:
+            self.game.movement.gotoToTarget(Random().choice(clicked_collidables))
+        else:
+            # get a list of all terrains that are under the mouse cursor
+            clicked_terrains = [tile for tile in self.game.map.terrainTilesList if tile.rect.collidepoint(pos)]
+            if len(clicked_terrains) > 0:
+                print("Terrains under clik:")
+                for terrain in clicked_terrains:
+                    print(terrain)
+            else:
+                print("NO TERRAIN FOUND UNDER CLICK")
 
     def handlePlayerControls(self, keys):
         # Key names are temporary
