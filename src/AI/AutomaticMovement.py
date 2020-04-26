@@ -1,4 +1,6 @@
 from src.entities.Entity import Entity
+from src.entities.Interactable import Interactable
+from src.entities.Pickupable import Pickupable
 from src.entities.Player import Movement, Rotations
 from src.AI.AStarNode import AStarNode
 from queue import PriorityQueue
@@ -19,6 +21,17 @@ class AutomaticMovement:
         self.targetCoords = None
 
         self.testCount = 0
+        # A flag to set if the player should do a pick up action
+        self.canPickup = False
+
+    def pickUp(self):
+        object = self.map.getEntityOnCoord(self.player.getFacingCoord())
+        # Picked up item gets removed from the map
+        if type(object) is Pickupable:
+            object.on_interaction(self.player)
+            self.map.removeSpriteFromMap(object)
+        elif type(object) is Interactable:
+            object.on_interaction(self.player)
 
     def gotoToTarget(self, target: Entity):
         if self.actualTarget is None:
@@ -41,6 +54,9 @@ class AutomaticMovement:
             if len(self.movesList) != 0:
                 self.nextMove = self.movesList[0]
             else:
+                if self.canPickup:
+                    self.pickUp()
+                    self.canPickup = False
                 self.movesList = None
                 self.nextMove = None
                 self.actualTarget = None
@@ -65,6 +81,9 @@ class AutomaticMovement:
                 return None
 
             elem: AStarNode = fringe.get()[2]
+
+            # After completing the algorithm, the player may pick up an item at the destination
+            self.canPickup = True
 
             if self.goalTest(elem.state):
                 print("PATH FOUND")
