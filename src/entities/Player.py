@@ -44,7 +44,7 @@ class Player(Entity):
         self.movePoints += 1
         # You can only move if you have enough stamina
         if self.statistics.stamina > 1:
-            self.applyWalkingFatigue()
+            # self.applyWalkingFatigue()    # COMMENTED FOR A_START TEST
             if self.rotation.value == Rotations.NORTH.value:
                 self.rect.y -= self.rect.w
             elif self.rotation.value == Rotations.EAST.value:
@@ -127,7 +127,7 @@ class Player(Entity):
         if self.alive:
             self.timeAlive += self.timer.get_time()
             # Player gets tired every once in a while
-            self.applyTimeFatigue(self.timer.get_time())
+            #self.applyTimeFatigue(self.timer.get_time())   # COMMENTED FOR A_STAR_TEST
             self.timer.tick()
             self.determineLife()
 
