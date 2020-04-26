@@ -98,6 +98,7 @@ class Map:
                 elif tile == 'x':
                     object = TerrainTile(col, row, 'water.png', self.tileSize, 0)
                     self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.collidables.add(object)
                 elif tile == 'w':
                     object = TerrainTile(col, row, 'wall.png', self.tileSize, 0)
                     self.screen.draw(object, Locations.MAP, 0, 0)
