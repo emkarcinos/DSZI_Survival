@@ -35,7 +35,7 @@ class AutomaticMovement:
     def updatePlayerCoords(self):
         if self.actualTarget is not None:
             self.player.move(self.nextMove)
-            self.movesList.remove(0)
+            self.movesList.remove(self.nextMove)
             if len(self.movesList) != 0:
                 self.nextMove = self.movesList[0]
             else:
@@ -67,21 +67,15 @@ class AutomaticMovement:
                 print("PATH NOT FOUND")
                 return None
 
-
-
-
             elem: AStarNode = fringe.get()[2]
-
-            print("CURRENT STATE: {}, ACTION: {}".format(elem.state, elem.action))
-            for (pr, count, node) in fringe.queue:
-                print("PR: {}, ST: {}, AC: {}".format(pr, node.state, node.action))
 
             if self.goalTest(elem.state):
                 movesList = []
-                p = elem.parent
-                while p is not None:
+                while elem.action is not None:
                     movesList.append(elem.action)
-                    p = elem.parent
+                    elem = elem.parent
+
+                movesList.reverse()
                 return movesList
 
             explored.append(elem)
@@ -89,11 +83,6 @@ class AutomaticMovement:
             for (movement, newState) in self.succesor(elem.state):
                 # Sprawdzam czy nie jest poza mapa
                 coordsWithUiOffset = [newState[0] + self.leftUiWidth, newState[1]]
-
-                # DEBUG
-                if movement == Movement.FORWARD:
-                    a = 1
-                    a+=1
 
                 if 0 <= newState[0] <= self.map.width - self.moveOffset and 0 <= newState[1] <= self.map.height - self.moveOffset:
                 #if self.map.getTileOnCoord(coordsWithUiOffset) is not None:
@@ -104,9 +93,6 @@ class AutomaticMovement:
                     if not any(newNode.state == node[2].state for node in fringe.queue) \
                             and not any(newNode.state == node.state for node in explored):
                         # there can't be nodes with same priority
-                        '''
-                        while any(newPriority == item[0] for item in fringe.queue):
-                            newPriority -= 1'''
                         fringe.put((newPriority, self.testCount, newNode))
                         self.testCount += 1
                     # If state is in fringe queue ...
@@ -134,7 +120,8 @@ class AutomaticMovement:
         stateAfterForward = self.newStateAfterAction(elemState, Movement.FORWARD)
         if 0 <= stateAfterForward[0] <= self.map.width - self.moveOffset and 0 <= stateAfterForward[1] <= self.map.height - self.moveOffset:
             coordsWithUiOffset = [stateAfterForward[0] + self.leftUiWidth, stateAfterForward[1]]
-            facingEntity = self.map.getEntityOnCoord(coordsWithUiOffset)
+            #facingEntity = self.map.getEntityOnCoord(coordsWithUiOffset)    # TU JEST BLAD BO U CELU JEST ZAWSZE JAKIES ENTITY
+            facingEntity = None
             if facingEntity is None:
                 result.append((Movement.FORWARD, stateAfterForward))
 
