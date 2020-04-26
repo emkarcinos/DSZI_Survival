@@ -89,7 +89,7 @@ class Map:
                     self.terrainTilesList.append(object)
                 elif tile == '.':
                     object = TerrainTile(col, row, 'grass.png', self.tileSize, 10)
-                    self.screen.draw(TerrainTile(col, row, 'grass.png', self.tileSize, 10), Locations.MAP, 0, 0)
+                    self.screen.draw(object, Locations.MAP, 0, 0)
                     self.terrainTilesList.append(object)
                 elif tile == 'c':
                     object = TerrainTile(col, row, 'clay.png', self.tileSize, 20)
@@ -112,7 +112,7 @@ class Map:
         return result
 
     # W przypadku podania kordynatów playera, powinno zwrócić teren na którym jest player
-    def getTileOnCoord(self, coord):
+    def getTileOnCoord_old(self, coord):
         result = None
         for tile in self.terrainTilesList:
             if tile.rect.x == coord[0] and tile.rect.y == coord[1]:
