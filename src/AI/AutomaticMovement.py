@@ -72,6 +72,11 @@ class AutomaticMovement:
 
             if self.goalTest(elem.state):
                 movesList = []
+
+                coordsWithUiOffset = [elem.state[0] + self.leftUiWidth, elem.state[0]]
+                if self.map.getEntityOnCoord(coordsWithUiOffset) is not None:   # If goal was some entity - omit one forward movement, because player shouldn't step on entity.
+                    elem = elem.parent
+
                 while elem.action is not None:
                     movesList.append(elem.action)
                     elem = elem.parent
