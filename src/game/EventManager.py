@@ -91,8 +91,13 @@ class EventManager:
         if keys[pygame.K_d]:
             self.player.move(Movement.ROTATE_R)
 
+        # Pick random target for A* algorithm
         if keys[pygame.K_u]:
-            self.game.movement.gotoToTarget(self.game.map.entities[Random().randint(0, len(self.game.map.entities))])
-
+            while True:
+                try:
+                    self.game.movement.gotoToTarget(self.game.map.entities[Random().randint(0, len(self.game.map.entities))])
+                    break
+                except Exception:
+                    pass
 
 
