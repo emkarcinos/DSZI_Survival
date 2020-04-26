@@ -27,9 +27,9 @@ class Player(Entity):
     # Update player's rotation
     def updateRotation(self, movement):
         if movement == Movement.ROTATE_L:
-            self.rotate(Rotations((self.rotation.value + 1) % 4))
-        elif movement == Movement.ROTATE_R:
             self.rotate(Rotations((self.rotation.value - 1) % 4))
+        elif movement == Movement.ROTATE_R:
+            self.rotate(Rotations((self.rotation.value + 1) % 4))
 
     # Move; movement - Enum
     def move(self, movement):
