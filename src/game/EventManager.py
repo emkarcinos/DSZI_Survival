@@ -1,3 +1,4 @@
+from random import Random
 from time import sleep
 
 import pygame
@@ -89,6 +90,9 @@ class EventManager:
             self.player.move(Movement.ROTATE_L)
         if keys[pygame.K_d]:
             self.player.move(Movement.ROTATE_R)
+
+        if keys[pygame.K_u]:
+            self.game.movement.gotoToTarget(self.game.map.entities[Random().randint(0, len(self.game.map.entities))])
 
 
 

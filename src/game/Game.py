@@ -5,7 +5,7 @@ from os import path
 
 from src.AI.AutomaticMovement import AutomaticMovement
 from src.game.EventManager import EventManager
-from src.game.Screen import Screen
+from src.game.Screen import Screen, Locations
 from src.game.Map import Map
 
 from src.entities.Player import Player
@@ -51,10 +51,17 @@ class Game:
         mapFile = Path(str(filesPath) + "/data/mapdata/")
         self.map = Map(path.join(mapFile, 'map.txt'), self.screen)
         self.player = Player((6, 2), self.map.tileSize)
-        self.map.addEntity(self.player)
+        self.map.addEntity(self.player, DONTADD=True)
         self.eventManager = EventManager(self, self.player)
 
-        self.movement = AutomaticMovement(self.player, self.map)
+        self.movement = AutomaticMovement(self.player, self.map, self.screen.getUiWidth(Locations.LEFT_UI))
+
+
+        testTarget = self.map.entities[0]
+        if testTarget is self.player:
+            testTarget = self.map.entities[1]
+
+        self.movement.gotoToTarget(testTarget)
 
         self.mainLoop()
 
@@ -64,5 +71,6 @@ class Game:
             self.ingameTimer.updateTime(self.pgTimer.tick())
             self.spritesList.update()
             self.eventManager.handleEvents()
+            self.movement.updatePlayerCoords()
             self.spritesList.draw(self.screen.pygameScreen)
             pygame.display.flip()

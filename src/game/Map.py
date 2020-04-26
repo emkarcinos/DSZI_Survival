@@ -19,6 +19,8 @@ class Map:
         self.terrainTilesList = []
         self.collidables = pygame.sprite.Group()
 
+        self.entities = []
+
         with open(filename, 'rt') as f:
             for line in f:
                 self.terrain.append(line)
@@ -101,26 +103,31 @@ class Map:
 
     def getEntityOnCoord(self, coord):
         result = None
-        for entity in self.collidables:
+        for entity in self.entities:
             if entity.rect.x == coord[0] and entity.rect.y == coord[1]:
                 result = entity
         return result
 
     def getTileOnCoord(self, coord):
         result = None
-        for entity in self.:
+        for entity in self.terrainTilesList:
             if entity.rect.x == coord[0] and entity.rect.y == coord[1]:
                 result = entity
         return result
 
-    def addEntity(self, entity):
+    # TODO: REMOVE DONT ADD
+    def addEntity(self, entity, DONTADD=False):
         self.screen.draw(entity, Locations.MAP, 0, 0)
         self.collidables.add(entity)
+        if not DONTADD:
+            self.entities.append(entity)
 
     def removeSpriteFromMap(self, entity):
         if self.collidables.has(entity):
             self.collidables.remove(entity)
         self.screen.removeSprite(entity)
+
+        self.entities.remove(entity)
 
     # add object to map.collidables list to be collidable
     def collision(self, x, y):
