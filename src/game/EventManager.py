@@ -38,6 +38,16 @@ class EventManager:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.game.running = False
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
+
+                # get a list of all sprites that are under the mouse cursor
+                clicked_sprites = [s for s in self.game.map.collidables if s.rect.collidepoint(pos)]
+                # do something with the clicked sprites...
+                if len(clicked_sprites) > 0:
+                    self.game.movement.gotoToTarget(Random().choice(clicked_sprites))
+
             self.game.screen.ui.updateBasedOnPygameEvent(event)
         self.keyTimeout += self.keyTimer.tick()
         if self.keyTimeout >= TIMEOUT:
@@ -95,7 +105,7 @@ class EventManager:
         if keys[pygame.K_u]:
             while True:
                 try:
-                    self.game.movement.gotoToTarget(self.game.map.entities[Random().randint(0, len(self.game.map.entities))])
+                    self.game.movement.gotoToTarget(Random().choice(self.game.map.entities))
                     break
                 except IndexError:
                     pass

@@ -1,5 +1,3 @@
-from copy import copy
-
 from src.entities.Entity import Entity
 from src.entities.Player import Movement, Rotations
 from src.AI.AStarNode import AStarNode
@@ -30,20 +28,26 @@ class AutomaticMovement:
             if self.movesList is not None:
                 if len(self.movesList) > 0:
                     self.nextMove = self.movesList[0]
+                else:
+                    self.actualTarget = None
+                    self.nextMove = None
             else:
                 self.actualTarget = None
 
     def updatePlayerCoords(self):
-        if self.actualTarget is not None:
+        if self.actualTarget is not None and self.nextMove is not None:
             self.player.move(self.nextMove)
             self.movesList.remove(self.nextMove)
             if len(self.movesList) != 0:
                 self.nextMove = self.movesList[0]
             else:
+                self.movesList = None
                 self.nextMove = None
                 self.actualTarget = None
 
     def a_Star(self):
+        print("A* in progress ...")
+
         self.testCount = 0
 
         fringe = PriorityQueue()
@@ -55,21 +59,18 @@ class AutomaticMovement:
         fringe.put((startingPriority, self.testCount, AStarNode(None, None, startingState)))
         self.testCount += 1
         while True:
-            print("DEBUG: A* in progress")
-
             if fringe.empty():
                 # target is unreachable
-                self.movesList = None
-                self.nextMove = None
                 print("PATH NOT FOUND")
                 return None
 
             elem: AStarNode = fringe.get()[2]
 
             if self.goalTest(elem.state):
+                print("PATH FOUND")
                 movesList = []
 
-                if isinstance(self.actualTarget, Entity):
+                if isinstance(self.actualTarget, Entity) or self.actualTarget in self.map.collidables:
                     elem = elem.parent
 
                 while elem.action is not None:
@@ -79,37 +80,46 @@ class AutomaticMovement:
                 movesList.reverse()
                 return movesList
 
+            # debug
+            print("DEBUG")
+            print("ACTUAL STATE: {}".format(elem.state))
+            print("HOW TO GET HERE:")
+            temp = elem
+            while temp.action is not None:
+                print(temp.action)
+                temp = temp.parent
+
+            print("POSSIBLE MOVEMENTS FROM HERE:")
+            for el in self.succesor(elem.state):
+                print(el)
+
+            print("*" * 20)
+
             explored.append(elem)
 
             for (movement, newState) in self.succesor(elem.state):
-                # Sprawdzam czy nie jest poza mapa
-                coordsWithUiOffset = [newState[0] + self.leftUiWidth, newState[1]]
+                newNode = AStarNode(elem, movement, newState)
+                newPriority = self.priority(newNode)
 
-                if 0 <= newState[0] <= self.map.width - self.moveOffset and 0 <= newState[
-                    1] <= self.map.height - self.moveOffset:
-                    # if self.map.getTileOnCoord(coordsWithUiOffset) is not None:
-                    newNode = AStarNode(elem, movement, newState)
-                    newPriority = self.priority(newNode)
-
-                    # Check if state is not in fringe queue ... # ... and is not in explored list
-                    if not any(newNode.state == node[2].state for node in fringe.queue) \
-                            and not any(newNode.state == node.state for node in explored):
-                        # there can't be nodes with same priority
-                        fringe.put((newPriority, self.testCount, newNode))
-                        self.testCount += 1
-                    # If state is in fringe queue ...
-                    elif any(newNode.state == node[2].state for node in fringe.queue):
-                        node: AStarNode
-                        for (pr, count, node) in fringe.queue:
-                            # Compare nodes
-                            if node.state == newNode.state and node.action == newNode.action:
-                                # ... and if it has priority > newPriority
-                                if pr > newPriority:
-                                    # Replace it with new priority
-                                    fringe.queue.remove((pr, count, node))
-                                    fringe.put((newPriority, count, node))
-                                    self.testCount += 1
-                                    break
+                # Check if state is not in fringe queue ... # ... and is not in explored list
+                if not any(newNode.state == node[2].state for node in fringe.queue) \
+                        and not any(newNode.state == node.state for node in explored):
+                    # there can't be nodes with same priority
+                    fringe.put((newPriority, self.testCount, newNode))
+                    self.testCount += 1
+                # If state is in fringe queue ...
+                elif any(newNode.state == node[2].state for node in fringe.queue):
+                    node: AStarNode
+                    for (pr, count, node) in fringe.queue:
+                        # Compare nodes
+                        if node.state == newNode.state and node.action == newNode.action:
+                            # ... and if it has priority > newPriority
+                            if pr > newPriority:
+                                # Replace it with new priority
+                                fringe.queue.remove((pr, count, node))
+                                fringe.put((newPriority, count, node))
+                                self.testCount += 1
+                                break
 
     def succesor(self, elemState):
         '''
@@ -120,31 +130,25 @@ class AutomaticMovement:
                   (Movement.ROTATE_L, self.newStateAfterAction(elemState, Movement.ROTATE_L))]
 
         stateAfterForward = self.newStateAfterAction(elemState, Movement.FORWARD)
-        if 0 <= stateAfterForward[0] <= self.map.width - self.moveOffset and 0 <= stateAfterForward[
-            1] <= self.map.height - self.moveOffset:
+        if 0 <= stateAfterForward[0] <= self.map.width and 0 <= stateAfterForward[1] <= self.map.height:
             coordsWithUiOffset = [stateAfterForward[0] + self.leftUiWidth, stateAfterForward[1]]
             facingEntity = self.map.getEntityOnCoord(coordsWithUiOffset)
 
             if facingEntity is not None:
-                if facingEntity.id == self.actualTarget.id:
-                    result.append((Movement.FORWARD, stateAfterForward))
+                if isinstance(self.actualTarget, Entity):
+                    if facingEntity.id == self.actualTarget.id:
+                        result.append((Movement.FORWARD, stateAfterForward))
+            elif self.map.collision(coordsWithUiOffset[0], coordsWithUiOffset[1]) and \
+                    self.targetCoords[0] == stateAfterForward[0] and self.targetCoords[1] == stateAfterForward[1]:
+                result.append((Movement.FORWARD, stateAfterForward))
             elif not self.map.collision(coordsWithUiOffset[0], coordsWithUiOffset[1]):
                 result.append((Movement.FORWARD, stateAfterForward))
 
         return result
 
     def goalTest(self, coords):
-
-        # with left ui width
-        coordsWithUiOffset = [coords[0] + self.leftUiWidth, coords[1]]
-        entity = self.map.getEntityOnCoord(coordsWithUiOffset)
-        '''if entity is not None:
-            if entity.id == self.actualTarget.id:
-                return True'''
-
         if coords[0] == self.targetCoords[0] and coords[1] == self.targetCoords[1]:
             return True
-
         return False
 
     def approximateDistanceFromTarget(self, tileX, tileY):
@@ -168,7 +172,6 @@ class AutomaticMovement:
     state[1] - y
     state[2] - rotation
     '''
-
     def newStateAfterAction(self, state, action: Movement):
 
         newX = state[0]
