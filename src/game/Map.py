@@ -146,8 +146,6 @@ class Map:
             self.terrainTilesList.remove(sprite)
         self.screen.removeSprite(sprite)
 
-
-
     # add object to map.collidables list to be collidable
     def collision(self, x, y):
         for b in self.collidables:
