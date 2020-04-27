@@ -21,4 +21,5 @@ Plik z konfiguracją znajduje w ```data/config/mainConfig.json```.
 
 ## Sterowanie
 * Poruszanie się: *WASD*
+* A*: ***u*** lub click myszką w jednostkę (np; królik)
 * Interakcja: *SPACJA*
