@@ -69,6 +69,7 @@ to usuwamy z kolejki *node* i dodajemy *newNode*
                                 self.testCount += 1
                                 break
 ```
+
 ## Funkcja następnika
 **Metoda *succesor(self, elemState)* w [AutomaticMovement.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/src/AI/AutomaticMovement.py)**
 
