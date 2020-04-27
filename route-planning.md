@@ -77,11 +77,38 @@ to usuwamy z kolejki *node* i dodajemy *newNode*
     * Sprawdzamy czy przed nami jest jakaś kolizja, jeśli jest to weryfikujemy
     czy to nie jest nasz cel 
     * Jeśli to jest nasz cel to dodajemy ruch do przodu do wyniku funkcji następnika, jeśli nie to zwracamy jedynie listę z obrotami
-![screenshot4](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/raw/master/data/images/screenshots/aStarSuccesor.png)
+```
+    def succesor(self, elemState):
+        '''
+        :param elemState: [x, y, Rotation]
+        :return: list of (Movement, NewState)
+        '''
+        result = [(Movement.ROTATE_R, self.newStateAfterAction(elemState, Movement.ROTATE_R)),
+                  (Movement.ROTATE_L, self.newStateAfterAction(elemState, Movement.ROTATE_L))]
 
+        stateAfterForward = self.newStateAfterAction(elemState, Movement.FORWARD)
+        if 0 <= stateAfterForward[0] <= self.map.width and 0 <= stateAfterForward[1] <= self.map.height:
+            coordsWithUiOffset = [stateAfterForward[0] + self.leftUiWidth, stateAfterForward[1]]
+            facingEntity = self.map.getEntityOnCoord(coordsWithUiOffset)
+
+            if facingEntity is not None:
+                if isinstance(self.actualTarget, Entity):
+                    if facingEntity.id == self.actualTarget.id:
+                        result.append((Movement.FORWARD, stateAfterForward))
+            elif self.map.collision(coordsWithUiOffset[0], coordsWithUiOffset[1]) and \
+                    self.targetCoords[0] == stateAfterForward[0] and self.targetCoords[1] == stateAfterForward[1]:
+                result.append((Movement.FORWARD, stateAfterForward))
+            elif not self.map.collision(coordsWithUiOffset[0], coordsWithUiOffset[1]):
+                result.append((Movement.FORWARD, stateAfterForward))
+
+        return result
+```
 
 ## Heurystyka
 **Metoda *approximateDistanceFromTarget(self, tileX, tileY)* w [AutomaticMovement.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/src/AI/AutomaticMovement.py)**
 * Oszacowuje koszt dotarcia do celu końcowego z aktualnej pozycji gracza.
 * Od tileX i tileY (aktualna pozycja gracza) odejmowana jest pozycja docelowa, zwracana jest wartość zaniżonego kosztu osiągnięcia celu.
-![screenshot7](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/raw/master/data/images/screenshots/approximate.png)
+```
+    def approximateDistanceFromTarget(self, tileX, tileY):
+        return abs(tileX - self.targetCoords[0]) + abs(tileY - self.targetCoords[1])
+```
