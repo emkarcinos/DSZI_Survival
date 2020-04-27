@@ -1,8 +1,8 @@
 # Planowanie ruchu
 
 **Całą implementacje automatycznego poruszania się można znaleźć  
-w plikach [AStarNode.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/src/Al/AStarNode.py) oraz
- [AutomaticMovement.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/development/src/Al/AutomaticMovement.py).**
+w plikach [AStarNode.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/src/AI/AStarNode.py) oraz
+ [AutomaticMovement.py](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/src/master/src/AI/AutomaticMovement.py).**
  
 ## Pętla główna strategii przeszukiwania
 
