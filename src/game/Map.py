@@ -10,9 +10,10 @@ from src.entities.Entity import Entity
 from src.entities.Pickupable import Pickupable
 from src.entities.Statistics import Statistics
 
-
+# TODO: Map should determine entities' position
 class Map:
     def __init__(self, filename, screen):
+        # TODO: Should map be self-aware of its own loacation?
         self.screen = screen
         # tekstowa macierz terenów
         self.terrain = []
@@ -130,6 +131,7 @@ class Map:
 
     # TODO: REMOVE DONT ADD
     def addEntity(self, entity, DONTADD=False):
+        # TODO: This method should set entities coords
         self.screen.draw(entity, Locations.MAP, 0, 0)
         # dodajemy bo wszystkie entity są kolizyjne
         self.collidables.add(entity)
@@ -144,6 +146,7 @@ class Map:
             self.entities.remove(sprite)
         if sprite in self.terrainTilesList:
             self.terrainTilesList.remove(sprite)
+        # TODO: Suspicious?
         self.screen.removeSprite(sprite)
 
     # add object to map.collidables list to be collidable

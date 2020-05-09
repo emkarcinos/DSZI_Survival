@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pygame
 
-
+# TODO: Relative coords
 class TerrainTile(pygame.sprite.Sprite):
     def __init__(self, x, y, texture, tileSize, cost):
         super().__init__()

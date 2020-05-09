@@ -1,7 +1,7 @@
 from pathlib import Path
 import pygame
 
-
+# TODO: Add getters to retrieve relative coords
 class Entity(pygame.sprite.Sprite):
     nextId = 1
 

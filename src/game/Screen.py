@@ -32,6 +32,7 @@ class Screen:
         # draw a white rect to resemble map
         pygame.draw.rect(self.pygameScreen, (255, 255, 255), [self.mapCoord, 0, self.mapSize, self.mapSize])
 
+        # TODO: Move to game / envents
         self.__initUi__()
 
     def calculateMapDimensions(self):
@@ -47,7 +48,9 @@ class Screen:
         return result
 
     # method to draw a sprite. Location param specifies where to draw the item (Locations enum)
+    # TODO: Retarded
     def draw(self, sprite, location, posX, posY):
+        # TODO: Screen cannot alter sprites position!!
         sprite.rect.x += posX
         sprite.rect.y += posY
         if location.value is Locations.RIGHT_UI.value:
@@ -56,6 +59,7 @@ class Screen:
             sprite.rect.x += self.mapCoord
         self.gameObject.spritesList.add(sprite)
 
+    # TODO: Remove
     def removeSprite(self, sprite):
         self.gameObject.spritesList.remove(sprite)
 
@@ -67,6 +71,7 @@ class Screen:
         elif location is Locations.MAP:
             return self.mapSize
 
+    # TODO: Move to game / events
     def __initUi__(self):
         self.ui = Ui(self.getUiWidth(Locations.RIGHT_UI), self.getUiWidth(Locations.LEFT_UI), self.winY,
                      self.gameObject.ingameTimer)

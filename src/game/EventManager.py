@@ -14,10 +14,13 @@ class EventManager:
 
     #self.game.map
     def __init__(self, gameObject, player):
+        # TODO: Is this really neccessary?
         self.game = gameObject
+
         self.player = player
         self.keyTimer = pygame.time.Clock()
 
+        # TODO: Make this not retarded
         self.turnOff = False
         # Player controls
 
@@ -32,6 +35,7 @@ class EventManager:
             sleep(5)
             exit(0)
 
+        # TODO: Move to ui.update()
         self.game.screen.ui.updateTime()
 
         keys = pygame.key.get_pressed()
@@ -43,11 +47,12 @@ class EventManager:
                 pos = pygame.mouse.get_pos()
 
                 self.handleClickingOnCollidablesAndTerrains(pos)
-
+            # TODO: Move to ui.update()
             self.game.screen.ui.updateBasedOnPygameEvent(event)
         self.keyTimeout += self.keyTimer.tick()
         if self.keyTimeout >= TIMEOUT:
             if self.player.alive:
+                # TODO: Add A* here?
                 self.handlePlayerControls(keys)
                 self.keyTimeout = 0
             else:
@@ -88,26 +93,9 @@ class EventManager:
                 object.on_interaction(self.player)
                 self.game.screen.ui.updateOnPlayerInteraction(self.player.statistics, object)
 
-        # Movement
-        # if keys[pygame.K_w]:
-        #     self.player.rotate(Rotations.NORTH)
-        #     if not self.game.map.collision(self.player.rect.x, self.player.rect.y - self.player.rect.w):
-        #         self.player.move(Rotations.NORTH)
-        # if keys[pygame.K_s]:
-        #     self.player.rotate(Rotations.SOUTH)
-        #     if not self.game.map.collision(self.player.rect.x, self.player.rect.y + self.player.rect.w):
-        #         self.player.move(Rotations.SOUTH)
-        # if keys[pygame.K_d]:
-        #     self.player.rotate(Rotations.EAST)
-        #     if not self.game.map.collision(self.player.rect.x + self.player.rect.w, self.player.rect.y):
-        #         self.player.move(Rotations.EAST)
-        # if keys[pygame.K_a]:
-        #     self.player.rotate(Rotations.WEST)
-        #     if not self.game.map.collision(self.player.rect.x - self.player.rect.w, self.player.rect.y):
-        #         self.player.move(Rotations.WEST)
         if keys[pygame.K_w]:
-            # TODO: Collision ckecks
-            self.player.move(Movement.FORWARD)
+            if not self.game.map.collision(self.player.getFacingCoord()[0], self.player.getFacingCoord()[1]):
+                self.player.move(Movement.FORWARD)
         if keys[pygame.K_a]:
             self.player.move(Movement.ROTATE_L)
         if keys[pygame.K_d]:

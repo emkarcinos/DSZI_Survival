@@ -24,13 +24,6 @@ class Player(Entity):
         # If a player dies, the death reason is stored here
         self.deathReason = None
 
-    # Update player's rotation
-    def updateRotation(self, movement):
-        if movement == Movement.ROTATE_L:
-            self.rotate(Rotations((self.rotation.value - 1) % 4))
-        elif movement == Movement.ROTATE_R:
-            self.rotate(Rotations((self.rotation.value + 1) % 4))
-
     # Move; movement - Enum
     def move(self, movement):
         # Rotation
@@ -40,6 +33,7 @@ class Player(Entity):
         else:
             self.moveForward()
 
+    # Deprecated - use move() instead
     def moveForward(self):
         self.movePoints += 1
         # You can only move if you have enough stamina
@@ -53,6 +47,18 @@ class Player(Entity):
                 self.rect.y += self.rect.w
             elif self.rotation.value == Rotations.WEST.value:
                 self.rect.x -= self.rect.w
+
+    def updateRotation(self, movement):
+        if movement == Movement.ROTATE_L:
+            self.rotate(Rotations((self.rotation.value - 1) % 4))
+        elif movement == Movement.ROTATE_R:
+            self.rotate(Rotations((self.rotation.value + 1) % 4))
+
+    def rotate(self, rotation):
+        # If the player is not facing given direction, it will not move the first time, it will only get rotated
+        if self.rotation.value != rotation.value:
+            self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
+            self.rotation = rotation
 
     def applyWalkingFatigue(self):
         # looses hunger every 10 steps taken
@@ -74,7 +80,7 @@ class Player(Entity):
                 self.statistics.set_stamina(2)
             self.fatigueTimeout = 0
 
-
+    # TODO: Remove
     def getFacingCoord(self):
         if self.rotation == Rotations.NORTH:
             return self.rect.x, self.rect.y - (self.rect.h)
@@ -97,14 +103,10 @@ class Player(Entity):
             return self.statistics.stamina
         return None
 
+    # TODO: Useless?
     def getStatistics(self):
         return self.statistics
-
-    def rotate(self, rotation):
-        # If the player is not facing given direction, it will not move the first time, it will only get rotated
-        if self.rotation.value != rotation.value:
-            self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
-            self.rotation = rotation
+        # Update player's rotation
 
     # Updates self.alive if any of the statistic reaches critical value
     def determineLife(self):

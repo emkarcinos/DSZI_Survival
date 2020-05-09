@@ -42,9 +42,6 @@ class Game:
             print("The screen cannot be in a vertical orientation. Exiting...")
             exit(1)
 
-        # Initialize screen
-        self.screen = Screen(self, self.config["window"])
-        print("OK")
 
         # Initialize timers
         # PyGame timer - precise timer, counts milliseconds every frame
@@ -53,6 +50,10 @@ class Game:
         self.ingameTimer = Timer()
         self.ingameTimer.startClock()
 
+        # Initialize screen
+        self.screen = Screen(self, self.config["window"])
+        print("OK")
+
         self.deltaTime = 0
         self.lastTimePassed = self.ingameTimer.timePassed
 
@@ -60,6 +61,7 @@ class Game:
         self.moveTime = 100
 
         # Load map data from file
+        mapFile = None
         try:
             mapFile = Path(str(filesPath) + "/data/mapdata/")
         except IOError:
@@ -100,6 +102,7 @@ class Game:
             # Call update() method for each entity
             self.spritesList.update()
 
+            # TODO: Move this to player.update()
             if self.moveTimer > 0:
                 self.moveTimer -= self.deltaTime
             else:
