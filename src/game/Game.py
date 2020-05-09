@@ -102,12 +102,8 @@ class Game:
             # Call update() method for each entity
             self.spritesList.update()
 
-            # TODO: Move this to player.update()
-            if self.moveTimer > 0:
-                self.moveTimer -= self.deltaTime
-            else:
-                self.movement.updatePlayerCoords()
-                self.moveTimer = self.moveTime
+            # A*
+            self.movement.updatePlayerCoords()
 
             # Draw all sprites
             self.spritesList.draw(self.screen.pygameScreen)

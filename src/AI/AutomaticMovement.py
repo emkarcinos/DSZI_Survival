@@ -49,17 +49,17 @@ class AutomaticMovement:
 
     def updatePlayerCoords(self):
         if self.actualTarget is not None and self.nextMove is not None:
-            self.player.move(self.nextMove)
-            self.movesList.remove(self.nextMove)
-            if len(self.movesList) != 0:
-                self.nextMove = self.movesList[0]
-            else:
-                if self.canPickup:
-                    self.pickUp()
-                    self.canPickup = False
-                self.movesList = None
-                self.nextMove = None
-                self.actualTarget = None
+            if self.player.move(self.nextMove):
+                self.movesList.remove(self.nextMove)
+                if len(self.movesList) != 0:
+                    self.nextMove = self.movesList[0]
+                else:
+                    if self.canPickup:
+                        self.pickUp()
+                        self.canPickup = False
+                    self.movesList = None
+                    self.nextMove = None
+                    self.actualTarget = None
 
     def a_Star(self):
         print("A* in progress ...")

@@ -24,14 +24,27 @@ class Player(Entity):
         # If a player dies, the death reason is stored here
         self.deathReason = None
 
+        # Tracks time between every move
+        self.movementTimer = 0
+
+        # Player can move only so fast
+        self.moveTimeout = 100
+
     # Move; movement - Enum
+    # Returns true if the move is successful
     def move(self, movement):
-        # Rotation
-        if movement.value != Movement.FORWARD.value:
-            self.updateRotation(movement)
-        # Else move
+        # Can move if timeout has elapsed
+        if self.movementTimer > self.moveTimeout:
+            self.movementTimer = 0
+            # Rotation
+            if movement.value != Movement.FORWARD.value:
+                self.updateRotation(movement)
+            # Else move
+            else:
+                self.moveForward()
+            return True
         else:
-            self.moveForward()
+            return False
 
     # Deprecated - use move() instead
     def moveForward(self):
@@ -130,7 +143,8 @@ class Player(Entity):
             self.timeAlive += self.timer.get_time()
             # Player gets tired every once in a while
             #self.applyTimeFatigue(self.timer.get_time())   # COMMENTED FOR A_STAR_TEST
-            self.timer.tick()
+            # Adds frametime to movementTimer
+            self.movementTimer += self.timer.tick()
             self.determineLife()
 
 
