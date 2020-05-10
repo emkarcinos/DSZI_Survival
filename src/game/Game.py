@@ -1,14 +1,14 @@
-import pygame
 import json
-from pathlib import Path
 from os import path
+from pathlib import Path
+
+import pygame
 
 from src.AI.AutomaticMovement import AutomaticMovement
-from src.game.EventManager import EventManager
-from src.game.Screen import Screen, Locations
-from src.game.Map import Map
-
 from src.entities.Player import Player
+from src.game.EventManager import EventManager
+from src.game.Map import Map
+from src.game.Screen import Screen, Locations
 from src.game.Timer import Timer
 
 
@@ -42,7 +42,6 @@ class Game:
             print("The screen cannot be in a vertical orientation. Exiting...")
             exit(1)
 
-
         # Initialize timers
         # PyGame timer - precise timer, counts milliseconds every frame
         self.pgTimer = pygame.time.Clock()
@@ -53,9 +52,6 @@ class Game:
         # Initialize screen
         self.screen = Screen(self, self.config["window"])
         print("OK")
-
-        self.deltaTime = 0
-        self.lastTimePassed = self.ingameTimer.timePassed
 
         self.moveTimer = 0
         self.moveTime = 100
@@ -92,9 +88,6 @@ class Game:
         while self.running:
             # Tick the timers
             self.ingameTimer.updateTime(self.pgTimer.tick())
-
-            self.deltaTime = self.ingameTimer.timePassed - self.lastTimePassed
-            self.lastTimePassed = self.ingameTimer.timePassed
 
             # Handle all events
             self.eventManager.handleEvents()
