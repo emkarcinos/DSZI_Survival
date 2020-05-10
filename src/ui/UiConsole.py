@@ -35,10 +35,10 @@ class UiConsole(UiElement):
     # TODO: Should this method be static? We need to instantiate some console before we can write anything to it.
     def writeToConsole(self, inp: str):
         """
-        Writes given string to console without scrolling to bottom.
+        Writes given string to console and scrolls (console) down to display it.
         :param inp: String to be written to console.
         """
-        self.addLinesToConsole([inp])
+        self.addLinesToConsoleAndScrollToDisplayThem([inp])
 
     def writeConsoleLines(self, startingLineInd=0):
         self.image.fill(self.bgColor)
