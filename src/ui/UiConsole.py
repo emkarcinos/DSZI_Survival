@@ -40,7 +40,11 @@ class UiConsole(UiElement):
         """
         self.addLinesToConsoleAndScrollToDisplayThem([inp])
 
-    def writeConsoleLines(self, startingLineInd=0):
+    def writeConsoleLines(self, startingLineInd: int = 0):
+        """
+        Displays lines stored in console's list of lines, starting from line with given index.
+        :param startingLineInd: Line index, which will be written on top of the console.
+        """
         self.image.fill(self.bgColor)
         if startingLineInd < 0:
             startingLineInd = 0
@@ -53,6 +57,13 @@ class UiConsole(UiElement):
             writtenLines += 1
 
     def addLinesToConsole(self, linesToAdd):
+        """
+        Adds lines to console's list of lines. If one line is too long to display, then it is being cut to pieces,
+        so that it is appropriate size.
+
+        Warning: this method doesn't display given lines, just adds to list of lines.
+        :param linesToAdd:
+        """
         for line in linesToAdd:
             self.consoleLines.append(line)
             self.linesCount += 1
@@ -81,6 +92,10 @@ class UiConsole(UiElement):
             self.linesImagesCount += 1
 
     def addLinesToConsoleAndScrollToDisplayThem(self, linesToAdd):
+        """
+        Adds given lines to console's list of lines, writes them and scrolls console down to display them.
+        :param linesToAdd: Lines to add to console's list of lines and to display.
+        """
         self.addLinesToConsole(linesToAdd)
         ind = 0
         if self.linesImagesCount > self.maxLines:
