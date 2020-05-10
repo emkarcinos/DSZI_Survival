@@ -1,13 +1,20 @@
-from enum import Enum
 import random
+from enum import Enum
+
+import pygame
 
 from src.entities.Entity import Entity
 from src.entities.Statistics import Statistics
-import pygame
 
 
 class Player(Entity):
     def __init__(self, spawnpoint, size):
+        """
+        :param spawnpoint: A tuple of coords relative to map
+        :param size: The size in px
+        """
+
+        # Entity constructor
         super().__init__("player.png", size, (spawnpoint[0] * size, spawnpoint[1] * size))
         # Where the player is facing, 0 - north, 1
         self.rotation = Rotations.NORTH
@@ -30,9 +37,14 @@ class Player(Entity):
         # Player can move only so fast
         self.moveTimeout = 100
 
-    # Move; movement - Enum
-    # Returns true if the move is successful
     def move(self, movement):
+        """
+        This function will attempt to move a player. It fails if the movement can not be done.
+        :type movement: Movement
+        :param movement: specify what movement should be done (See Movement enum)
+        :return: Returns true, if the movement has succeeded
+        """
+
         # Can move if timeout has elapsed
         if self.movementTimer > self.moveTimeout:
             self.movementTimer = 0
@@ -48,6 +60,9 @@ class Player(Entity):
 
     # Deprecated - use move() instead
     def moveForward(self):
+        """
+        Moves the player forward. NOTE: should not be used outside of the player class.
+        """
         self.movePoints += 1
         # You can only move if you have enough stamina
         if self.statistics.stamina > 1:
@@ -62,18 +77,32 @@ class Player(Entity):
                 self.rect.x -= self.rect.w
 
     def updateRotation(self, movement):
+        """
+        A method that rotates the player.
+        :type movement: Movement
+        :param movement: Rotation direction
+        """
         if movement == Movement.ROTATE_L:
             self.rotate(Rotations((self.rotation.value - 1) % 4))
         elif movement == Movement.ROTATE_R:
             self.rotate(Rotations((self.rotation.value + 1) % 4))
 
     def rotate(self, rotation):
+        """
+        More low-level method than rotate - rotates the texture and updates the player
+        rotation field.
+        :type rotation: Movement
+        :param rotation: 
+        """
         # If the player is not facing given direction, it will not move the first time, it will only get rotated
         if self.rotation.value != rotation.value:
             self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
             self.rotation = rotation
 
     def applyWalkingFatigue(self):
+        """
+        Lowers player's statistics.
+        """
         # looses hunger every 10 steps taken
         if self.movePoints % 10 == 0:
             self.statistics.set_hunger(5)
@@ -84,6 +113,10 @@ class Player(Entity):
         self.statistics.set_stamina(-2)
 
     def applyTimeFatigue(self, tickTime):
+        """
+        A separate method to lower the statistics. Invoked every frame.
+        :param tickTime: Time passed between the previous frame (in milliseconds)
+        """
         self.fatigueTimeout += tickTime
         if self.fatigueTimeout >= 700:
             self.statistics.set_thirst(5)
@@ -95,17 +128,26 @@ class Player(Entity):
 
     # TODO: Remove
     def getFacingCoord(self):
+        """
+        Get coordinates forward to the player.
+        :return: Position tuple
+        """
         if self.rotation == Rotations.NORTH:
-            return self.rect.x, self.rect.y - (self.rect.h)
+            return self.rect.x, self.rect.y - self.rect.h
         elif self.rotation == Rotations.SOUTH:
-            return self.rect.x, self.rect.y + (self.rect.h)
+            return self.rect.x, self.rect.y + self.rect.h
         elif self.rotation == Rotations.EAST:
-            return self.rect.x + (self.rect.h), self.rect.y
+            return self.rect.x + self.rect.h, self.rect.y
         elif self.rotation == Rotations.WEST:
-            return self.rect.x - (self.rect.h), self.rect.y
+            return self.rect.x - self.rect.h, self.rect.y
 
-    # Returns given statistic
     def getStatistic(self, stat):
+        """
+        Get the specified statistic as an integer.
+        :type stat: StatisticNames
+        :param stat: Which statistic to get
+        :return: Int
+        """
         if stat.value == StatisticNames.HP:
             return self.statistics.hp
         elif stat.value == StatisticNames.HUNGER:
@@ -117,12 +159,19 @@ class Player(Entity):
         return None
 
     # TODO: Useless?
-    def getStatistics(self):
+    def getStatistics(self) -> Statistics:
+        """
+        Get the statistic object
+        :return: Statistics
+        """
         return self.statistics
         # Update player's rotation
 
-    # Updates self.alive if any of the statistic reaches critical value
     def determineLife(self):
+        """
+        Checks if the player is still alive, and sets the appropriate fields.
+        Called every frame.
+        """
         if self.statistics.hunger == 100:
             self.alive = False
             self.deathReason = StatisticNames.HUNGER
@@ -137,13 +186,15 @@ class Player(Entity):
         if not self.alive:
             self.image, null = self.getTexture("gravestone.png", self.rect.h)
 
-    # Called every frame
     def update(self):
+        """
+        Called every frame
+        """
         if self.alive:
             self.timeAlive += self.timer.get_time()
             # Player gets tired every once in a while
-            #self.applyTimeFatigue(self.timer.get_time())   # COMMENTED FOR A_STAR_TEST
-            # Adds frametime to movementTimer
+            # self.applyTimeFatigue(self.timer.get_time())   # COMMENTED FOR A_STAR_TEST
+            # Adds frame time to movementTimer
             self.movementTimer += self.timer.tick()
             self.determineLife()
 
@@ -160,6 +211,7 @@ class StatisticNames(Enum):
     STAMINA = 1
     HUNGER = 2
     THIRST = 3
+
 
 class Movement(Enum):
     ROTATE_R = 0
