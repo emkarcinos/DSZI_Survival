@@ -7,22 +7,16 @@ from src.entities.Interactable import Interactable
 from src.entities.Pickupable import Pickupable
 from src.entities.Player import Movement
 
-# Player can move every given milliseconds
-TIMEOUT = 100
-class EventManager:
-    keyTimeout = 0
 
-    #self.game.map
+class EventManager:
     def __init__(self, gameObject, player):
-        # TODO: Is this really neccessary?
+        # TODO: Is this really necessary?
         self.game = gameObject
 
         self.player = player
-        self.keyTimer = pygame.time.Clock()
 
         # TODO: Make this not retarded
         self.turnOff = False
-        # Player controls
 
     # TODO
     def loadKeyboardSettings(self):
@@ -39,26 +33,23 @@ class EventManager:
         self.game.screen.ui.updateTime()
 
         keys = pygame.key.get_pressed()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.game.running = False
-
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-
                 self.handleClickingOnCollidablesAndTerrains(pos)
             # TODO: Move to ui.update()
             self.game.screen.ui.updateBasedOnPygameEvent(event)
-        self.keyTimeout += self.keyTimer.tick()
-        if self.keyTimeout >= TIMEOUT:
-            if self.player.alive:
-                # TODO: Add A* here?
-                self.handlePlayerControls(keys)
-                self.keyTimeout = 0
-            else:
-                self.game.screen.ui.updateOnDeath(self.player)
-                self.turnOff = True
+        if self.player.alive:
+            # TODO: Add A* here?
+            self.handlePlayerControls(keys)
+        else:
+            self.game.screen.ui.updateOnDeath(self.player)
+            self.turnOff = True
 
+        # TODO: Move to ui.update()
         self.game.screen.ui.updateBarsBasedOnPlayerStats(self.player.statistics)
 
     def handleClickingOnCollidablesAndTerrains(self, pos):
