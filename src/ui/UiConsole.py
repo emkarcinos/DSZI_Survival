@@ -32,6 +32,14 @@ class UiConsole(UiElement):
         self.addLinesToConsole(["Hello from console!"])
         self.writeConsoleLines()
 
+    # TODO: Should this method be static? We need to instantiate some console before we can write anything to it.
+    def writeToConsole(self, inp: str):
+        """
+        Writes given string to console without scrolling to bottom.
+        :param inp: String to be written to console.
+        """
+        self.addLinesToConsole([inp])
+
     def writeConsoleLines(self, startingLineInd=0):
         self.image.fill(self.bgColor)
         if startingLineInd < 0:
