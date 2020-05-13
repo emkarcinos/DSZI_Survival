@@ -1,9 +1,8 @@
 import random
-from enum import Enum
 
 import pygame
 
-from entities.Entity import Rotations
+from entities.Enums import Rotations, StatisticNames, Movement
 from src.entities.Entity import Entity
 from src.entities.Statistics import Statistics
 
@@ -31,73 +30,8 @@ class Player(Entity):
         # If a player dies, the death reason is stored here
         self.deathReason = None
 
-        # Tracks time between every move
-        self.movementTimer = 0
-
         # Player can move only so fast
         self.moveTimeout = 100
-
-    def move(self, movement):
-        """
-        This function will attempt to move a player. It fails if the movement can not be done.
-        :type movement: Movement
-        :param movement: specify what movement should be done (See Movement enum)
-        :return: Returns true, if the movement has succeeded
-        """
-
-        # Can move if timeout has elapsed
-        if self.movementTimer > self.moveTimeout:
-            self.movementTimer = 0
-            # Rotation
-            if movement.value != Movement.FORWARD.value:
-                self.updateRotation(movement)
-            # Else move
-            else:
-                self.moveForward()
-            return True
-        else:
-            return False
-
-    # Deprecated - use move() instead
-    def moveForward(self):
-        """
-        Moves the player forward. NOTE: should not be used outside of the player class.
-        """
-        self.movePoints += 1
-        # You can only move if you have enough stamina
-        if self.statistics.stamina > 1:
-            # self.applyWalkingFatigue()    # COMMENTED FOR A_START TEST
-            if self.rotation.value == Rotations.NORTH.value:
-                self.rect.y -= self.rect.w
-            elif self.rotation.value == Rotations.EAST.value:
-                self.rect.x += self.rect.w
-            elif self.rotation.value == Rotations.SOUTH.value:
-                self.rect.y += self.rect.w
-            elif self.rotation.value == Rotations.WEST.value:
-                self.rect.x -= self.rect.w
-
-    def updateRotation(self, movement):
-        """
-        A method that rotates the player.
-        :type movement: Movement
-        :param movement: Rotation direction
-        """
-        if movement == Movement.ROTATE_L:
-            self.rotate(Rotations((self.rotation.value - 1) % 4))
-        elif movement == Movement.ROTATE_R:
-            self.rotate(Rotations((self.rotation.value + 1) % 4))
-
-    def rotate(self, rotation):
-        """
-        More low-level method than rotate - rotates the texture and updates the player
-        rotation field.
-        :type rotation: Movement
-        :param rotation: 
-        """
-        # If the player is not facing given direction, it will not move the first time, it will only get rotated
-        if self.rotation.value != rotation.value:
-            self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
-            self.rotation = rotation
 
     def applyWalkingFatigue(self):
         """
@@ -129,7 +63,7 @@ class Player(Entity):
     def getStatistic(self, stat):
         """
         Get the specified statistic as an integer.
-        :type stat: StatisticNames
+        :type stat: entities.Enums.StatisticNames
         :param stat: Which statistic to get
         :return: Int
         """
@@ -171,6 +105,26 @@ class Player(Entity):
         if not self.alive:
             self.image, null = self.getTexture("gravestone.png", self.rect.h)
 
+    def move(self, movement):
+        """
+        Overriden function. Adds fatigue to the movement.
+        :type movement: entities.Enums.Movement
+        :param movement: specify what movement should be done (See Movement enum)
+        :return: Returns true, if the movement has succeeded
+        """
+        # Can move if timeout has elapsed
+        if self.movementTimer > self.moveTimeout:
+            self.movementTimer = 0
+            # Rotation
+            if movement.value != Movement.FORWARD.value:
+                self.updateRotation(movement)
+            # Else move
+            else:
+                self.moveForward()
+            return True
+        else:
+            return False
+
     def update(self):
         """
         Called every frame
@@ -181,18 +135,5 @@ class Player(Entity):
             # self.applyTimeFatigue(self.timer.get_time())   # COMMENTED FOR A_STAR_TEST
             # Adds frame time to movementTimer
             self.movementTimer += self.timer.tick()
+            self.updateEntityCoords()
             self.determineLife()
-
-
-class StatisticNames(Enum):
-    HP = 0
-    STAMINA = 1
-    HUNGER = 2
-    THIRST = 3
-
-
-class Movement(Enum):
-    ROTATE_R = 0
-    ROTATE_L = 1
-    FORWARD = 2
-    PICKUP = 3
