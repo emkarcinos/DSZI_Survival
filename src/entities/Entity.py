@@ -1,3 +1,4 @@
+from enum import Enum
 from pathlib import Path
 
 import pygame
@@ -20,7 +21,11 @@ class Entity(pygame.sprite.Sprite):
         self.image.set_colorkey((255, 255, 255))
         self.rect.x = pos[0]
         self.rect.y = pos[1]
+        # Unique ID
         self.id = self.setNewId()
+
+        # Where the entity is facing
+        self.rotation = Rotations.NORTH
 
     @staticmethod
     def setNewId():
@@ -53,3 +58,24 @@ class Entity(pygame.sprite.Sprite):
         image = pygame.transform.scale(image, (tileSize, tileSize))
         rect = image.get_rect()
         return image, rect
+
+    def getFacingCoord(self):
+        """
+        Get coordinates forward to the player.
+        :return: Position tuple
+        """
+        if self.rotation.value == Rotations.NORTH.value:
+            return self.rect.x, self.rect.y - self.rect.h
+        elif self.rotation.value == Rotations.SOUTH.value:
+            return self.rect.x, self.rect.y + self.rect.h
+        elif self.rotation.value == Rotations.EAST.value:
+            return self.rect.x + self.rect.h, self.rect.y
+        elif self.rotation.value == Rotations.WEST.value:
+            return self.rect.x - self.rect.h, self.rect.y
+
+
+class Rotations(Enum):
+    NORTH = 0
+    EAST = 1
+    SOUTH = 2
+    WEST = 3

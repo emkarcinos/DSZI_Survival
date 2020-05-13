@@ -3,6 +3,7 @@ from enum import Enum
 
 import pygame
 
+from entities.Entity import Rotations
 from src.entities.Entity import Entity
 from src.entities.Statistics import Statistics
 
@@ -16,8 +17,7 @@ class Player(Entity):
 
         # Entity constructor
         super().__init__("player.png", size, (spawnpoint[0] * size, spawnpoint[1] * size))
-        # Where the player is facing, 0 - north, 1
-        self.rotation = Rotations.NORTH
+
         self.statistics = Statistics(100, 0, 0, 100)
         # How many steps has the player taken through its lifetime
         self.movePoints = 0
@@ -126,21 +126,6 @@ class Player(Entity):
                 self.statistics.set_stamina(2)
             self.fatigueTimeout = 0
 
-    # TODO: Remove
-    def getFacingCoord(self):
-        """
-        Get coordinates forward to the player.
-        :return: Position tuple
-        """
-        if self.rotation == Rotations.NORTH:
-            return self.rect.x, self.rect.y - self.rect.h
-        elif self.rotation == Rotations.SOUTH:
-            return self.rect.x, self.rect.y + self.rect.h
-        elif self.rotation == Rotations.EAST:
-            return self.rect.x + self.rect.h, self.rect.y
-        elif self.rotation == Rotations.WEST:
-            return self.rect.x - self.rect.h, self.rect.y
-
     def getStatistic(self, stat):
         """
         Get the specified statistic as an integer.
@@ -197,13 +182,6 @@ class Player(Entity):
             # Adds frame time to movementTimer
             self.movementTimer += self.timer.tick()
             self.determineLife()
-
-
-class Rotations(Enum):
-    NORTH = 0
-    EAST = 1
-    SOUTH = 2
-    WEST = 3
 
 
 class StatisticNames(Enum):
