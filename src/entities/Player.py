@@ -105,9 +105,10 @@ class Player(Entity):
         if not self.alive:
             self.image, null = self.getTexture("gravestone.png", self.rect.h)
 
-    def move(self, movement):
+    def move(self, movement, interactableObject=None):
         """
         Overriden function. Adds fatigue to the movement.
+        :param interactableObject: Object to interact with
         :type movement: entities.Enums.Movement
         :param movement: specify what movement should be done (See Movement enum)
         :return: Returns true, if the movement has succeeded
@@ -115,14 +116,19 @@ class Player(Entity):
         # Can move if timeout has elapsed
         if self.movementTimer > self.moveTimeout:
             self.movementTimer = 0
-            # Rotation
-            if movement.value != Movement.FORWARD.value:
-                self.updateRotation(movement)
-            # Else move
-            else:
+            # Movement
+            if movement.value == Movement.FORWARD.value:
                 self.moveForward()
-
                 self.applyWalkingFatigue()
+            # Interaction
+            elif movement.value == Movement.PICKUP.value and interactableObject is not None:
+                try:
+                    interactableObject.on_interaction(self)
+                except AttributeError:
+                    pass
+            # Rotation
+            else:
+                self.updateRotation(movement)
             return True
         else:
             return False
