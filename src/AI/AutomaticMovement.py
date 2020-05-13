@@ -1,8 +1,7 @@
-from game.Map import Map
 from src.entities.Entity import Entity
+from entities.Enums import Rotations, Movement
 from src.entities.Interactable import Interactable
 from src.entities.Pickupable import Pickupable
-from src.entities.Player import Movement, Rotations
 from src.AI.AStarNode import AStarNode
 from queue import PriorityQueue
 
@@ -273,7 +272,7 @@ def approximateDistanceFromTarget(tileX, tileY, target):
     return abs(tileX - target.rect.x) + abs(tileY - target.rect.y)
 
 
-def priority(elem: AStarNode, map: Map, target):
+def priority(elem: AStarNode, map, target):
     """
     Gets the priority of the move.
     :param elem: Node
@@ -285,7 +284,7 @@ def priority(elem: AStarNode, map: Map, target):
         map.getTileOnCoord((elem.state[0], elem.state[1])))
 
 
-def successor(movable: Entity, elemState, map: Map, target):
+def successor(movable: Entity, elemState, map, target):
     """
     Successor function for a given movable object (Usually a player)
     :type target: Entity
@@ -296,8 +295,9 @@ def successor(movable: Entity, elemState, map: Map, target):
     result = [(Movement.ROTATE_R, newStateAfterAction(movable, elemState, Movement.ROTATE_R)),
               (Movement.ROTATE_L, newStateAfterAction(movable, elemState, Movement.ROTATE_L))]
 
-    stateAfterForward = newStateAfterAction(elemState, Movement.FORWARD)
-    if 0 <= stateAfterForward[0] <= map.width and 0 <= stateAfterForward[1] <= map.height:
+    stateAfterForward = newStateAfterAction(movable, elemState, Movement.FORWARD)
+    # if 0 <= stateAfterForward[0] <= map.width and 0 <= stateAfterForward[1] <= map.height:
+    if True:
         facingEntity = map.getEntityOnCoord((stateAfterForward[0], stateAfterForward[1]))
 
         if facingEntity is not None:
@@ -307,7 +307,7 @@ def successor(movable: Entity, elemState, map: Map, target):
         elif map.collision(stateAfterForward[0], stateAfterForward[1]) and \
                 target.rect.x == stateAfterForward[0] and target.rect.y == stateAfterForward[1]:
             result.append((Movement.FORWARD, stateAfterForward))
-        elif not map.collision(target.rect.x, target.rect.y):
+        elif not map.collision(stateAfterForward[0], stateAfterForward[1]):
             result.append((Movement.FORWARD, stateAfterForward))
 
         return result
@@ -325,7 +325,7 @@ def goalTest(coords, target):
     return False
 
 
-def aStar(movable: Entity, target, map: Map):
+def aStar(movable: Entity, target, map):
     """
     A* pathfinder function. Composes an array of moves to do in order to reach a target.
     :param movable: An entity to move (Usually a player)
@@ -367,12 +367,12 @@ def aStar(movable: Entity, target, map: Map):
 
         # debug
         # print("DEBUG")
-        # print("ACTUAL STATE: {}".format(elem.state))
-        # print("HOW TO GET HERE:")
-        # temp = elem
-        # while temp.action is not None:
-        #     print(temp.action)
-        #     temp = temp.parent
+        print("ACTUAL STATE: {}".format(elem.state))
+        print("HOW TO GET HERE:")
+        temp = elem
+        while temp.action is not None:
+            print(temp.action)
+            temp = temp.parent
         #
         # print("POSSIBLE MOVEMENTS FROM HERE:")
         # for el in self.successor(elem.state):
