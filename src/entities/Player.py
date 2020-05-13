@@ -195,3 +195,4 @@ class Movement(Enum):
     ROTATE_R = 0
     ROTATE_L = 1
     FORWARD = 2
+    PICKUP = 3
