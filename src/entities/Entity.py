@@ -156,9 +156,11 @@ class Entity(pygame.sprite.Sprite):
             if self.move(nextMove):
                 self.movesList.remove(nextMove)
                 if not self.movesList:
-                    # if self.canPickup:
-                    #     self.pickUp()
-                    #     self.canPickup = False
+                    # Attempt to interact with the target.
+                    try:
+                        self.movementTarget.on_interaction(self)
+                    except AttributeError:
+                        pass
                     self.movementTarget = None
 
     def update(self):
