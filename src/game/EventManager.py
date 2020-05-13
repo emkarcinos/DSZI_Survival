@@ -5,7 +5,7 @@ import pygame
 
 from src.entities.Interactable import Interactable
 from src.entities.Pickupable import Pickupable
-from src.entities.Player import Movement
+from entities.Enums import Movement
 
 
 class EventManager:
@@ -57,7 +57,7 @@ class EventManager:
         clicked_collidables = [s for s in self.game.map.collidables if s.rect.collidepoint(pos)]
 
         if len(clicked_collidables) > 0:
-            self.game.movement.gotoToTarget(Random().choice(clicked_collidables))
+            self.player.gotoToTarget(Random().choice(clicked_collidables), self.game.map)
         else:
             # get a list of all terrains that are under the mouse cursor
             clicked_terrains = [tile for tile in self.game.map.terrainTilesList if tile.rect.collidepoint(pos)]
@@ -96,9 +96,7 @@ class EventManager:
         if keys[pygame.K_u]:
             while True:
                 try:
-                    self.game.movement.gotoToTarget(Random().choice(self.game.map.entities))
+                    self.player.gotoToTarget(Random().choice(self.game.map.entities), self.game.map)
                     break
                 except IndexError:
                     pass
-
-
