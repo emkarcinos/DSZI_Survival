@@ -75,15 +75,7 @@ class EventManager:
         # Picking up items
         if keys[pygame.K_SPACE]:
             object = self.game.map.getEntityOnCoord(self.player.getFacingCoord())
-            # Picked up item gets removed from the map
-            if type(object) is Pickupable:
-                object.on_interaction(self.player)
-                self.game.screen.ui.updateOnPlayerPickup(self.player.statistics, object)
-                self.game.map.removeSpriteFromMap(object)
-            elif type(object) is Interactable:
-                object.on_interaction(self.player)
-                self.game.screen.ui.updateOnPlayerInteraction(self.player.statistics, object)
-
+            self.player.move(Movement.PICKUP, object)
         if keys[pygame.K_w]:
             if not self.game.map.collision(self.player.getFacingCoord()[0], self.player.getFacingCoord()[1]):
                 self.player.move(Movement.FORWARD)
