@@ -4,7 +4,6 @@ from pathlib import Path
 
 import pygame
 
-from src.AI.AutomaticMovement import AutomaticMovement
 from src.entities.Player import Player
 from src.game.EventManager import EventManager
 from src.game.Map import Map
@@ -72,15 +71,6 @@ class Game:
         self.map.addEntity(self.player, DONTADD=True)
         self.eventManager = EventManager(self, self.player)
 
-        # A* algorithm
-        self.movement = AutomaticMovement(self.player, self.map, self.screen.getUiWidth(Locations.LEFT_UI))
-
-        testTarget = self.map.entities[0]
-        if testTarget is self.player:
-            testTarget = self.map.entities[1]
-
-        self.movement.gotoToTarget(testTarget)
-
         # Start game loop
         self.mainLoop()
 
@@ -94,9 +84,6 @@ class Game:
 
             # Call update() method for each entity
             self.spritesList.update()
-
-            # A*
-            self.movement.updatePlayerCoords()
 
             # Draw all sprites
             self.spritesList.draw(self.screen.pygameScreen)
