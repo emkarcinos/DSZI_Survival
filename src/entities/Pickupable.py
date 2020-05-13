@@ -6,3 +6,6 @@ class Pickupable(Interactable):
         super().__init__(texture, size, pos, Statistics)
         self.is_pickupable = True
 
+    def on_interaction(self, Player):
+        super(Pickupable, self).on_interaction(Player)
+        self.kill()
