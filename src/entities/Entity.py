@@ -143,6 +143,11 @@ class Entity(pygame.sprite.Sprite):
             self.rotation = rotation
 
     def gotoToTarget(self, target, map):
+        """
+        Attempt to find a path to a given target. If the path is found, move to the target.
+        :param target: Target object
+        :param map: Map object
+        """
         if self.movementTarget is None:
             self.movementTarget = target
             from AI.AutomaticMovement import aStar
@@ -151,6 +156,9 @@ class Entity(pygame.sprite.Sprite):
                 self.movementTarget = None
 
     def updateEntityCoords(self):
+        """
+        Called each frame. Will consume moves from the moveList, if there are any.
+        """
         if self.movementTarget is not None and self.movesList:
             nextMove = self.movesList[0]
             if self.move(nextMove):
