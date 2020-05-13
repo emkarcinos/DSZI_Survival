@@ -1,13 +1,16 @@
-from enum import Enum
 from pathlib import Path
 
 import pygame
 
-
 # TODO: Add getters to retrieve relative coords
+from entities.Enums import Rotations, Movement
+
+
 class Entity(pygame.sprite.Sprite):
     # Static ID counter - increments with each constructor call
     nextId = 1
+
+    pygameTimer = pygame.time.Clock()
 
     def __init__(self, texture, size, pos):
         """
@@ -26,6 +29,15 @@ class Entity(pygame.sprite.Sprite):
 
         # Where the entity is facing
         self.rotation = Rotations.NORTH
+
+        # Entity can move itself if this list has movements inside
+        self.movesList = []
+        self.movementTarget = None
+
+        # How fast can en entity move
+        self.moveTimeout = 100
+        # Tracks time between every move
+        self.movementTimer = 0
 
     @staticmethod
     def setNewId():
@@ -73,9 +85,87 @@ class Entity(pygame.sprite.Sprite):
         elif self.rotation.value == Rotations.WEST.value:
             return self.rect.x - self.rect.h, self.rect.y
 
+    def move(self, movement):
+        """
+        This function will attempt to move an entity. It fails if the movement can not be done.
+        :type movement: entities.Enums.Movement
+        :param movement: specify what movement should be done (See Movement enum)
+        :return: Returns true, if the movement has succeeded
+        """
+        # Can move if timeout has elapsed
+        if self.movementTimer > self.moveTimeout:
+            self.movementTimer = 0
+            # Rotation
+            if movement.value != Movement.FORWARD.value:
+                self.updateRotation(movement)
+            # Else move
+            else:
+                self.moveForward()
+            return True
+        else:
+            return False
 
-class Rotations(Enum):
-    NORTH = 0
-    EAST = 1
-    SOUTH = 2
-    WEST = 3
+    # Deprecated - use move() instead
+    def moveForward(self):
+        """
+        Moves the player forward. NOTE: should not be used outside of the player class.
+        """
+        if self.rotation.value == Rotations.NORTH.value:
+            self.rect.y -= self.rect.w
+        elif self.rotation.value == Rotations.EAST.value:
+            self.rect.x += self.rect.w
+        elif self.rotation.value == Rotations.SOUTH.value:
+            self.rect.y += self.rect.w
+        elif self.rotation.value == Rotations.WEST.value:
+            self.rect.x -= self.rect.w
+
+    def updateRotation(self, movement):
+        """
+        A method that rotates an entity.
+        :type movement: Movement
+        :param movement: Rotation direction
+        """
+        if movement == Movement.ROTATE_L:
+            self.rotate(Rotations((self.rotation.value - 1) % 4))
+        elif movement == Movement.ROTATE_R:
+            self.rotate(Rotations((self.rotation.value + 1) % 4))
+
+    def rotate(self, rotation):
+        """
+        More low-level method than rotate - rotates the texture and updates the entity
+        rotation field.
+        :type rotation: Movement
+        :param rotation:
+        """
+        # If the player is not facing given direction, it will not move the first time, it will only get rotated
+        if self.rotation.value != rotation.value:
+            self.image = pygame.transform.rotate(self.image, ((self.rotation.value - rotation.value) * 90))
+            self.rotation = rotation
+
+    def gotoToTarget(self, target, map):
+        if self.movementTarget is None:
+            self.movementTarget = target
+            from AI.AutomaticMovement import aStar
+            self.movesList = aStar(self, self.movementTarget, map)
+            if not self.movesList:
+                self.movementTarget = None
+
+    def updateEntityCoords(self):
+        if self.movementTarget is not None and self.movesList:
+            nextMove = self.movesList[0]
+            if self.move(nextMove):
+                self.movesList.remove(nextMove)
+                if not self.movesList:
+                    # if self.canPickup:
+                    #     self.pickUp()
+                    #     self.canPickup = False
+                    self.movementTarget = None
+
+    def update(self):
+        """
+        Called every frame
+        """
+        # Add time elapsed between previous frame
+        self.movementTimer += self.pygameTimer.tick()
+        # If A* has ben called, move the entity
+        self.updateEntityCoords()
