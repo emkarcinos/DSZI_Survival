@@ -54,9 +54,7 @@ class Map:
                     if entity["isPickupable"]:
                         actualEntities.append(Pickupable(entity["name"] + ".png",
                                                          self.tileSize,
-                                                         # TODO: change to relative coords
-                                                         (entity["position"]["x"] * self.tileSize,
-                                                          entity["position"]["y"] * self.tileSize),
+                                                         (entity["position"]["x"], entity["position"]["y"]),
                                                          Statistics(entity["effect"]["hp"],
                                                                     entity["effect"]["hunger"],
                                                                     entity["effect"]["thirst"],
@@ -65,9 +63,7 @@ class Map:
                     elif "effect" in entity:
                         actualEntities.append(Interactable(entity["name"] + ".png",
                                                            self.tileSize,
-                                                           # TODO: Change to relative coords
-                                                           (entity["position"]["x"] * self.tileSize,
-                                                            entity["position"]["y"] * self.tileSize),
+                                                           (entity["position"]["x"], entity["position"]["y"]),
                                                            Statistics(entity["effect"]["hp"],
                                                                       entity["effect"]["hunger"],
                                                                       entity["effect"]["thirst"],
@@ -76,9 +72,7 @@ class Map:
                     else:
                         actualEntities.append(Entity(entity["name"] + ".png",
                                                      self.tileSize,
-                                                     # TODO: Change to relative coords
-                                                     (entity["position"]["x"] * self.tileSize,
-                                                      entity["position"]["y"] * self.tileSize)))
+                                                     (entity["position"]["x"], entity["position"]["y"])))
                 except KeyError:
                     print("Failed to load entity " + entity)
         return actualEntities
