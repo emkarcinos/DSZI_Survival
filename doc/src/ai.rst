@@ -1,5 +1,8 @@
-AI
-==
+AI module
+=========
+
+A* algorhithm
+*************
 
 .. automodule:: AutomaticMovement
     :members:
