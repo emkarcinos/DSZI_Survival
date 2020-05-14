@@ -55,6 +55,8 @@ class Entity(pygame.sprite.Sprite):
     def setCoords(self, coords, screenRelative=False):
         if screenRelative:
             self.rect.x, self.rect.y = coords
+            self.x = (self.rect.x - self.mapOffset) / self.rect.w
+            self.y = self.rect.y / self.rect.h
         else:
             self.x, self.y = coords
             self.rect.x = coords[0] * self.rect.w + self.mapOffset
