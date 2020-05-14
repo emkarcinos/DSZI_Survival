@@ -47,19 +47,13 @@ class Screen:
 
         return result
 
-    # method to draw a sprite. Location param specifies where to draw the item (Locations enum)
-    # TODO: Retarded
-    def draw(self, sprite, location, posX=0, posY=0):
-        # TODO: Screen cannot alter sprites position!!
-        from entities.Entity import Entity
-        # For UI, Map, and other sprites
-        if type(sprite) is not Entity:
-            sprite.rect.x += posX
-            sprite.rect.y += posY
-        # For entities
-        else:
-            sprite.setCoords((posX, posY), True)
-
+    def addSprite(self, sprite, location):
+        """
+        Adds a sprite to a screen at a given location
+        :type location: Locations
+        :param sprite: A sprite to add.
+        :param location: Where should the sprite be displayed
+        """
         if location.value is Locations.RIGHT_UI.value:
             sprite.rect.x += self.mapCoord + self.mapSize
         elif location.value == Locations.MAP.value:
@@ -78,14 +72,14 @@ class Screen:
     def __initUi__(self):
         self.ui = Ui(self.getUiWidth(Locations.RIGHT_UI), self.getUiWidth(Locations.LEFT_UI), self.winY,
                      self.gameObject.ingameTimer)
-        self.draw(self.ui.timerTextView, Locations.LEFT_UI)
-        self.draw(self.ui.isDayTextView, Locations.LEFT_UI)
-        self.draw(self.ui.console, Locations.LEFT_UI)
-        self.draw(self.ui.healthTextView, Locations.RIGHT_UI)
-        self.draw(self.ui.healthBar, Locations.RIGHT_UI)
-        self.draw(self.ui.hungerTextView, Locations.RIGHT_UI)
-        self.draw(self.ui.hungerBar, Locations.RIGHT_UI)
-        self.draw(self.ui.staminaTextView, Locations.RIGHT_UI)
-        self.draw(self.ui.staminaBar, Locations.RIGHT_UI)
-        self.draw(self.ui.thirstTextView, Locations.RIGHT_UI)
-        self.draw(self.ui.thirstBar, Locations.RIGHT_UI)
+        self.addSprite(self.ui.timerTextView, Locations.LEFT_UI)
+        self.addSprite(self.ui.isDayTextView, Locations.LEFT_UI)
+        self.addSprite(self.ui.console, Locations.LEFT_UI)
+        self.addSprite(self.ui.healthTextView, Locations.RIGHT_UI)
+        self.addSprite(self.ui.healthBar, Locations.RIGHT_UI)
+        self.addSprite(self.ui.hungerTextView, Locations.RIGHT_UI)
+        self.addSprite(self.ui.hungerBar, Locations.RIGHT_UI)
+        self.addSprite(self.ui.staminaTextView, Locations.RIGHT_UI)
+        self.addSprite(self.ui.staminaBar, Locations.RIGHT_UI)
+        self.addSprite(self.ui.thirstTextView, Locations.RIGHT_UI)
+        self.addSprite(self.ui.thirstBar, Locations.RIGHT_UI)
