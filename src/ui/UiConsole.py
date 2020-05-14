@@ -69,7 +69,7 @@ class UiConsole(UiElement):
         self.maxLines = int(self.image.get_height() / self.lineHeight)
 
         self.addLinesToConsole(["Hello from console!"])
-        self.writeConsoleLines()
+        self.__writeConsoleLines__()
 
     def update(self, *args):
         """
@@ -89,7 +89,21 @@ class UiConsole(UiElement):
         """
         self.addLinesToConsoleAndScrollToDisplayThem([inp])
 
-    def writeConsoleLines(self, startingLineInd: int = 0):
+    def scrollUp(self):
+        """
+        Scrolls one line up.
+
+        """
+        self.__writeConsoleLines__(self.topWrittenLineInd - 1)
+
+    def scrollDown(self):
+        """
+        Scrolls one line down.
+
+        """
+        self.__writeConsoleLines__(self.topWrittenLineInd + 1)
+
+    def __writeConsoleLines__(self, startingLineInd: int = 0):
         """
         Displays lines stored in console's list of lines, starting from line with given index.
 
@@ -152,4 +166,4 @@ class UiConsole(UiElement):
         ind = 0
         if self.linesImagesCount > self.maxLines:
             ind = self.linesImagesCount - self.maxLines
-        self.writeConsoleLines(ind)
+        self.__writeConsoleLines__(ind)

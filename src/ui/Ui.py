@@ -91,9 +91,9 @@ class Ui():
         if event.type == pygame.MOUSEBUTTONDOWN:
             console = self.console
             if event.button == 4:
-                console.writeConsoleLines(console.topWrittenLineInd + 1)
+                console.scrollDown()
             elif event.button == 5:
-                console.writeConsoleLines(console.topWrittenLineInd - 1)
+                console.scrollUp()
 
     def updateOnPlayerPickup(self, playerStats, pickedObject):
         self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Picked object " + str(pickedObject.id) + ":"])
