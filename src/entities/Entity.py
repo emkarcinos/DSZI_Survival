@@ -158,7 +158,7 @@ class Entity(pygame.sprite.Sprite):
     # Deprecated - use move() instead
     def moveForward(self):
         """
-        Moves the player forward. NOTE: should not be used outside of the player class.
+        Moves the player forward. NOTE: should not be used outside of the entity class.
 
         """
         if self.rotation.value == Rotations.NORTH.value:
