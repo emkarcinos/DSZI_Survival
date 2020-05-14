@@ -22,6 +22,10 @@ class Entity(pygame.sprite.Sprite):
         super().__init__()
         self.image, self.rect = self.getTexture(texture, size)
         self.image.set_colorkey((255, 255, 255))
+        # Relative coords
+        self.x = pos[0]
+        self.y = pos[1]
+        # Rect has entities' absolute coords
         self.rect.x = pos[0]
         self.rect.y = pos[1]
         # Unique ID
@@ -38,6 +42,21 @@ class Entity(pygame.sprite.Sprite):
         self.moveTimeout = 100
         # Tracks time between every move
         self.movementTimer = 0
+
+    # Setters and getters for coords
+    def getCoords(self, screenRelative=False):
+        if screenRelative:
+            return self.rect.x, self.rect.y
+        else:
+            return self.x, self.y
+
+    def setCoords(self, coords, screenRelative=False):
+        if screenRelative:
+            self.rect.x, self.rect.y = coords
+        else:
+            self.x, self.y = coords
+            self.rect.x = coords[0] * self.rect.w  # TODO: Add screen offset
+            self.rect.y = coords[1] * self.rect.h  # TODO: Add screen offset
 
     @staticmethod
     def setNewId():
@@ -110,6 +129,7 @@ class Entity(pygame.sprite.Sprite):
         """
         Moves the player forward. NOTE: should not be used outside of the player class.
         """
+        # TODO: Use relative coords
         if self.rotation.value == Rotations.NORTH.value:
             self.rect.y -= self.rect.w
         elif self.rotation.value == Rotations.EAST.value:
