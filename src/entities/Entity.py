@@ -14,6 +14,7 @@ class Entity(pygame.sprite.Sprite):
     def __init__(self, texture, size, pos, screenRelative=True):
         """
         Create an entity.
+
         :param texture: Path to a file with texture
         :param size: Size in px
         :param pos: Position tuple
@@ -77,6 +78,7 @@ class Entity(pygame.sprite.Sprite):
     def setNewId():
         """
         Returns auto-incremented unique ID
+
         :return: ID Int
         """
         id = Entity.nextId
@@ -87,6 +89,7 @@ class Entity(pygame.sprite.Sprite):
     def getTexture(textureName, tileSize):
         """
         Get the texture from a file. Texture path is pre-set to data/images/entities.
+
         :param textureName: Filename
         :param tileSize: Texture size (to scale to map size)
         :return: image, rect
@@ -134,6 +137,7 @@ class Entity(pygame.sprite.Sprite):
     def move(self, movement):
         """
         This function will attempt to move an entity. It fails if the movement can not be done.
+
         :type movement: entities.Enums.Movement
         :param movement: specify what movement should be done (See Movement enum)
         :return: Returns true, if the movement has succeeded
@@ -155,6 +159,7 @@ class Entity(pygame.sprite.Sprite):
     def moveForward(self):
         """
         Moves the player forward. NOTE: should not be used outside of the player class.
+
         """
         # TODO: Use relative coords
         if self.rotation.value == Rotations.NORTH.value:
@@ -169,6 +174,7 @@ class Entity(pygame.sprite.Sprite):
     def updateRotation(self, movement):
         """
         A method that rotates an entity.
+
         :type movement: Movement
         :param movement: Rotation direction
         """
@@ -181,6 +187,7 @@ class Entity(pygame.sprite.Sprite):
         """
         More low-level method than rotate - rotates the texture and updates the entity
         rotation field.
+
         :type rotation: Movement
         :param rotation:
         """
@@ -192,6 +199,7 @@ class Entity(pygame.sprite.Sprite):
     def gotoToTarget(self, target, map):
         """
         Attempt to find a path to a given target. If the path is found, move to the target.
+
         :param target: Target object
         :param map: Map object
         """
@@ -205,6 +213,7 @@ class Entity(pygame.sprite.Sprite):
     def updateEntityCoords(self):
         """
         Called each frame. Will consume moves from the moveList, if there are any.
+
         """
         if self.movementTarget is not None and self.movesList:
             nextMove = self.movesList[0]
@@ -221,6 +230,7 @@ class Entity(pygame.sprite.Sprite):
     def update(self):
         """
         Called every frame
+
         """
         # Add time elapsed between previous frame
         self.movementTimer += self.pygameTimer.tick()
