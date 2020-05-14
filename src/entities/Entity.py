@@ -122,7 +122,7 @@ class Entity(pygame.sprite.Sprite):
 
     def getFacingCoord(self, screenRelative=True):
         """
-        Gets coordinates forward to the player.
+        Gets coordinates forward to this entity.
 
         :param screenRelative: If true, the method returns absolute coords
         :return: Position tuple of (x,y) coords

@@ -2,6 +2,7 @@ class Statistics:
     def __init__(self, hp, hunger, thirst, stamina):
         """
         Create a statistic object. Used to determine some object state (usually player's).
+
         :param hp: Health points
         :param hunger: Hunger (it rises)
         :param thirst: Thirst (also rises)
