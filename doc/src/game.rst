@@ -18,6 +18,7 @@ Screen
 Reprezentuje wszystko co znajduje się na ekranie.
 
 .. automodule:: Screen
+    :special-members: __init__
     :members:
     :undoc-members:
 
@@ -27,6 +28,7 @@ EventManager
 Obsługuje eventy.
 
 .. automodule:: EventManager
+    :special-members: __init__
     :members:
     :undoc-members:
 
@@ -37,6 +39,7 @@ Reprezentuję mapę, będącą kwadratową kratownicą. Zawiera informacje o wsz
 entities, udostępnia metodę sprawdzające kolizje.
 
 .. automodule:: Map
+    :special-members: __init__
     :members:
     :undoc-members:
 
@@ -46,6 +49,7 @@ TerrainTile
 Reprezentuje kratkę terenu.
 
 .. automodule:: TerrainTile
+    :special-members: __init__
     :members:
     :undoc-members:
 
@@ -55,5 +59,6 @@ Timer
 Klasa odpowiadająca za śledzenie i formatowanie czasu w grze.
 
 .. automodule:: Timer
+    :special-members: __init__
     :members:
     :undoc-members:
