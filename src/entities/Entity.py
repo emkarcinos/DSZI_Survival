@@ -11,7 +11,7 @@ class Entity(pygame.sprite.Sprite):
 
     pygameTimer = pygame.time.Clock()
 
-    def __init__(self, texture, size, pos, screenRelative=True):
+    def __init__(self, texture, size, pos, screenRelative=False):
         """
         Create an entity.
 
