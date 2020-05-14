@@ -10,12 +10,12 @@ from src.entities.Statistics import Statistics
 class Player(Entity):
     def __init__(self, spawnpoint, size):
         """
-        :param spawnpoint: A tuple of coords relative to map
+        :param spawnpoint: A tuple of relative coords
         :param size: The size in px
         """
 
         # Entity constructor
-        super().__init__("player.png", size, (spawnpoint[0] * size, spawnpoint[1] * size))
+        super().__init__("player.png", size, spawnpoint, False)
 
         self.statistics = Statistics(100, 0, 0, 100)
         # How many steps has the player taken through its lifetime
@@ -36,6 +36,7 @@ class Player(Entity):
     def applyWalkingFatigue(self):
         """
         Lowers player's statistics.
+
         """
         # looses hunger every 10 steps taken
         if self.movePoints % 15 == 0:
@@ -49,6 +50,7 @@ class Player(Entity):
     def applyTimeFatigue(self, tickTime):
         """
         A separate method to lower the statistics. Invoked every frame.
+
         :param tickTime: Time passed between the previous frame (in milliseconds)
         """
         self.fatigueTimeout += tickTime
@@ -63,6 +65,7 @@ class Player(Entity):
     def getStatistic(self, stat):
         """
         Get the specified statistic as an integer.
+
         :type stat: entities.Enums.StatisticNames
         :param stat: Which statistic to get
         :return: Int
@@ -77,19 +80,11 @@ class Player(Entity):
             return self.statistics.stamina
         return None
 
-    # TODO: Useless?
-    def getStatistics(self) -> Statistics:
-        """
-        Get the statistic object
-        :return: Statistics
-        """
-        return self.statistics
-        # Update player's rotation
-
     def determineLife(self):
         """
         Checks if the player is still alive, and sets the appropriate fields.
         Called every frame.
+
         """
         if self.statistics.hunger == 100:
             self.alive = False
@@ -107,7 +102,8 @@ class Player(Entity):
 
     def move(self, movement, interactableObject=None):
         """
-        Overriden function. Adds fatigue to the movement.
+        Overridden function. Adds fatigue to the movement.
+
         :param interactableObject: Object to interact with
         :type movement: entities.Enums.Movement
         :param movement: specify what movement should be done (See Movement enum)
@@ -136,6 +132,7 @@ class Player(Entity):
     def update(self):
         """
         Called every frame
+
         """
         if self.alive:
             self.timeAlive += self.timer.get_time()
