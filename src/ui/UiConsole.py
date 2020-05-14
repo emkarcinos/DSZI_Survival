@@ -19,8 +19,31 @@ class UiConsole(UiElement):
     consoleWidth: float
     image: pygame.Surface
 
+    # Static field, with every update() call strings from buffer are written to the console. See printToConsole()
+    buffer: List[str] = []
+
+    @staticmethod
+    def printToConsole(inp: str):
+        """
+        Adds given string to buffer. Everything from buffer will be written to console when update() will be called.
+        update() is called every frame.
+
+        :param inp: String to be written to console.
+        """
+        UiConsole.buffer.append(inp)
+
     def __init__(self, rect: pygame.Rect, bgColor: Tuple[int, int, int] = (125, 125, 125),
-                 textColor: Tuple[int, int, int] = (255, 255, 255), font: pygame.font.Font = None, antialias: bool = True):
+                 textColor: Tuple[int, int, int] = (255, 255, 255), font: pygame.font.Font = None,
+                 antialias: bool = True):
+        """
+        Creates UiConsole object.
+
+        :param rect: Rectangle on which console will be drawn.
+        :param bgColor:
+        :param textColor:
+        :param font: Defaults to None, then default pygame font will be used.
+        :param antialias:
+        """
         super().__init__(rect)
         self.textColor = textColor
 
@@ -48,10 +71,20 @@ class UiConsole(UiElement):
         self.addLinesToConsole(["Hello from console!"])
         self.writeConsoleLines()
 
-    # TODO: Should this method be static? We need to instantiate some console before we can write anything to it.
-    def writeToConsole(self, inp: str):
+    def update(self, *args):
+        """
+        This method is called every frame. If there is something in buffer, then it is written to console.
+
+        :param args:
+        """
+        while len(UiConsole.buffer) > 0:
+            self.__writeToConsole__(UiConsole.buffer.pop(0))
+
+    def __writeToConsole__(self, inp: str):
         """
         Writes given string to console and scrolls (console) down to display it.
+        Warning: It is advised to use printToConsole() method.
+
         :param inp: String to be written to console.
         """
         self.addLinesToConsoleAndScrollToDisplayThem([inp])
@@ -59,6 +92,7 @@ class UiConsole(UiElement):
     def writeConsoleLines(self, startingLineInd: int = 0):
         """
         Displays lines stored in console's list of lines, starting from line with given index.
+
         :param startingLineInd: Line index, which will be written on top of the console.
         """
         self.image.fill(self.bgColor)
@@ -78,6 +112,7 @@ class UiConsole(UiElement):
         so that it is appropriate size.
 
         Warning: this method doesn't display given lines, just adds to list of lines.
+
         :param linesToAdd:
         """
         for line in linesToAdd:
@@ -110,6 +145,7 @@ class UiConsole(UiElement):
     def addLinesToConsoleAndScrollToDisplayThem(self, linesToAdd: List[str]):
         """
         Adds given lines to console's list of lines, writes them and scrolls console down to display them.
+
         :param linesToAdd: Lines to add to console's list of lines and to display.
         """
         self.addLinesToConsole(linesToAdd)
