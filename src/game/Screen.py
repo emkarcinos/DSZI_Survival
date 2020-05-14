@@ -58,6 +58,11 @@ class Screen:
             sprite.rect.x += self.mapCoord + self.mapSize
         elif location.value == Locations.MAP.value:
             sprite.rect.x += self.mapCoord
+
+        # Update Entities mapOffset field
+        from src.entities.Entity import Entity
+        if isinstance(sprite, Entity):
+            sprite.mapOffset = self.mapCoord
         self.gameObject.spritesList.add(sprite)
 
     def getUiWidth(self, location: Locations):
