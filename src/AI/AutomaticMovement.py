@@ -9,9 +9,10 @@ from src.game.TerrainTile import TerrainTile
 def newStateAfterAction(movable, state, action: Movement):
     """
     Returns a state after a given action
+
     :type movable: Entity
     :param movable: Movable entity
-    :param state: Current entity state
+    :param state: Current entity state (x, y, rotation). Coords are relative
     :param action: What did entity do
     :return: A tuple of (x, y, rotation)
     """
@@ -21,13 +22,13 @@ def newStateAfterAction(movable, state, action: Movement):
 
     if action == Movement.FORWARD:
         if state[2] == Rotations.NORTH:
-            newY -= movable.rect.w
+            newY -= 1
         elif state[2] == Rotations.EAST:
-            newX += movable.rect.w
+            newX += 1
         elif state[2] == Rotations.SOUTH:
-            newY += movable.rect.w
+            newY += 1
         elif state[2] == Rotations.WEST:
-            newX -= movable.rect.w
+            newX -= 1
     elif action == Movement.ROTATE_L:
         newRotation = Rotations((state[2].value - 1) % 4)
     elif action == Movement.ROTATE_R:
@@ -41,6 +42,7 @@ def newStateAfterAction(movable, state, action: Movement):
 def stepCost(terrainTile: TerrainTile):
     """
     Gets the cost of a given tile
+
     :param terrainTile:
     :return: Step cost as int
     """
@@ -51,18 +53,20 @@ def stepCost(terrainTile: TerrainTile):
 
 def approximateDistanceFromTarget(tileX, tileY, target):
     """
-    Given X, Y and a target, approximate the distance.
-    :param tileX: X coord
-    :param tileY: Y coord
+    Given relative X, Y and a target, approximate the distance.
+
+    :param tileX: relative X coord
+    :param tileY: relative Y coord
     :param target: Target entity
     :return: Distance as int
     """
-    return abs(tileX - target.rect.x) + abs(tileY - target.rect.y)
+    return abs(tileX - target.x) + abs(tileY - target.y)
 
 
 def priority(elem: AStarNode, map, target):
     """
     Gets the priority of the move.
+
     :param elem: Node
     :param map: Map object
     :param target: Target goal
@@ -75,9 +79,10 @@ def priority(elem: AStarNode, map, target):
 def successor(movable: Entity, elemState, map, target):
     """
     Successor function for a given movable object (Usually a player)
+
     :type target: Entity
     :param target:
-    :param elemState: [x, y, Rotation]
+    :param elemState: [x, y, Rotation]. x, y are relative
     :return: list of (Movement, NewState)
     """
     result = [(Movement.ROTATE_R, newStateAfterAction(movable, elemState, Movement.ROTATE_R)),
@@ -93,7 +98,7 @@ def successor(movable: Entity, elemState, map, target):
                 if facingEntity.id == target.id:
                     result.append((Movement.FORWARD, stateAfterForward))
         elif map.collision(stateAfterForward[0], stateAfterForward[1]) and \
-                target.rect.x == stateAfterForward[0] and target.rect.y == stateAfterForward[1]:
+                target.x == stateAfterForward[0] and target.y == stateAfterForward[1]:
             result.append((Movement.FORWARD, stateAfterForward))
         elif not map.collision(stateAfterForward[0], stateAfterForward[1]):
             result.append((Movement.FORWARD, stateAfterForward))
@@ -104,11 +109,12 @@ def successor(movable: Entity, elemState, map, target):
 def goalTest(coords, target):
     """
     Check whether the target has been reached.
-    :param coords: A tuple of X and Y coords
+
+    :param coords: A tuple of X and Y coords (relative)
     :param target: Target
     :return: True, if the goal is reached
     """
-    if coords[0] == target.rect.x and coords[1] == target.rect.y:
+    if coords[0] == target.x and coords[1] == target.y:
         return True
     return False
 
@@ -116,6 +122,7 @@ def goalTest(coords, target):
 def aStar(movable: Entity, target, map):
     """
     A* pathfinder function. Composes an array of moves to do in order to reach a target.
+
     :param movable: An entity to move (Usually a player)
     :param target: Target object
     :param map: Map object
@@ -126,7 +133,7 @@ def aStar(movable: Entity, target, map):
     fringe = PriorityQueue()
     explored = []
 
-    startingState = (movable.rect.x, movable.rect.y, movable.rotation)
+    startingState = (movable.x, movable.y, movable.rotation)
     startingPriority = 0
 
     fringe.put((startingPriority, testCount, AStarNode(None, None, startingState)))
