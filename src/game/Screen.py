@@ -22,7 +22,7 @@ class Screen:
 
         :param gameObject: Game object
         :param windowConfig: A dictionary with window settings.
-        :except KeyError
+        :raises KeyError
         """
         self.gameObject = gameObject
         self.winX = windowConfig["width"]
@@ -97,7 +97,7 @@ class Screen:
     def __initUi__(self):
         """
         Creates entire UI
-        
+
         """
         self.ui = Ui(self.getUiWidth(Locations.RIGHT_UI), self.getUiWidth(Locations.LEFT_UI), self.winY,
                      self.gameObject.ingameTimer)
