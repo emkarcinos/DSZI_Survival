@@ -22,6 +22,8 @@ class Entity(pygame.sprite.Sprite):
         super().__init__()
         self.image, self.rect = self.getTexture(texture, size)
         self.image.set_colorkey((255, 255, 255))
+        # Screen class sets this field when you want to draw a sprite
+        self.mapOffset = 0
         # Relative coords
         self.x = pos[0]
         self.y = pos[1]
@@ -55,8 +57,8 @@ class Entity(pygame.sprite.Sprite):
             self.rect.x, self.rect.y = coords
         else:
             self.x, self.y = coords
-            self.rect.x = coords[0] * self.rect.w  # TODO: Add screen offset
-            self.rect.y = coords[1] * self.rect.h  # TODO: Add screen offset
+            self.rect.x = coords[0] * self.rect.w + self.mapOffset
+            self.rect.y = coords[1] * self.rect.h
 
     @staticmethod
     def setNewId():
