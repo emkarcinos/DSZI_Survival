@@ -120,11 +120,11 @@ class Entity(pygame.sprite.Sprite):
         rect = image.get_rect()
         return image, rect
 
-    def getFacingCoord(self, screenRelative=True):
+    def getFacingCoord(self, screenRelative=False):
         """
         Gets coordinates forward to this entity.
 
-        :param screenRelative: If true, the method returns absolute coords
+        :param screenRelative: If true, the method returns absolute coords (default=False)
         :return: Position tuple of (x,y) coords
         """
         if screenRelative:
