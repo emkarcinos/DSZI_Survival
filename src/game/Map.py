@@ -105,25 +105,34 @@ class Map:
                     self.screen.addSprite(object, Locations.MAP)
                     self.collidables.add(object)
 
-    def getEntityOnCoord(self, coord):
+    def getEntityOnCoord(self, coord, screenRelative=False):
+        """
+        Get an entiity on a given coordinate
+
+        :param coord: Coords tuple of (x,y)
+        :param screenRelative: True, if coords are screen-relative (default = False)
+        :return: Entity
+        """
         result = None
         for entity in self.entities:
-            if entity.rect.x == coord[0] and entity.rect.y == coord[1]:
-                result = entity
+            if screenRelative:
+                if entity.rect.x == coord[0] and entity.rect.y == coord[1]:
+                    result = entity
+            else:
+                if entity.x == coord[0] and entity.y == coord[1]:
+                    result = entity
         return result
 
-    # W przypadku podania kordynatów playera, powinno zwrócić teren na którym jest player
-    def getTileOnCoord_old(self, coord):
+    def getTileOnCoord(self, coord, screenRelative=False):
         result = None
         for tile in self.terrainTilesList:
-            if tile.rect.x == coord[0] and tile.rect.y == coord[1]:
-                result = tile
-        return result
-
-    def getTileOnCoord(self, coord):
-        result = None
-        for tile in self.terrainTilesList:
-            if tile.rect.collidepoint(coord[0], coord[1]):
+            isColliding = False
+            if screenRelative:
+                isColliding = tile.rect.collidepoint(coord[0], coord[1])
+            else:
+                isColliding = tile.rect.collidepoint(coord[0] * self.tileSize + self.screen.mapCoord,
+                                                     coord[1] * self.tileSize)
+            if isColliding:
                 result = tile
                 break
         return result
@@ -138,8 +147,15 @@ class Map:
             self.entities.append(entity)
 
     # add object to map.collidables list to be collidable
-    def collision(self, x, y):
-        for b in self.collidables:
-            if b.rect.x == x and b.rect.y == y:
-                return True
-        return False
+    def collision(self, x, y, screenRelative=False):
+        if not screenRelative:
+            for b in self.collidables:
+                # Temp coord translation
+                if b.rect.x == (x * self.tileSize + self.screen.mapCoord) and b.rect.y == y * self.tileSize:
+                    return True
+            return False
+        else:
+            for b in self.collidables:
+                if b.rect.x == x and b.rect.y == y:
+                    return True
+            return False
