@@ -9,6 +9,7 @@ Game
 Klasa-skrypt reprezentująca obiekt gry. Zawiera główną pętle wykonawczą.
 
 .. automodule:: Game
+    :special-members: __init__
     :members:
     :undoc-members:
 
