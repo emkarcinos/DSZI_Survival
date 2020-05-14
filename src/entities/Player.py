@@ -10,7 +10,9 @@ from src.entities.Statistics import Statistics
 class Player(Entity):
     def __init__(self, spawnpoint, size):
         """
-        :param spawnpoint: A tuple of relative coords
+        Create a player.
+
+        :param spawnpoint: A tuple of coords (x,y)
         :param size: The size in px
         """
 
@@ -35,7 +37,7 @@ class Player(Entity):
 
     def applyWalkingFatigue(self):
         """
-        Lowers player's statistics.
+        Lowers player's statistics. Applied every few steps.
 
         """
         # looses hunger every 10 steps taken

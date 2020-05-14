@@ -14,6 +14,12 @@ from src.game.Timer import Timer
 # Main Game class
 class Game:
     def __init__(self, filesPath):
+        """
+        Game script initialization. Loads all files, creates screen, map, tiles, entities and a player.
+        Starts the main game loop at the end.
+
+        :param filesPath: Absolute path to the root of the gamefiles
+        """
         self.running = True
         print("Loading configuration...", end=" ")
 
@@ -75,6 +81,9 @@ class Game:
         self.mainLoop()
 
     def mainLoop(self):
+        """
+        Continuously running loop. Calls events, updates and draws everything.
+        """
         while self.running:
             # Tick the timers
             self.ingameTimer.updateTime(self.pgTimer.tick())

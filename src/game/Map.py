@@ -11,7 +11,6 @@ from src.entities.Pickupable import Pickupable
 from src.entities.Statistics import Statistics
 
 
-# TODO: Map should determine entities' position
 class Map:
     def __init__(self, filename, screen):
         """
@@ -161,7 +160,12 @@ class Map:
 
     # TODO: REMOVE DONT ADD
     def addEntity(self, entity, DONTADD=False):
-        # TODO: This method should set entities coords
+        """
+        Adds an entity to the map.
+
+        :param entity: Entity
+        :param DONTADD: ????
+        """
         self.screen.addSprite(entity, Locations.MAP)
         # dodajemy bo wszystkie entity są kolizyjne
         self.collidables.add(entity)

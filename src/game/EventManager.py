@@ -8,6 +8,12 @@ from src.entities.Enums import Movement
 
 class EventManager:
     def __init__(self, gameObject, player):
+        """
+        Create a singleton EventManager to handle events like keyboard input.
+
+        :param gameObject: Game object
+        :param player: The player
+        """
         # TODO: Is this really necessary?
         self.game = gameObject
 
@@ -21,6 +27,9 @@ class EventManager:
         pass
 
     def handleEvents(self):
+        """
+        Called every frame. Captures keyboard input, PyGame events, updates the time and UI.
+        """
         pygame.event.pump()
 
         if self.turnOff:
@@ -51,6 +60,12 @@ class EventManager:
         self.game.screen.ui.updateBarsBasedOnPlayerStats(self.player.statistics)
 
     def handleClickingOnCollidablesAndTerrains(self, pos):
+        """
+        Handles clicking on objects. Calls A* functions to move the player to the object that the mouse was
+        pointing to.
+
+        :param pos: Absolute object coords as a tuple of (x,y)
+        """
         # get a list of all collidables that are under the mouse cursor
         clicked_collidables = [s for s in self.game.map.collidables if s.rect.collidepoint(pos)]
 
@@ -67,6 +82,11 @@ class EventManager:
                 print("NO TERRAIN FOUND UNDER CLICK")
 
     def handlePlayerControls(self, keys):
+        """
+        Handles player movement with the keyboard.
+
+        :param keys: A list of pressed keys
+        """
         # Key names are temporary
         # TODO: Load key bindings from JSON
 

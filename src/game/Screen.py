@@ -17,6 +17,13 @@ class Locations(Enum):
 
 class Screen:
     def __init__(self, gameObject, windowConfig):
+        """
+        Create a signleton screen object.
+
+        :param gameObject: Game object
+        :param windowConfig: A dictionary with window settings.
+        :except KeyError
+        """
         self.gameObject = gameObject
         self.winX = windowConfig["width"]
         self.winY = windowConfig["height"]
@@ -36,6 +43,12 @@ class Screen:
         self.__initUi__()
 
     def calculateMapDimensions(self):
+        """
+        Determines the map's dimmension based on the screen size.
+        The map will be shrunk down if there's not enough space for the UI.
+
+        :return: New map size as Int
+        """
         result = 0
         expectedSize = self.winY
 
@@ -49,7 +62,8 @@ class Screen:
 
     def addSprite(self, sprite, location):
         """
-        Adds a sprite to a screen at a given location
+        Adds a sprite to a screen at a given location.
+
         :type location: Locations
         :param sprite: A sprite to add.
         :param location: Where should the sprite be displayed
@@ -66,6 +80,12 @@ class Screen:
         self.gameObject.spritesList.add(sprite)
 
     def getUiWidth(self, location: Locations):
+        """
+        Gets the width of the UI.
+
+        :param location: Specify what UI size to return
+        :return: Width as Int
+        """
         if location is Locations.RIGHT_UI:
             return self.winX - (self.mapCoord + self.mapSize)
         elif location is Locations.LEFT_UI:
@@ -75,6 +95,10 @@ class Screen:
 
     # TODO: Move to game / events
     def __initUi__(self):
+        """
+        Creates entire UI
+        
+        """
         self.ui = Ui(self.getUiWidth(Locations.RIGHT_UI), self.getUiWidth(Locations.LEFT_UI), self.winY,
                      self.gameObject.ingameTimer)
         self.addSprite(self.ui.timerTextView, Locations.LEFT_UI)
