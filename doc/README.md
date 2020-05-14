@@ -10,11 +10,11 @@ sphinx: 4.x
 
 ## Ręczne budowanie dokumentacji
 Windows: 
-```shell script
+```shell
 make.bat html
 ```
 Linux/MacOS:
-```shell script
+```shell
 make html
 ```
 
