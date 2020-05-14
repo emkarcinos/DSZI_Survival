@@ -49,10 +49,17 @@ class Screen:
 
     # method to draw a sprite. Location param specifies where to draw the item (Locations enum)
     # TODO: Retarded
-    def draw(self, sprite, location, posX, posY):
+    def draw(self, sprite, location, posX=0, posY=0):
         # TODO: Screen cannot alter sprites position!!
-        sprite.rect.x += posX
-        sprite.rect.y += posY
+        from entities.Entity import Entity
+        # For UI, Map, and other sprites
+        if type(sprite) is not Entity:
+            sprite.rect.x += posX
+            sprite.rect.y += posY
+        # For entities
+        else:
+            sprite.setCoords((posX, posY), True)
+
         if location.value is Locations.RIGHT_UI.value:
             sprite.rect.x += self.mapCoord + self.mapSize
         elif location.value == Locations.MAP.value:
