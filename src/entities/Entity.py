@@ -12,12 +12,13 @@ class Entity(pygame.sprite.Sprite):
 
     pygameTimer = pygame.time.Clock()
 
-    def __init__(self, texture, size, pos):
+    def __init__(self, texture, size, pos, screenRelative=True):
         """
         Create an entity.
         :param texture: Path to a file with texture
         :param size: Size in px
         :param pos: Position tuple
+        :param screenRelative: Is the pos arg relative to the screen or not?
         """
         super().__init__()
         self.image, self.rect = self.getTexture(texture, size)
@@ -25,11 +26,13 @@ class Entity(pygame.sprite.Sprite):
         # Screen class sets this field when you want to draw a sprite
         self.mapOffset = 0
         # Relative coords
-        self.x = pos[0]
-        self.y = pos[1]
+        self.x = 0
+        self.y = 0
         # Rect has entities' absolute coords
-        self.rect.x = pos[0]
-        self.rect.y = pos[1]
+        self.rect.x = 0
+        self.rect.y = 0
+        # Set the initial coords
+        self.setCoords(pos, screenRelative)
         # Unique ID
         self.id = self.setNewId()
 
