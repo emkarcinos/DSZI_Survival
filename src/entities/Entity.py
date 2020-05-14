@@ -50,12 +50,24 @@ class Entity(pygame.sprite.Sprite):
 
     # Setters and getters for coords
     def getCoords(self, screenRelative=False):
+        """
+        Get coordinates of this entity.
+
+        :param screenRelative: If true, the returned coords will be absolute. (default=False)
+        :return: A tuple of (x,y) coords.
+        """
         if screenRelative:
             return self.rect.x, self.rect.y
         else:
             return self.x, self.y
 
     def setCoords(self, coords, screenRelative=False):
+        """
+        Sets coords of this entity.
+
+        :param coords: A tuple containing (x,y) coords
+        :param screenRelative: If set to true, the passed coords will be treated as absolute. (default=False)
+        """
         if screenRelative:
             self.rect.x, self.rect.y = coords
             self.x = int((self.rect.x - self.mapOffset) / self.rect.w)
