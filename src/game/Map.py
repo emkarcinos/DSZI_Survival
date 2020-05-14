@@ -10,6 +10,7 @@ from src.entities.Entity import Entity
 from src.entities.Pickupable import Pickupable
 from src.entities.Statistics import Statistics
 
+
 # TODO: Map should determine entities' position
 class Map:
     def __init__(self, filename, screen):
@@ -53,7 +54,9 @@ class Map:
                     if entity["isPickupable"]:
                         actualEntities.append(Pickupable(entity["name"] + ".png",
                                                          self.tileSize,
-                                                         (entity["position"]["x"] * self.tileSize, entity["position"]["y"] * self.tileSize),
+                                                         # TODO: change to relative coords
+                                                         (entity["position"]["x"] * self.tileSize,
+                                                          entity["position"]["y"] * self.tileSize),
                                                          Statistics(entity["effect"]["hp"],
                                                                     entity["effect"]["hunger"],
                                                                     entity["effect"]["thirst"],
@@ -61,18 +64,21 @@ class Map:
                     # Creates an interactable object
                     elif "effect" in entity:
                         actualEntities.append(Interactable(entity["name"] + ".png",
-                                                         self.tileSize,
-                                                         (entity["position"]["x"] * self.tileSize,
-                                                          entity["position"]["y"] * self.tileSize),
-                                                         Statistics(entity["effect"]["hp"],
-                                                                    entity["effect"]["hunger"],
-                                                                    entity["effect"]["thirst"],
-                                                                    entity["effect"]["stamina"])))
+                                                           self.tileSize,
+                                                           # TODO: Change to relative coords
+                                                           (entity["position"]["x"] * self.tileSize,
+                                                            entity["position"]["y"] * self.tileSize),
+                                                           Statistics(entity["effect"]["hp"],
+                                                                      entity["effect"]["hunger"],
+                                                                      entity["effect"]["thirst"],
+                                                                      entity["effect"]["stamina"])))
                     # Creates plain entity
                     else:
                         actualEntities.append(Entity(entity["name"] + ".png",
-                                                        self.tileSize,
-                                                        (entity["position"]["x"] * self.tileSize, entity["position"]["y"] * self.tileSize)))
+                                                     self.tileSize,
+                                                     # TODO: Change to relative coords
+                                                     (entity["position"]["x"] * self.tileSize,
+                                                      entity["position"]["y"] * self.tileSize)))
                 except KeyError:
                     print("Failed to load entity " + entity)
         return actualEntities
@@ -120,7 +126,6 @@ class Map:
                 result = tile
         return result
 
-
     def getTileOnCoord(self, coord):
         result = None
         for tile in self.terrainTilesList:
@@ -137,17 +142,6 @@ class Map:
         self.collidables.add(entity)
         if not DONTADD:
             self.entities.append(entity)
-
-    # Usuwa entity lub teren z mapy
-    def removeSpriteFromMap(self, sprite):
-        if self.collidables.has(sprite):
-            self.collidables.remove(sprite)
-        if sprite in self.entities:
-            self.entities.remove(sprite)
-        if sprite in self.terrainTilesList:
-            self.terrainTilesList.remove(sprite)
-        # TODO: Suspicious?
-        self.screen.removeSprite(sprite)
 
     # add object to map.collidables list to be collidable
     def collision(self, x, y):
