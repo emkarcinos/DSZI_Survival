@@ -59,10 +59,6 @@ class Screen:
             sprite.rect.x += self.mapCoord
         self.gameObject.spritesList.add(sprite)
 
-    # TODO: Remove
-    def removeSprite(self, sprite):
-        self.gameObject.spritesList.remove(sprite)
-
     def getUiWidth(self, location: Locations):
         if location is Locations.RIGHT_UI:
             return self.winX - (self.mapCoord + self.mapSize)
