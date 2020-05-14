@@ -28,7 +28,7 @@ class Map:
         # grupa objektów kolizyjnych (tereny kolizyjne i entities)
         self.collidables = pygame.sprite.Group()
         # lista wszystkich entity
-        self.entities = []
+        self.entities = pygame.sprite.Group()
 
         with open(filename, 'rt') as f:
             for line in f:
@@ -170,7 +170,7 @@ class Map:
         # dodajemy bo wszystkie entity są kolizyjne
         self.collidables.add(entity)
         if not DONTADD:
-            self.entities.append(entity)
+            self.entities.add(entity)
 
     def collision(self, x, y, screenRelative=False):
         """
