@@ -14,6 +14,12 @@ from src.entities.Statistics import Statistics
 # TODO: Map should determine entities' position
 class Map:
     def __init__(self, filename, screen):
+        """
+        Create a map object.
+
+        :param filename: File name containing map data and JSON with entity data
+        :param screen: Screen object
+        """
         # TODO: Should map be self-aware of its own loacation?
         self.screen = screen
         # tekstowa macierz terenów
@@ -41,8 +47,13 @@ class Map:
         for entity in self.loadEntities(filename):
             self.addEntity(entity)
 
-    # Returns a list of entities loaded from mapfile
     def loadEntities(self, mapFileName):
+        """
+        Attempts to load all entities from mapdata JSON file.
+
+        :param mapFileName: name of map file
+        :return: list of loaded entities
+        """
         mapFile = mapFileName.split('.txt')[0]
         entitiesFilePath = mapFile + "Entities.json"
         actualEntities = []
@@ -78,6 +89,10 @@ class Map:
         return actualEntities
 
     def terrainDraw(self):
+        """
+        Composes terrain data.
+
+        """
         for row, tiles in enumerate(self.terrain):
             for col, tile in enumerate(tiles):
                 if tile == 's':
@@ -107,7 +122,7 @@ class Map:
 
     def getEntityOnCoord(self, coord, screenRelative=False):
         """
-        Get an entiity on a given coordinate
+        Get an entity on a given coordinate
 
         :param coord: Coords tuple of (x,y)
         :param screenRelative: True, if coords are screen-relative (default = False)
@@ -124,6 +139,13 @@ class Map:
         return result
 
     def getTileOnCoord(self, coord, screenRelative=False):
+        """
+        Gets a tile object on a given coordinate.
+
+        :param coord: A tuple of coords containing (x,y).
+        :param screenRelative: Set to true, if the passed coords are absolute to the screen (default=False)
+        :return: Tile object
+        """
         result = None
         for tile in self.terrainTilesList:
             isColliding = False
@@ -146,8 +168,15 @@ class Map:
         if not DONTADD:
             self.entities.append(entity)
 
-    # add object to map.collidables list to be collidable
     def collision(self, x, y, screenRelative=False):
+        """
+        Check if a collision occurs on given coordinates.
+
+        :param x: X coord
+        :param y: Y coord
+        :param screenRelative: Set this to true, if the passed coords are absolute (default = false)
+        :return: True, if the collision happens.
+        """
         if not screenRelative:
             for b in self.collidables:
                 # Temp coord translation
