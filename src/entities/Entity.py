@@ -2,7 +2,6 @@ from pathlib import Path
 
 import pygame
 
-# TODO: Add getters to retrieve relative coords
 from entities.Enums import Rotations, Movement
 
 
@@ -65,6 +64,15 @@ class Entity(pygame.sprite.Sprite):
             self.rect.x = coords[0] * self.rect.w + self.mapOffset
             self.rect.y = coords[1] * self.rect.h
 
+    def translateToAbsolute(self, offset=(0, 0)):
+        """
+        Returns entities' absolute coords after applying a non-relative offset.
+
+        :param offset: Offset tuple
+        :return: Position tuple of (x,y)
+        """
+        return self.rect.x + offset[0] * self.rect.w, self.rect.y + offset[1] * self.rect.h
+
     @staticmethod
     def setNewId():
         """
@@ -97,19 +105,31 @@ class Entity(pygame.sprite.Sprite):
         rect = image.get_rect()
         return image, rect
 
-    def getFacingCoord(self):
+    def getFacingCoord(self, screenRelative=True):
         """
-        Get coordinates forward to the player.
-        :return: Position tuple
+        Gets coordinates forward to the player.
+
+        :param screenRelative: If true, the method returns absolute coords
+        :return: Position tuple of (x,y) coords
         """
-        if self.rotation.value == Rotations.NORTH.value:
-            return self.rect.x, self.rect.y - self.rect.h
-        elif self.rotation.value == Rotations.SOUTH.value:
-            return self.rect.x, self.rect.y + self.rect.h
-        elif self.rotation.value == Rotations.EAST.value:
-            return self.rect.x + self.rect.h, self.rect.y
-        elif self.rotation.value == Rotations.WEST.value:
-            return self.rect.x - self.rect.h, self.rect.y
+        if screenRelative:
+            if self.rotation.value == Rotations.NORTH.value:
+                return self.translateToAbsolute((0, -1))
+            elif self.rotation.value == Rotations.SOUTH.value:
+                return self.translateToAbsolute((0, 1))
+            elif self.rotation.value == Rotations.EAST.value:
+                return self.translateToAbsolute((1, 0))
+            elif self.rotation.value == Rotations.WEST.value:
+                return self.translateToAbsolute((-1, 0))
+        else:
+            if self.rotation.value == Rotations.NORTH.value:
+                return self.x, self.y - 1
+            elif self.rotation.value == Rotations.SOUTH.value:
+                return self.x, self.y + 1
+            elif self.rotation.value == Rotations.EAST.value:
+                return self.x + 1, self.y
+            elif self.rotation.value == Rotations.WEST.value:
+                return self.x - 1, self.y
 
     def move(self, movement):
         """
