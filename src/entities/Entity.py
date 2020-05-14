@@ -58,8 +58,8 @@ class Entity(pygame.sprite.Sprite):
     def setCoords(self, coords, screenRelative=False):
         if screenRelative:
             self.rect.x, self.rect.y = coords
-            self.x = (self.rect.x - self.mapOffset) / self.rect.w
-            self.y = self.rect.y / self.rect.h
+            self.x = int((self.rect.x - self.mapOffset) / self.rect.w)
+            self.y = int(self.rect.y / self.rect.h)
         else:
             self.x, self.y = coords
             self.rect.x = coords[0] * self.rect.w + self.mapOffset
@@ -161,15 +161,14 @@ class Entity(pygame.sprite.Sprite):
         Moves the player forward. NOTE: should not be used outside of the player class.
 
         """
-        # TODO: Use relative coords
         if self.rotation.value == Rotations.NORTH.value:
-            self.rect.y -= self.rect.w
+            self.setCoords((self.x, self.y - 1))
         elif self.rotation.value == Rotations.EAST.value:
-            self.rect.x += self.rect.w
+            self.setCoords((self.x + 1, self.y))
         elif self.rotation.value == Rotations.SOUTH.value:
-            self.rect.y += self.rect.w
+            self.setCoords((self.x, self.y + 1))
         elif self.rotation.value == Rotations.WEST.value:
-            self.rect.x -= self.rect.w
+            self.setCoords((self.x - 1, self.y))
 
     def updateRotation(self, movement):
         """
