@@ -88,27 +88,27 @@ class Map:
             for col, tile in enumerate(tiles):
                 if tile == 's':
                     object = TerrainTile(col, row, 'sand.png', self.tileSize, 15)
-                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.screen.draw(object, Locations.MAP)
                     self.terrainTilesList.append(object)
                 elif tile == ',':
                     object = TerrainTile(col, row, 'floor.png', self.tileSize, 0)
-                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.screen.draw(object, Locations.MAP)
                     self.terrainTilesList.append(object)
                 elif tile == '.':
                     object = TerrainTile(col, row, 'grass.png', self.tileSize, 10)
-                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.screen.draw(object, Locations.MAP)
                     self.terrainTilesList.append(object)
                 elif tile == 'c':
                     object = TerrainTile(col, row, 'clay.png', self.tileSize, 20)
-                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.screen.draw(object, Locations.MAP)
                     self.terrainTilesList.append(object)
                 elif tile == 'x':
                     object = TerrainTile(col, row, 'water.png', self.tileSize, 0)
-                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.screen.draw(object, Locations.MAP)
                     self.collidables.add(object)
                 elif tile == 'w':
                     object = TerrainTile(col, row, 'wall.png', self.tileSize, 0)
-                    self.screen.draw(object, Locations.MAP, 0, 0)
+                    self.screen.draw(object, Locations.MAP)
                     self.collidables.add(object)
 
     def getEntityOnCoord(self, coord):
@@ -137,7 +137,7 @@ class Map:
     # TODO: REMOVE DONT ADD
     def addEntity(self, entity, DONTADD=False):
         # TODO: This method should set entities coords
-        self.screen.draw(entity, Locations.MAP, 0, 0)
+        self.screen.draw(entity, Locations.MAP)
         # dodajemy bo wszystkie entity są kolizyjne
         self.collidables.add(entity)
         if not DONTADD:
