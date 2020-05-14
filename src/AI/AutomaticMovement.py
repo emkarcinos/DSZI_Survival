@@ -1,5 +1,5 @@
 from src.entities.Entity import Entity
-from entities.Enums import Rotations, Movement
+from src.entities.Enums import Rotations, Movement
 from src.AI.AStarNode import AStarNode
 from queue import PriorityQueue
 

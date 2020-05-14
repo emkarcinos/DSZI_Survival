@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pygame
 
-from entities.Enums import StatisticNames
+from src.entities.Enums import StatisticNames
 from src.entities.Statistics import Statistics
 from src.ui.UiBar import UiBar
 from src.ui.UiConsole import UiConsole

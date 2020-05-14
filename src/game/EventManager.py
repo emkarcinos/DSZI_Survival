@@ -3,9 +3,7 @@ from time import sleep
 
 import pygame
 
-from src.entities.Interactable import Interactable
-from src.entities.Pickupable import Pickupable
-from entities.Enums import Movement
+from src.entities.Enums import Movement
 
 
 class EventManager:

@@ -2,7 +2,7 @@ import random
 
 import pygame
 
-from entities.Enums import Rotations, StatisticNames, Movement
+from src.entities.Enums import Rotations, StatisticNames, Movement
 from src.entities.Entity import Entity
 from src.entities.Statistics import Statistics
 

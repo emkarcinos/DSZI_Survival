@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pygame
 
-from entities.Enums import Rotations, Movement
+from src.entities.Enums import Rotations, Movement
 
 
 class Entity(pygame.sprite.Sprite):
@@ -216,7 +216,7 @@ class Entity(pygame.sprite.Sprite):
         """
         if self.movementTarget is None:
             self.movementTarget = target
-            from AI.AutomaticMovement import aStar
+            from src.AI.AutomaticMovement import aStar
             self.movesList = aStar(self, self.movementTarget, map)
             if not self.movesList:
                 self.movementTarget = None
