@@ -106,7 +106,9 @@ class EventManager:
         if keys[pygame.K_u]:
             while True:
                 try:
-                    self.player.gotoToTarget(Random().choice(self.game.map.entities), self.game.map)
+                    from src.entities.Interactable import Interactable
+                    self.player.gotoToTarget(Random().choice(self.game.map.getEntitiesByType(Interactable)),
+                                             self.game.map)
                     break
                 except IndexError:
                     pass
