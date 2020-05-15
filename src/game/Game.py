@@ -12,6 +12,9 @@ from src.game.Timer import Timer
 
 
 # Main Game class
+from src.ui.UiConsole import UiConsole
+
+
 class Game:
     def __init__(self, filesPath):
         """
@@ -76,6 +79,11 @@ class Game:
         self.player = Player((6, 2), self.map.tileSize)
         self.map.addEntity(self.player, DONTADD=True)
         self.eventManager = EventManager(self, self.player)
+
+        # UiConsole.printToConsole() Test
+        testMessages = ["Test message " + str(i) for i in range(1, 51)]
+        for testMsg in testMessages:
+            UiConsole.printToConsole(testMsg)
 
         # Start game loop
         self.mainLoop()
