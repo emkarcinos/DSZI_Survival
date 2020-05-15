@@ -97,6 +97,9 @@ class Player(Entity):
         elif self.statistics.hp == 0:
             self.alive = False
             self.deathReason = StatisticNames.HP
+        elif self.statistics.stamina == 0:
+            self.alive = False
+            self.deathReason = StatisticNames.STAMINA
 
         # Change texture after dying
         if not self.alive:
