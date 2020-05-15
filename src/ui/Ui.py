@@ -46,7 +46,7 @@ class Ui:
 
         # If no font was given then load it from predefined file.
         if font is None:
-            font = self.__loadFont__(font)
+            font = self.__loadFont__()
         self.font = font
 
         self.timer = timer
@@ -116,7 +116,9 @@ class Ui:
         """
         consoleLines = ["Health: " + str(statistics.hp), "Hunger: " + str(statistics.hunger),
                         "Stamina: " + str(statistics.stamina), "Thirst: " + str(statistics.thirst)]
-        self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
+
+        for line in consoleLines:
+            self.console.printToConsole(line)
 
     def updateBarsBasedOnPlayerStats(self, statistics: Statistics):
         """
@@ -151,8 +153,7 @@ class Ui:
         :param playerStats:
         :param pickedObject:
         """
-        self.console.addLinesToConsoleAndScrollToDisplayThem(
-            [self.timer.getPrettyTime() + " - Picked object " + str(pickedObject.id) + ":"])
+        self.console.printToConsole(self.timer.getPrettyTime() + " - Picked object " + str(pickedObject.id) + ":")
         self.updateConsoleBasedOnPlayerStats(playerStats)
 
     def updateOnPlayerInteraction(self, playerStats, interactedObject: Interactable):
@@ -163,7 +164,7 @@ class Ui:
         :param playerStats:
         :param interactedObject:
         """
-        self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Player interacted with " + str(interactedObject.id) + ":"])
+        self.console.printToConsole(self.timer.getPrettyTime() + " - Player interacted with " + str(interactedObject.id) + ":")
         self.updateConsoleBasedOnPlayerStats(playerStats)
 
     def updateOnDeath(self, player: Player):
@@ -191,7 +192,8 @@ class Ui:
 
         consoleLines.append("Time alive: " + str(player.timeAlive / 1000) + "s")
 
-        self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
+        for line in consoleLines:
+            self.console.printToConsole(line)
 
     def updateTime(self):
         """
