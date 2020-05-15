@@ -47,7 +47,7 @@ class Player(Entity):
         if self.movePoints % 10 == 0:
             self.statistics.set_thirst(2)
         # gets tired every step
-        self.statistics.set_stamina(-1)
+        self.statistics.set_stamina(-1.5)
 
     def applyTimeFatigue(self, tickTime):
         """
