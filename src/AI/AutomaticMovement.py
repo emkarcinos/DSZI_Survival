@@ -129,7 +129,7 @@ def aStar(movable: Entity, target, map):
     :return: Array of moves
     """
     testCount = 0
-    print("Couldn't find path to x:", target.x, " y:", target.y, end='...\n')
+    print("Finding path to x:", target.x, " y:", target.y, end='...\n')
     fringe = PriorityQueue()
     explored = []
 
