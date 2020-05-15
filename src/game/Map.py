@@ -87,6 +87,20 @@ class Map:
                     print("Failed to load entity " + entity)
         return actualEntities
 
+    def getEntitiesByType(self, type):
+        """
+        Get a list of all entities by their type.
+
+        :param type: Entity type as class tpe
+        :return A list of all entities of specified type
+        """
+        result = []
+        for entity in self.entities.sprites():
+            if isinstance(entity, type):
+                result.append(entity)
+
+        return result
+
     def terrainDraw(self):
         """
         Composes terrain data.
