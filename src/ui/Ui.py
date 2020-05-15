@@ -1,39 +1,52 @@
 from enum import Enum
 from pathlib import Path
+from typing import Union
 
 import pygame
 
 from src.entities.Enums import StatisticNames
+from src.entities.Interactable import Interactable
+from src.entities.Pickupable import Pickupable
+from src.entities.Player import Player
 from src.entities.Statistics import Statistics
+from src.game.Timer import Timer
 from src.ui.UiBar import UiBar
 from src.ui.UiConsole import UiConsole
 from src.ui.UiText import UiText
 
 
-class Ui():
-    def __init__(self, rightUiWidth, leftUiWidth, screenHeight, timer, font=None, antialias=True):
+class Ui:
+    elements: pygame.sprite.Group
+    timer: Timer
+    antialias: bool
+    barHeight: float
+
+    def __init__(self, rightUiWidth: int, leftUiWidth: int, screenHeight: int, timer: Timer,
+                 font: Union[pygame.font.Font, None] = None, antialias: bool = True):
+        """
+        Creates Ui object. Instantiates all UI elements.
+
+        :param rightUiWidth:
+        :param leftUiWidth:
+        :param screenHeight:
+        :param timer:
+        :param font:
+        :param antialias:
+        """
         self.elements = pygame.sprite.Group()
 
         self.leftUiWidth = leftUiWidth
         self.rightUiWidth = rightUiWidth
         self.screenHeight = screenHeight
 
+        # Default bar's height, like hp bar.
         self.barHeight = 25
 
         self.antialias = antialias
 
-        fontName = "FiraCode-Light.ttf"
-        fontFolder = ""
-        fontFile = ""
-        try:
-            fontFolder = Path("./data/fonts")
-            fontFile = fontFolder / fontName
-        except IOError:
-            print("Cannot load texture from " + fontFolder + ". Exiting...")
-            exit(1)
-        fontPath = str(fontFile.resolve())
+        # If no font was given then load it from predefined file.
         if font is None:
-            font = pygame.font.Font(fontPath, int(self.barHeight / 1.5))
+            font = self.__loadFont__(font)
         self.font = font
 
         self.timer = timer
@@ -76,18 +89,53 @@ class Ui():
                                              screenHeight - self.timerTextView.rect.h - self.isDayTextView.rect.h),
                                  font=self.font, antialias=self.antialias)
 
+    def __loadFont__(self) -> pygame.font.Font:
+        """
+        Loads project's default font.
+
+        :return: Font loaded from file.
+        """
+        fontName = "FiraCode-Light.ttf"
+        fontFolder = ""
+        fontFile = ""
+        try:
+            fontFolder = Path("./data/fonts")
+            fontFile = fontFolder / fontName
+        except IOError:
+            print("Cannot load font from " + fontFolder + ". Exiting...")
+            exit(1)
+        fontPath = str(fontFile.resolve())
+        font = pygame.font.Font(fontPath, int(self.barHeight / 1.5))
+        return font
+
     def updateConsoleBasedOnPlayerStats(self, statistics: Statistics):
+        """
+        Prints statistics on console.
+
+        :param statistics: Statistics to print
+        """
         consoleLines = ["Health: " + str(statistics.hp), "Hunger: " + str(statistics.hunger),
                         "Stamina: " + str(statistics.stamina), "Thirst: " + str(statistics.thirst)]
         self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
 
     def updateBarsBasedOnPlayerStats(self, statistics: Statistics):
+        """
+        Updates bars like hp bar to match player's statistics.
+
+        :param statistics:
+        """
         self.healthBar.updateFill(statistics.hp)
         self.hungerBar.updateFill(statistics.hunger)
         self.staminaBar.updateFill(statistics.stamina)
         self.thirstBar.updateFill(statistics.thirst)
 
     def updateBasedOnPygameEvent(self, event: pygame.event):
+        """
+        Examines event and does actions:
+            - console scrolling
+
+        :param event: pygame event to examine.
+        """
         if event.type == pygame.MOUSEBUTTONDOWN:
             console = self.console
             if event.button == 4:
@@ -95,15 +143,35 @@ class Ui():
             elif event.button == 5:
                 console.scrollUp()
 
-    def updateOnPlayerPickup(self, playerStats, pickedObject):
-        self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Picked object " + str(pickedObject.id) + ":"])
+    def updateOnPlayerPickup(self, playerStats, pickedObject: Pickupable):
+        """
+        This method should be called to update UI state after player pickup.
+        Given player statistics and picked object updates bars and prints message to console.
+
+        :param playerStats:
+        :param pickedObject:
+        """
+        self.console.addLinesToConsoleAndScrollToDisplayThem(
+            [self.timer.getPrettyTime() + " - Picked object " + str(pickedObject.id) + ":"])
         self.updateConsoleBasedOnPlayerStats(playerStats)
 
-    def updateOnPlayerInteraction(self, playerStats, interactedObject):
+    def updateOnPlayerInteraction(self, playerStats, interactedObject: Interactable):
+        """
+        This method should be called to update UI state after player interaction.
+        Updates bars and prints message to console.
+
+        :param playerStats:
+        :param interactedObject:
+        """
         self.console.addLinesToConsoleAndScrollToDisplayThem([self.timer.getPrettyTime() + " - Player interacted with " + str(interactedObject.id) + ":"])
         self.updateConsoleBasedOnPlayerStats(playerStats)
 
-    def updateOnDeath(self, player):
+    def updateOnDeath(self, player: Player):
+        """
+        Updates UI after player death. Prints death reason to console.
+
+        :param player: Dead player.
+        """
         consoleLines = []
 
         deathReason: StatisticNames = player.deathReason
@@ -126,6 +194,10 @@ class Ui():
         self.console.addLinesToConsoleAndScrollToDisplayThem(consoleLines)
 
     def updateTime(self):
+        """
+        Updates timer and changes text eventually changes day or night text.
+
+        """
         self.timerTextView.changeText(self.timer.getPrettyTime())
         if self.timer.isItDay():
             self.isDayTextView.changeText("Day")
