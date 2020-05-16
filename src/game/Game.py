@@ -126,7 +126,7 @@ class Game:
         self.initializeMap(filesPath)
 
         # Initialize the player
-        self.player = Player((6, 2), self.map.tileSize, Affinities(0.3, 0.6, 0.1))
+        self.player = Player((6, 2), self.map.tileSize, Affinities(0.3, 0.6, 0.1, 0.5))
         self.map.addEntity(self.player, DONTADD=True)
         self.eventManager = EventManager(self, self.player)
 
