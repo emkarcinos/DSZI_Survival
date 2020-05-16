@@ -88,7 +88,7 @@
     "isPickupable": false,
     "effect" : {
       "hp": 10,
-      "stamina": 15,
+      "stamina": 50,
       "thirst": 0,
       "hunger": 0
     },
