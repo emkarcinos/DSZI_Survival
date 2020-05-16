@@ -29,7 +29,6 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.2):
         parents = selectMatingPool(population, fitness, int(solutions / 2))
         print("Best fitness: {}".format(max(fitness)))
         offspring = mating(parents, solutions, mutationAmount)
-    # TODO: Parents selection, mating, offspring
 
 
 def selectMatingPool(population, fitness, count):
@@ -66,7 +65,7 @@ def mating(parents, offspringCount, mutationAmount):
         parent2 = (i + 1) % len(parents)
         offspring.append(crossover(parents[parent1], parents[parent2]))
 
-    # TODO: Add mutation
+    offspring = mutation(offspring, mutationAmount)
     return offspring
 
 
@@ -83,6 +82,13 @@ def crossover(genes1, genes2):
     for gene1, gene2 in zip(genes1, genes2):
         result.append((gene1 + gene2) / 2)
     return result
+
+
+def mutation(offspring, mutationAmount):
+    for player in offspring:
+        randomGeneIdx = random.randint(len(player))
+        player[randomGeneIdx] = player[randomGeneIdx] * random.random() * mutationAmount
+    return offspring
 
 
 def doSimulation(weights, map):
