@@ -25,7 +25,7 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
     initialPopulation = numpy.random.uniform(low=0.0, high=1.0, size=(solutions, weightsCount))
     population = initialPopulation
     for i in range(iter):
-        print("\nRunning {} generation...".format(i))
+        print("\nRunning {} generation...".format(i + 1))
         fitness = []
         if not multithread:
             for player in population:
@@ -168,4 +168,7 @@ def pickEntity(player, map):
     finalEntities = foods + waters + rests
     finalWeights = foodsWeights + watersWeights + restsWeights
 
+    if not finalEntities:
+        # If all items are gone, pick random one
+        finalEntities = map.getInteractablesByClassifier()
     return random.choices(finalEntities, finalWeights)[0]
