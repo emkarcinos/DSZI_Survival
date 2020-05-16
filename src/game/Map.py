@@ -2,6 +2,7 @@ import json
 
 import pygame
 
+from src.entities.Enums import Classifiers
 from src.entities.Interactable import Interactable
 from src.game.TerrainTile import TerrainTile
 from src.game.Screen import Locations
@@ -88,6 +89,19 @@ class Map:
                 except KeyError:
                     print("Failed to load entity " + entity)
         return actualEntities
+
+    def getInteractablesByClassifier(self, classifier: Classifiers):
+        """
+        Return a list of all Interactable entities by a given classifier.
+
+        :type classifier: Classifiers
+        :param classifier: Classifier
+        """
+        result = []
+        for entity in self.entities.sprites():
+            if isinstance(entity, Interactable) and entity.classifier.value == classifier.value:
+                result.append(entity)
+        return result
 
     def getEntitiesByType(self, type):
         """
