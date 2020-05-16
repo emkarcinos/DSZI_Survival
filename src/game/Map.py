@@ -90,17 +90,21 @@ class Map:
                     print("Failed to load entity " + entity)
         return actualEntities
 
-    def getInteractablesByClassifier(self, classifier: Classifiers):
+    def getInteractablesByClassifier(self, classifier=None):
         """
         Return a list of all Interactable entities by a given classifier.
+        If the classifier is None, returns all interactables.
 
         :type classifier: Classifiers
         :param classifier: Classifier
         """
         result = []
         for entity in self.entities.sprites():
-            if isinstance(entity, Interactable) and entity.classifier.value == classifier.value:
-                result.append(entity)
+            if isinstance(entity, Interactable):
+                if classifier is None:
+                    result.append(entity)
+                elif entity.classifier.value == classifier.value:
+                    result.append(entity)
         return result
 
     def getEntitiesByType(self, type):
