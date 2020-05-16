@@ -24,5 +24,5 @@ def pickWeightedAffinity(affinities: Affinities):
     population = [Classifiers.FOOD, Classifiers.WATER, Classifiers.REST]
     weights = affinities.getWeigths()
 
-    return random.choices(population, weights)
+    return random.choices(population, weights)[0]
 
