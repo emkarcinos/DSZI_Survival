@@ -24,6 +24,14 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
     # Initialize the first population with random values
     initialPopulation = numpy.random.uniform(low=0.0, high=1.0, size=(solutions, weightsCount))
     population = initialPopulation
+    maps = []
+
+    if multithread:
+        # Create a map for each thread
+        print("Creating a map for each thread...")
+        for i in range(solutions):
+            maps.append(Map(map.filename, map.screen))
+
     for i in range(iter):
         print("\nRunning {} generation...".format(i + 1))
         fitness = []
@@ -32,9 +40,10 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
                 fitness.append(doSimulation(player, map))
         else:
             threads = []
-            for p in range(len(population)):
-                threads.append(ThreadedSimulation(p+1, p+1, population[p], map))
-                threads[-1].start()
+            for a in range(solutions):
+                thread = ThreadedSimulation(a+1, a+1, population[a], maps[a])
+                threads.append(thread)
+                thread.start()
             for t in threads:
                 t.join()
                 fitness.append(t.getResult())
@@ -171,7 +180,6 @@ def pickEntity(player, map):
     if not finalEntities:
         # If all items are gone, pick random one
         finalEntities = map.getInteractablesByClassifier()
-    random.seed(10)
-    choice = random.choices(finalEntities, finalWeights)[0]
-    random.seed()
+    rng = random.Random()
+    choice = rng.choices(finalEntities, finalWeights)[0]
     return choice

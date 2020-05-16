@@ -19,9 +19,8 @@ class ThreadedSimulation(threading.Thread):
 
     def run(self):
         from src.AI.GA import doSimulation
-        from src.game.Map import Map
-        newMap = Map(self.map.filename, None)
-        self.result = doSimulation(self.player, newMap)
+        self.map.respawn()
+        self.result = doSimulation(self.player, self.map)
 
     def getResult(self):
         return self.result
