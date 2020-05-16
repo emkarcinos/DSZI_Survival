@@ -2,7 +2,7 @@ from src.entities.Entity import Entity
 
 
 class Interactable(Entity):
-    def __init__(self, texture, size, pos, Statistics):
+    def __init__(self, texture, size, pos, Statistics, classifier=None):
         """
         Create an interactable entity, that can be interacted with.
 
@@ -10,9 +10,12 @@ class Interactable(Entity):
         :param size: Size in px
         :param pos: A tuple of coords (x,y)
         :param Statistics: Outcome of the interaction
+        :param classifier: Type of the entity (food, water, rest)
         """
         super().__init__(texture, size, pos)
         self.Statistics = Statistics
+
+        self.classifier = classifier
 
     def on_interaction(self, Player):
         """
