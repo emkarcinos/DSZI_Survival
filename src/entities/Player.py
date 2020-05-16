@@ -53,26 +53,19 @@ class Player(Entity):
 
         """
         # looses hunger
-        self.statistics.set_hunger(1.3)
+        self.statistics.set_hunger(1.7)
         # gets more thirsty
         self.statistics.set_thirst(2.2)
         # gets tired
-        self.statistics.set_stamina(-1.5)
+        self.statistics.set_stamina(-1.9)
 
-    def applyTimeFatigue(self, tickTime):
+    def applyTimeFatigue(self):
         """
         A separate method to lower the statistics. Invoked every frame.
-
-        :param tickTime: Time passed between the previous frame (in milliseconds)
         """
-        self.fatigueTimeout += tickTime
-        if self.fatigueTimeout >= 700:
-            self.statistics.set_thirst(5)
-            self.statistics.set_hunger(3)
-            # A player can randomly regenerate stamina
-            if random.randrange(5) == 0:
-                self.statistics.set_stamina(2)
-            self.fatigueTimeout = 0
+        self.statistics.set_thirst(0.002)
+        self.statistics.set_hunger(0.003)
+        self.statistics.set_stamina(-0.001)
 
     def getStatistic(self, stat):
         """
@@ -156,5 +149,6 @@ class Player(Entity):
             # self.applyTimeFatigue(self.timer.get_time())   # COMMENTED FOR A_STAR_TEST
             # Adds frame time to movementTimer
             self.movementTimer += self.timer.tick()
+            self.applyTimeFatigue()
             self.updateEntityCoords()
             self.determineLife()
