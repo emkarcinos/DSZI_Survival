@@ -40,6 +40,13 @@ class Player(Entity):
         # For GA to determine priorities of random movements
         self.affinities = affinities
 
+    def disableMovementTime(self):
+        """
+        Disables waiting time between each move.
+
+        """
+        self.moveTimeout = 0
+
     def applyWalkingFatigue(self):
         """
         Lowers player's statistics. Applied every few steps.
