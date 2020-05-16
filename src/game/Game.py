@@ -15,15 +15,14 @@ from src.game.Timer import Timer
 
 # Main Game class
 class Game:
-    def __init__(self, filesPath, gamemode="ga"):
+    def __init__(self, filesPath, argv):
         """
         Game script initialization. Loads all files, creates screen, map, tiles, entities and a player.
         Starts the main game loop at the end.
 
         :param filesPath: Absolute path to the root of the gamefiles
-        :param gamemode: Mode to run. Currently, there's only test gamemode.
+        :param argv: Runnable arguments
         """
-
         # If set to true, gameloop will run
         self.running = False
         # Config dict
@@ -48,10 +47,19 @@ class Game:
         self.initializePygame()
 
         # Runnable selection
-        if gamemode == "test":
+        if len(argv) < 2:
+            print("No arguments specified.")
+            exit(1)
+        if argv[1] == "test":
             self.testRun(filesPath)
-        elif gamemode == "ga":
-            self.gaRun(filesPath)
+        elif argv[1] == "ga":
+            if len(argv) == 3 and argv[2] == "-t":
+                print("Running Genetic Algorithm in multithreaded mode")
+                self.gaRun(filesPath, multithread=True)
+            else:
+                print("Running Genetic Algorithm in singlethreaded mode")
+                self.gaRun(filesPath)
+
         else:
             print("Invalid gamemode. \n Possible options: test, ga")
             exit(1)
@@ -136,7 +144,7 @@ class Game:
         # Start game loop
         self.mainLoop()
 
-    def gaRun(self, filesPath):
+    def gaRun(self, filesPath, multithread=False):
         """
         Runs the game in GA mode - runs genetic algorithm in headless mode.
 
@@ -162,7 +170,9 @@ class Game:
         self.initializeMap(filesPath)
 
         # Run GA:
-        geneticAlgorithm(self.map, 200, 8, 0.05)
+        self.pgTimer.tick()
+        geneticAlgorithm(self.map, 30, 10, 0.1, multithread)
+        print("Time elapsed: ", self.pgTimer.tick() // 1000)
 
     def mainLoop(self):
         """
