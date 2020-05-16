@@ -240,3 +240,8 @@ class Map:
                 if b.rect.x == x and b.rect.y == y:
                     return True
             return False
+
+    def __del__(self):
+        for entity in self.entities.sprites():
+            entity.kill()
+            del entity
