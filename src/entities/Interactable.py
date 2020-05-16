@@ -27,3 +27,6 @@ class Interactable(Entity):
         Player.statistics.set_stamina(self.Statistics.stamina)
         Player.statistics.set_thirst(self.Statistics.thirst)
         Player.statistics.set_hunger(self.Statistics.hunger)
+
+    def __str__(self):
+        return "Entity - ID:{}, pos:({}x, {}y), {}".format(self.id, self.x, self.y, self.classifier)
