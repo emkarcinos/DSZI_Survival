@@ -6,13 +6,14 @@ from src.entities.Enums import Classifiers
 from src.entities.Player import Player
 
 
-def geneticAlgorithm(map, iter, solutions, mutationAmount=0.2):
+def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05):
     """
     This algorithm will attempt to find the best affinities for player's goal choices.
 
     :param map: Map with all entities
     :param iter: Generations count
     :param solutions: Solutions per generation
+    :param mutationAmount: Mutation strength
     """
     # Based on 4 weights, that are affinities tied to the player
     weightsCount = 4
@@ -29,6 +30,7 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.2):
         parents = selectMatingPool(population, fitness, int(solutions / 2))
         print("Best fitness: {}".format(max(fitness)))
         offspring = mating(parents, solutions, mutationAmount)
+        population = offspring
 
 
 def selectMatingPool(population, fitness, count):
@@ -86,8 +88,8 @@ def crossover(genes1, genes2):
 
 def mutation(offspring, mutationAmount):
     for player in offspring:
-        randomGeneIdx = random.randint(len(player))
-        player[randomGeneIdx] = player[randomGeneIdx] * random.random() * mutationAmount
+        randomGeneIdx = random.randrange(0, len(player))
+        player[randomGeneIdx] = player[randomGeneIdx] + random.uniform(-1.0, 1.0) * mutationAmount
     return offspring
 
 
