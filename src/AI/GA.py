@@ -26,6 +26,7 @@ def geneticAlgorithm(map, iter, solutions):
         for player in population:
             fitness.append(doSimulation(player, map))
 
+    # TODO: Parents selection, mating, offspring
 
 def doSimulation(weights, map):
     """
