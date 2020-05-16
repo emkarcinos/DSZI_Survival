@@ -10,6 +10,7 @@ class Pickupable(Interactable):
         :param size: Size in px
         :param pos: Position tuple of (x,y)
         :param Statistics: Outcome of the interaction
+        :param classifier: Type of the entity (food, water, rest)
         """
         super().__init__(texture, size, pos, Statistics, classifier)
         self.is_pickupable = True
