@@ -5,6 +5,7 @@ from pathlib import Path
 import pygame
 
 from src.AI.Affinities import Affinities
+from src.AI.GA import geneticAlgorithm
 from src.entities.Player import Player
 from src.game.EventManager import EventManager
 from src.game.Map import Map
@@ -14,7 +15,7 @@ from src.game.Timer import Timer
 
 # Main Game class
 class Game:
-    def __init__(self, filesPath, gamemode="test"):
+    def __init__(self, filesPath, gamemode="ga"):
         """
         Game script initialization. Loads all files, creates screen, map, tiles, entities and a player.
         Starts the main game loop at the end.
@@ -49,9 +50,11 @@ class Game:
         # Runnable selection
         if gamemode == "test":
             self.testRun(filesPath)
-
-        # Start game loop
-        self.mainLoop()
+        elif gamemode == "ga":
+            self.gaRun(filesPath)
+        else:
+            print("Invalid gamemode. \n Possible options: test, ga")
+            exit(1)
 
     def initializePygame(self):
         """
@@ -129,6 +132,37 @@ class Game:
         self.player = Player((6, 2), self.map.tileSize, Affinities(0.3, 0.6, 0.1, 0.5))
         self.map.addEntity(self.player, DONTADD=True)
         self.eventManager = EventManager(self, self.player)
+
+        # Start game loop
+        self.mainLoop()
+
+    def gaRun(self, filesPath):
+        """
+        Runs the game in GA mode - runs genetic algorithm in headless mode.
+
+        :param filesPath: Absolute path to game's root directory
+        """
+        self.running = True
+        print("Initializing screen, params: " + str(self.config["window"]) + "...", end=" ")
+
+        # Vertical rotation is unsupported due to UI layout
+        if self.config["window"]["height"] > self.config["window"]["width"]:
+            print("The screen cannot be in a vertical orientation. Exiting...")
+            exit(1)
+
+        # Initialize timers
+        # Virtual timer to track in-game time
+        self.ingameTimer = Timer()
+        self.ingameTimer.startClock()
+
+        # Initialize screen
+        self.screen = Screen(self, self.config["window"])
+        print("OK")
+
+        self.initializeMap(filesPath)
+
+        # Run GA:
+        geneticAlgorithm(self.map, 200, 8, 0.05)
 
     def mainLoop(self):
         """
