@@ -31,7 +31,9 @@ class Map:
         # lista wszystkich entity
         self.entities = pygame.sprite.Group()
 
-        with open(filename, 'rt') as f:
+        self.filename = filename
+
+        with open(self.filename, 'rt') as f:
             for line in f:
                 self.terrain.append(line)
 
@@ -44,7 +46,7 @@ class Map:
 
         self.terrainDraw()
 
-        for entity in self.loadEntities(filename):
+        for entity in self.loadEntities(self.filename):
             self.addEntity(entity)
 
     def loadEntities(self, mapFileName):
@@ -152,6 +154,18 @@ class Map:
                     object = TerrainTile(col, row, 'wall.png', self.tileSize, 0)
                     self.screen.addSprite(object, Locations.MAP)
                     self.collidables.add(object)
+
+    def respawn(self):
+        """
+        Respawns all entities on the map.
+        """
+        for entity in self.entities.sprites():
+            entity.kill()
+            del entity
+
+        entites = self.loadEntities(self.filename)
+        for entity in entites:
+            self.addEntity(entity)
 
     def getEntityOnCoord(self, coord, screenRelative=False):
         """
