@@ -6,7 +6,7 @@ from src.entities.Enums import Classifiers
 from src.entities.Player import Player
 
 
-def geneticAlgorithm(map, iter, solutions):
+def geneticAlgorithm(map, iter, solutions, mutationAmount=0.2):
     """
     This algorithm will attempt to find the best affinities for player's goal choices.
 
@@ -16,16 +16,17 @@ def geneticAlgorithm(map, iter, solutions):
     """
     # Based on 4 weights, that are affinities tied to the player
     weightsCount = 4
-    populationSize = (solutions, weightsCount)
 
     # Initialize the first population with random values
-    initialPopulation = numpy.random.uniform(low=0.0, high=1.0, size=populationSize)
+    initialPopulation = numpy.random.uniform(low=0.0, high=1.0, size=(solutions, weightsCount))
     population = initialPopulation
     for i in range(iter):
         fitness = []
         for player in population:
             fitness.append(doSimulation(player, map))
 
+        parents = selectMatingPool(population, fitness, int(solutions / 2))
+        offspring = mating(parents, solutions, mutationAmount)
     # TODO: Parents selection, mating, offspring
 
 
@@ -46,6 +47,40 @@ def selectMatingPool(population, fitness, count):
     for id in bestIdxs:
         result.append(population[id])
     print(result)
+    return result
+
+
+def mating(parents, offspringCount, mutationAmount):
+    """
+    Generate an offspring from parents.
+
+    :param parents: Array of parents weights
+    :param offspringCount: Offspring count
+    :param mutationAmount: How strong is the mutation of the genes
+    :return: An array of new offspring
+    """
+    offspring = []
+    for i in range(offspringCount):
+        parent1 = i % len(parents)
+        parent2 = (i + 1) % len(parents)
+        offspring.append(crossover(parents[parent1], parents[parent2]))
+
+    # TODO: Add mutation
+    return offspring
+
+
+def crossover(genes1, genes2):
+    """
+    Apply a crossover between two genes.
+    Currently, it calculates the median.
+
+    :param genes1: An array of genes
+    :param genes2: An array of genes
+    :return: Array of resulted genes
+    """
+    result = []
+    for gene1, gene2 in zip(genes1, genes2):
+        result.append((gene1 + gene2) / 2)
     return result
 
 
