@@ -122,6 +122,7 @@ class Player(Entity):
         # Can move if timeout has elapsed
         if self.movementTimer > self.moveTimeout:
             self.movementTimer = 0
+            self.movePoints += 1
             # Movement
             if movement.value == Movement.FORWARD.value:
                 self.moveForward()
