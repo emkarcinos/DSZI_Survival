@@ -247,3 +247,6 @@ class Entity(pygame.sprite.Sprite):
         self.movementTimer += self.pygameTimer.tick()
         # If A* has ben called, move the entity
         self.updateEntityCoords()
+
+    def __str__(self):
+        return "Entity - ID:{}, pos:({}x, {}y)".format(self.id, self.x, self.y)
