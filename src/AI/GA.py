@@ -1,12 +1,15 @@
 import random
 import numpy
+import copy
 
 from src.AI.Affinities import Affinities
+from src.AI.ThreadedSimulation import ThreadedSimulation
 from src.entities.Enums import Classifiers
 from src.entities.Player import Player
+from src.game.Map import Map
 
 
-def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05):
+def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=False, threadCount=4):
     """
     This algorithm will attempt to find the best affinities for player's goal choices.
 
@@ -22,14 +25,23 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05):
     initialPopulation = numpy.random.uniform(low=0.0, high=1.0, size=(solutions, weightsCount))
     population = initialPopulation
     for i in range(iter):
-        print("Running {} generation...".format(i))
+        print("\nRunning {} generation...".format(i))
         fitness = []
-        for player in population:
-            fitness.append(doSimulation(player, map))
-
+        if not multithread:
+            for player in population:
+                fitness.append(doSimulation(player, map))
+        else:
+            threads = []
+            for p in range(len(population)):
+                threads.append(ThreadedSimulation(p+1, p+1, population[p], map))
+                threads[-1].start()
+            for t in threads:
+                t.join()
+                fitness.append(t.getResult())
         parents = selectMatingPool(population, fitness, int(solutions / 2))
         print("Best fitness: {}".format(max(fitness)))
         offspring = mating(parents, solutions, mutationAmount)
+        print("Best offspring: ", offspring[0])
         population = offspring
 
 
