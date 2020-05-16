@@ -37,6 +37,7 @@ class Player(Entity):
         # Player can move only so fast
         self.moveTimeout = 100
 
+        # For GA to determine priorities of random movements
         self.affinities = affinities
 
     def applyWalkingFatigue(self):
