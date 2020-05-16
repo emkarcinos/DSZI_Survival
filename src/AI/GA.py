@@ -39,8 +39,13 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
         f.write("GA Results from " + str(datetime.now()))
         f.write("\n")
 
+    # Set the RNG seed for this GA
+    random.seed(random.randint(0, 100))
+
+    # Begin
     for i in range(iter):
         print("\nRunning {} generation...".format(i + 1))
+
         fitness = []
         if not multithread:
             for player in population:
@@ -172,23 +177,20 @@ def pickEntity(player, map):
     foodsWeights = []
     hunger = player.statistics.hunger
     for food in foods:
-        distance = abs(player.x - food.x) + abs(player.y - food.y)
         typeWeight = weights[0]
-        foodsWeights.append((typeWeight * (walkingAffinity / distance)) * hunger)
+        foodsWeights.append(typeWeight * hunger)
 
     watersWeights = []
     thirst = player.statistics.thirst
     for water in waters:
-        distance = abs(player.x - water.x) + abs(player.y - water.y)
         typeWeight = weights[1]
-        watersWeights.append((typeWeight * (walkingAffinity / distance)) * thirst)
+        watersWeights.append(typeWeight * thirst)
 
     restsWeights = []
     stamina = player.statistics.stamina
     for rest in rests:
-        distance = abs(player.x - rest.x) + abs(player.y - rest.y)
         typeWeight = weights[2]
-        restsWeights.append((typeWeight * (walkingAffinity / distance)) / stamina)
+        restsWeights.append(typeWeight * stamina)
 
     finalEntities = foods + waters + rests
     finalWeights = foodsWeights + watersWeights + restsWeights
@@ -196,6 +198,19 @@ def pickEntity(player, map):
     if not finalEntities:
         # If all items are gone, pick random one
         finalEntities = map.getInteractablesByClassifier()
-    rng = random.Random()
-    choice = rng.choices(finalEntities, finalWeights)[0]
+
+    # Pick best weighted entities
+    bestIdxs = (numpy.where(finalWeights == numpy.max(finalWeights)))[0]
+    bestEntities = []
+    for i in bestIdxs:
+        bestEntities.append(finalEntities[i])
+
+    choice = random.choice(bestEntities)
+
+    # Keeps the player from standing still
+    if choice == map.getEntityOnCoord(player.getFacingCoord()):
+        choice = random.choice(finalEntities)
+    # Old method using RNG
+    # choice = random.choices(finalEntities, finalWeights)[0]
+
     return choice
