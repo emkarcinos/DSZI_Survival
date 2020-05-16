@@ -129,7 +129,7 @@ def aStar(movable: Entity, target, map):
     :return: Array of moves
     """
     testCount = 0
-    print("Finding path to x:", target.x, " y:", target.y, end='...\n')
+    # print("Finding path to x:", target.x, " y:", target.y, end='...\n')
     fringe = PriorityQueue()
     explored = []
 
@@ -141,13 +141,13 @@ def aStar(movable: Entity, target, map):
     while True:
         if fringe.empty():
             # target is unreachable
-            print("Couldn't find path to x:", target.x, " y:", target.y, end='.\n')
+            # print("Couldn't find path to x:", target.x, " y:", target.y, end='.\n')
             return None
 
         elem: AStarNode = fringe.get()[2]
 
         if goalTest(elem.state, target):
-            print("Found path to x:", target.x, " y:", target.y, end='.\n')
+            # print("Found path to x:", target.x, " y:", target.y, end='.\n')
             movesList = []
 
             if isinstance(target, Entity) or target in map.collidables:
