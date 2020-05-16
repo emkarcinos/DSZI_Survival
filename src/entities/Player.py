@@ -8,12 +8,14 @@ from src.entities.Statistics import Statistics
 
 
 class Player(Entity):
-    def __init__(self, spawnpoint, size):
+    def __init__(self, spawnpoint, size, affinities=None):
         """
         Create a player.
 
+        :type affinities: Affinities
         :param spawnpoint: A tuple of coords (x,y)
         :param size: The size in px
+        :param affinities: Affinities struct defining player's affinities
         """
 
         # Entity constructor
@@ -34,6 +36,8 @@ class Player(Entity):
 
         # Player can move only so fast
         self.moveTimeout = 100
+
+        self.affinities = affinities
 
     def applyWalkingFatigue(self):
         """
