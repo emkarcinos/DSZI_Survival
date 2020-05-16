@@ -65,7 +65,7 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
         # Add info to logfile
         with open("results.txt", "a") as f:
             f.write("Population: {}\n".format(i))
-            f.write("Best fitness: {}\n".format(fitness[0]))
+            f.write("Best fitness: {}\n".format(max(fitness)))
             f.write("Best offspring: " + str(offspring[0]))
             f.write("\n\n")
 
