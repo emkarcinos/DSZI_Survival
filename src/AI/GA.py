@@ -1,4 +1,6 @@
 import random
+from datetime import datetime
+
 import numpy
 import copy
 
@@ -32,6 +34,11 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
         for i in range(solutions):
             maps.append(Map(map.filename, map.screen))
 
+    # Initialize log file
+    with open("results.txt", "w+") as f:
+        f.write("GA Results from " + str(datetime.now()))
+        f.write("\n")
+
     for i in range(iter):
         print("\nRunning {} generation...".format(i + 1))
         fitness = []
@@ -47,11 +54,20 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
             for t in threads:
                 t.join()
                 fitness.append(t.getResult())
+
         parents = selectMatingPool(population, fitness, int(solutions / 2))
+
         print("Best fitness: {}".format(max(fitness)))
         offspring = mating(parents, solutions, mutationAmount)
         print("Best offspring: ", offspring[0])
         population = offspring
+
+        # Add info to logfile
+        with open("results.txt", "a") as f:
+            f.write("Population: {}\n".format(i))
+            f.write("Best fitness: {}\n".format(fitness[0]))
+            f.write("Best offspring: " + str(offspring[0]))
+            f.write("\n\n")
 
 
 def selectMatingPool(population, fitness, count):
