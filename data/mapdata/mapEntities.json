@@ -11,7 +11,8 @@
       "stamina" : 5,
       "thirst" : 0,
       "hunger" : -20
-    }
+    },
+    "type" : "food"
   },
 
   {
@@ -26,7 +27,8 @@
       "stamina" : 5,
       "thirst" : -2,
       "hunger" : -10
-    }
+    },
+    "type" : "food"
   },
 
   {
@@ -41,7 +43,8 @@
       "stamina": -5,
       "thirst": -5,
       "hunger": -40
-    }
+    },
+    "type" : "food"
   },
 
   {
@@ -73,7 +76,8 @@
       "stamina": 0,
       "thirst": 0,
       "hunger": -25
-    }
+    },
+    "type" : "food"
   },
   {
     "name" : "firepit",
@@ -87,7 +91,8 @@
       "stamina": 15,
       "thirst": 0,
       "hunger": 0
-    }
+    },
+    "type" : "rest"
   },
   {
     "name" : "purewater",
@@ -101,7 +106,8 @@
       "stamina": 2,
       "thirst": -40,
       "hunger": 0
-    }
+    },
+    "type" : "water"
   },
   {
     "name" : "purewater",
@@ -115,7 +121,8 @@
       "stamina": 2,
       "thirst": -40,
       "hunger": 0
-    }
+    },
+    "type" : "water"
   },
   {
     "name" : "purewater",
@@ -129,7 +136,8 @@
       "stamina": 2,
       "thirst": -40,
       "hunger": 0
-    }
+    },
+    "type" : "water"
   },
   {
     "name" : "purewater",
@@ -143,7 +151,8 @@
       "stamina": 2,
       "thirst": -40,
       "hunger": 0
-    }
+    },
+    "type" : "water"
   },
   {
     "name" : "purewater",
@@ -157,7 +166,8 @@
       "stamina": 2,
       "thirst": -40,
       "hunger": 0
-    }
+    },
+    "type" : "water"
   },
   {
     "name" : "purewater",
@@ -171,7 +181,8 @@
       "stamina": 2,
       "thirst": -40,
       "hunger": 0
-    }
+    },
+    "type" : "water"
   },
   {
     "name" : "rock",
@@ -337,7 +348,8 @@
       "stamina" : 5,
       "thirst" : -2,
       "hunger" : -10
-    }
+    },
+    "type" : "food"
   },
   {
     "name" : "berry",
@@ -351,7 +363,8 @@
       "stamina" : 5,
       "thirst" : 0,
       "hunger" : -20
-    }
+    },
+    "type" : "food"
   },
   {
     "name" : "cranberry",
@@ -365,7 +378,8 @@
       "stamina" : 5,
       "thirst" : -2,
       "hunger" : -10
-    }
+    },
+    "type" : "food"
   },
   {
     "name" : "cranberry",
@@ -379,7 +393,8 @@
       "stamina" : 5,
       "thirst" : -2,
       "hunger" : -10
-    }
+    },
+    "type" : "food"
   },
   {
     "name" : "tree",
@@ -426,7 +441,8 @@
       "stamina": -5,
       "thirst": -5,
       "hunger": -40
-    }
+    },
+    "type" : "food"
   },
   {
     "name" : "rabbit",
@@ -440,7 +456,8 @@
       "stamina": -5,
       "thirst": -5,
       "hunger": -40
-    }
+    },
+    "type" : "food"
   },
   {
     "name" : "berry",
@@ -454,7 +471,8 @@
       "stamina" : 5,
       "thirst" : 0,
       "hunger" : -20
-    }
+    },
+    "type" : "food"
   },
   {
     "name" : "berry",
@@ -468,7 +486,8 @@
       "stamina" : 5,
       "thirst" : 0,
       "hunger" : -20
-    }
+    },
+    "type" : "food"
   },
   {
     "name" : "bush",
