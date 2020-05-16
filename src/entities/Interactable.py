@@ -1,4 +1,5 @@
 from src.entities.Entity import Entity
+from src.entities.Enums import Classifiers
 
 
 class Interactable(Entity):
@@ -10,12 +11,21 @@ class Interactable(Entity):
         :param size: Size in px
         :param pos: A tuple of coords (x,y)
         :param Statistics: Outcome of the interaction
-        :param classifier: Type of the entity (food, water, rest)
+        :param classifier: Type of the entity (food, water, rest) as string
         """
         super().__init__(texture, size, pos)
         self.Statistics = Statistics
 
-        self.classifier = classifier
+        self.classifier = None
+        self.setClassifier(classifier)
+
+    def setClassifier(self, classifier):
+        if classifier == "food":
+            self.classifier = Classifiers.FOOD
+        elif classifier == "water":
+            self.classifier = Classifiers.WATER
+        elif classifier == "rest":
+            self.classifier = Classifiers.REST
 
     def on_interaction(self, Player):
         """
@@ -29,4 +39,4 @@ class Interactable(Entity):
         Player.statistics.set_hunger(self.Statistics.hunger)
 
     def __str__(self):
-        return "Entity - ID:{}, pos:({}x, {}y), {}".format(self.id, self.x, self.y, self.classifier)
+        return "Entity - ID:{}, pos:({}x, {}y), {}".format(self.id, self.x, self.y, self.classifier.name)
