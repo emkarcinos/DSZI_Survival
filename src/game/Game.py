@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pygame
 
+from src.AI.Affinities import Affinities
 from src.entities.Player import Player
 from src.game.EventManager import EventManager
 from src.game.Map import Map
@@ -13,17 +14,81 @@ from src.game.Timer import Timer
 
 # Main Game class
 class Game:
-    def __init__(self, filesPath):
+    def __init__(self, filesPath, gamemode="test"):
         """
         Game script initialization. Loads all files, creates screen, map, tiles, entities and a player.
         Starts the main game loop at the end.
 
         :param filesPath: Absolute path to the root of the gamefiles
+        :param gamemode: Mode to run. Currently, there's only test gamemode.
         """
-        self.running = True
-        print("Loading configuration...", end=" ")
 
-        # Load config params from file
+        # If set to true, gameloop will run
+        self.running = False
+        # Config dict
+        self.config = None
+        # Container for all sprites
+        self.spritesList = None
+        # PyGame timer
+        self.pgTimer = None
+        # Custom in-game timer
+        self.ingameTimer = None
+        # Screen object
+        self.screen = None
+        # Map object
+        self.map = None
+        # The player
+        self.player = None
+        # EventManager object
+        self.eventManager = None
+
+        self.loadConfig(filesPath)
+
+        self.initializePygame()
+
+        # Runnable selection
+        if gamemode == "test":
+            self.testRun(filesPath)
+
+        # Start game loop
+        self.mainLoop()
+
+    def initializePygame(self):
+        """
+        Initializes all pygame members.
+
+        """
+        print("Initializing pygame...", end=" ")
+        pygame.init()
+        self.spritesList = pygame.sprite.Group()
+
+        print("OK")
+
+        # PyGame timer - precise timer, counts milliseconds every frame
+        self.pgTimer = pygame.time.Clock()
+
+    def initializeMap(self, filesPath):
+        """
+        Initializes the map object.
+
+        :param filesPath:
+        """
+        mapFile = None
+        try:
+            mapFile = Path(str(filesPath) + "/data/mapdata/")
+        except IOError:
+            print("Could not load map data. Exiting...")
+            exit(1)
+
+        self.map = Map(path.join(mapFile, 'map.txt'), self.screen)
+
+    def loadConfig(self, filesPath):
+        """
+        Loads the configuration file.
+
+        :param filesPath: Absolute path to game folder
+        """
+        print("Loading configuration...", end=" ")
         try:
             configFolder = Path(str(filesPath) + "/data/config/")
             configFile = configFolder / "mainConfig.json"
@@ -35,11 +100,13 @@ class Game:
             print("Error reading configuration file. Exiting...")
             exit(1)
 
-        print("Initializing pygame...", end=" ")
-        pygame.init()
-        self.spritesList = pygame.sprite.Group()
+    def testRun(self, filesPath):
+        """
+        Run the game in test mode. In this mode, you can manually move the player and test the environment.
 
-        print("OK")
+        :param filesPath: Absolute path to root game directory
+        """
+        self.running = True
         print("Initializing screen, params: " + str(self.config["window"]) + "...", end=" ")
 
         # Vertical rotation is unsupported due to UI layout
@@ -48,8 +115,6 @@ class Game:
             exit(1)
 
         # Initialize timers
-        # PyGame timer - precise timer, counts milliseconds every frame
-        self.pgTimer = pygame.time.Clock()
         # Virtual timer to track in-game time
         self.ingameTimer = Timer()
         self.ingameTimer.startClock()
@@ -58,27 +123,12 @@ class Game:
         self.screen = Screen(self, self.config["window"])
         print("OK")
 
-        self.moveTimer = 0
-        self.moveTime = 100
-
-        # Load map data from file
-        mapFile = None
-        try:
-            mapFile = Path(str(filesPath) + "/data/mapdata/")
-        except IOError:
-            print("Could not load map data. Exiting...")
-            exit(1)
-
-        # Initialize map object
-        self.map = Map(path.join(mapFile, 'map.txt'), self.screen)
+        self.initializeMap(filesPath)
 
         # Initialize the player
-        self.player = Player((6, 2), self.map.tileSize)
+        self.player = Player((6, 2), self.map.tileSize, Affinities(0.3, 0.6, 0.1))
         self.map.addEntity(self.player, DONTADD=True)
         self.eventManager = EventManager(self, self.player)
-
-        # Start game loop
-        self.mainLoop()
 
     def mainLoop(self):
         """
