@@ -1,9 +1,12 @@
 from random import Random
 from time import sleep
 
+from src.AI.Affinities import pickWeightedAffinity
+from src.AI.GA import pickEntity
+from src.ui.UiConsole import UiConsole
 import pygame
 
-from src.entities.Enums import Movement
+from src.entities.Enums import Movement, Classifiers
 
 
 class EventManager:
@@ -33,7 +36,8 @@ class EventManager:
         pygame.event.pump()
 
         if self.turnOff:
-            sleep(5)
+            print(self.player.movePoints)
+            sleep(1)
             exit(0)
 
         # TODO: Move to ui.update()
@@ -70,7 +74,9 @@ class EventManager:
         clicked_collidables = [s for s in self.game.map.collidables if s.rect.collidepoint(pos)]
 
         if len(clicked_collidables) > 0:
-            self.player.gotoToTarget(Random().choice(clicked_collidables), self.game.map)
+            entity = Random().choice(clicked_collidables)
+            UiConsole.printToConsole(str(entity))
+            self.player.gotoToTarget(entity, self.game.map)
         else:
             # get a list of all terrains that are under the mouse cursor
             clicked_terrains = [tile for tile in self.game.map.terrainTilesList if tile.rect.collidepoint(pos)]
@@ -102,13 +108,24 @@ class EventManager:
         if keys[pygame.K_d]:
             self.player.move(Movement.ROTATE_R)
 
+        if keys[pygame.K_o]:
+            if self.player.movementTarget is None:
+                target = pickEntity(self.player, self.game.map)
+                self.player.gotoToTarget(target, self.game.map)
+
+        if keys[pygame.K_r]:
+            self.game.map.respawn()
+
         # Pick random target for A* algorithm
         if keys[pygame.K_u]:
             while True:
                 try:
-                    from src.entities.Interactable import Interactable
-                    self.player.gotoToTarget(Random().choice(self.game.map.getEntitiesByType(Interactable)),
-                                             self.game.map)
+                    if self.player.movementTarget is None:
+                        from src.entities.Interactable import Interactable
+                        playerPickType = pickWeightedAffinity(self.player.affinities)
+                        UiConsole.printToConsole("player picked" + str(playerPickType))
+                        self.player.gotoToTarget(Random().choice(self.game.map.getInteractablesByClassifier(playerPickType)),
+                                                 self.game.map)
                     break
                 except IndexError:
                     pass
