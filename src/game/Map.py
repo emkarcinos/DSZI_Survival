@@ -68,7 +68,8 @@ class Map:
                                                          Statistics(entity["effect"]["hp"],
                                                                     entity["effect"]["hunger"],
                                                                     entity["effect"]["thirst"],
-                                                                    entity["effect"]["stamina"])))
+                                                                    entity["effect"]["stamina"]),
+                                                         entity["type"]))
                     # Creates an interactable object
                     elif "effect" in entity:
                         actualEntities.append(Interactable(entity["name"] + ".png",
@@ -77,7 +78,8 @@ class Map:
                                                            Statistics(entity["effect"]["hp"],
                                                                       entity["effect"]["hunger"],
                                                                       entity["effect"]["thirst"],
-                                                                      entity["effect"]["stamina"])))
+                                                                      entity["effect"]["stamina"]),
+                                                           entity["type"]))
                     # Creates plain entity
                     else:
                         actualEntities.append(Entity(entity["name"] + ".png",
