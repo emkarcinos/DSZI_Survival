@@ -31,6 +31,8 @@ class Map:
         # lista wszystkich entity
         self.entities = pygame.sprite.Group()
 
+        self.entitiesRawData = []
+
         self.filename = filename
 
         with open(self.filename, 'rt') as f:
@@ -47,6 +49,7 @@ class Map:
         self.terrainDraw()
 
         for entity in self.loadEntities(self.filename):
+            self.entitiesRawData.append(entity)
             self.addEntity(entity)
 
     def loadEntities(self, mapFileName):
@@ -161,10 +164,8 @@ class Map:
         """
         for entity in self.entities.sprites():
             entity.kill()
-            del entity
 
-        entites = self.loadEntities(self.filename)
-        for entity in entites:
+        for entity in self.entitiesRawData:
             self.addEntity(entity)
 
     def getEntityOnCoord(self, coord, screenRelative=False):
