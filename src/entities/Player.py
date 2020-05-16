@@ -118,7 +118,7 @@ class Player(Entity):
         :return: Returns true, if the movement has succeeded
         """
         # Can move if timeout has elapsed
-        if self.movementTimer > self.moveTimeout:
+        if self.movementTimer >= self.moveTimeout:
             self.movementTimer = 0
             self.movePoints += 1
             # Movement
