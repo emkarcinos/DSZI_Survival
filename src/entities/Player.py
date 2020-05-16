@@ -45,13 +45,11 @@ class Player(Entity):
         Lowers player's statistics. Applied every few steps.
 
         """
-        # looses hunger every 10 steps taken
-        if self.movePoints % 15 == 0:
-            self.statistics.set_hunger(1)
-        # gets more thirsty every 5 steps
-        if self.movePoints % 10 == 0:
-            self.statistics.set_thirst(2)
-        # gets tired every step
+        # looses hunger
+        self.statistics.set_hunger(1)
+        # gets more thirsty
+        self.statistics.set_thirst(2)
+        # gets tired
         self.statistics.set_stamina(-1.5)
 
     def applyTimeFatigue(self, tickTime):
