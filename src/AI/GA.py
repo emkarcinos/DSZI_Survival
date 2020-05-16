@@ -171,4 +171,7 @@ def pickEntity(player, map):
     if not finalEntities:
         # If all items are gone, pick random one
         finalEntities = map.getInteractablesByClassifier()
-    return random.choices(finalEntities, finalWeights)[0]
+    random.seed(10)
+    choice = random.choices(finalEntities, finalWeights)[0]
+    random.seed()
+    return choice
