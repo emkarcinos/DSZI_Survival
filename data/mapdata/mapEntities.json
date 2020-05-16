@@ -98,36 +98,6 @@
     "name" : "purewater",
     "position" : {
       "x": 3,
-      "y": 5
-    },
-    "isPickupable": false,
-    "effect" : {
-      "hp": 2,
-      "stamina": 2,
-      "thirst": -40,
-      "hunger": 0
-    },
-    "type" : "water"
-  },
-  {
-    "name" : "purewater",
-    "position" : {
-      "x": 3,
-      "y": 6
-    },
-    "isPickupable": false,
-    "effect" : {
-      "hp": 2,
-      "stamina": 2,
-      "thirst": -40,
-      "hunger": 0
-    },
-    "type" : "water"
-  },
-  {
-    "name" : "purewater",
-    "position" : {
-      "x": 3,
       "y": 7
     },
     "isPickupable": false,
@@ -158,21 +128,6 @@
     "name" : "purewater",
     "position" : {
       "x": 2,
-      "y": 8
-    },
-    "isPickupable": false,
-    "effect" : {
-      "hp": 2,
-      "stamina": 2,
-      "thirst": -40,
-      "hunger": 0
-    },
-    "type" : "water"
-  },
-  {
-    "name" : "purewater",
-    "position" : {
-      "x": 1,
       "y": 8
     },
     "isPickupable": false,

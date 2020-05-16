@@ -53,9 +53,9 @@ class Player(Entity):
 
         """
         # looses hunger
-        self.statistics.set_hunger(1)
+        self.statistics.set_hunger(1.3)
         # gets more thirsty
-        self.statistics.set_thirst(2)
+        self.statistics.set_thirst(2.2)
         # gets tired
         self.statistics.set_stamina(-1.5)
 
