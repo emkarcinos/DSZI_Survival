@@ -21,11 +21,13 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.2):
     initialPopulation = numpy.random.uniform(low=0.0, high=1.0, size=(solutions, weightsCount))
     population = initialPopulation
     for i in range(iter):
+        print("Running {} generation...".format(i))
         fitness = []
         for player in population:
             fitness.append(doSimulation(player, map))
 
         parents = selectMatingPool(population, fitness, int(solutions / 2))
+        print("Best fitness: {}".format(max(fitness)))
         offspring = mating(parents, solutions, mutationAmount)
     # TODO: Parents selection, mating, offspring
 
@@ -46,7 +48,6 @@ def selectMatingPool(population, fitness, count):
         bestIdxs.append(bestIdx)
     for id in bestIdxs:
         result.append(population[id])
-    print(result)
     return result
 
 
