@@ -28,6 +28,27 @@ def geneticAlgorithm(map, iter, solutions):
 
     # TODO: Parents selection, mating, offspring
 
+
+def selectMatingPool(population, fitness, count):
+    """
+    Pick best players from a population.
+
+    :param population: Entire population pool
+    :param fitness: Fitnesses coresponding to each player
+    :param count: Selection count
+    """
+    result = []
+    bestIdxs = []
+    for i in range(count):
+        bestIdx = (numpy.where(fitness == numpy.max(fitness)))[0][0]
+        fitness[bestIdx] = 0
+        bestIdxs.append(bestIdx)
+    for id in bestIdxs:
+        result.append(population[id])
+    print(result)
+    return result
+
+
 def doSimulation(weights, map):
     """
     Runs the simulation. Returns fitness.
@@ -46,7 +67,6 @@ def doSimulation(weights, map):
     player.kill()
     del player
     map.respawn()
-    print(fitness)
     return fitness
 
 
