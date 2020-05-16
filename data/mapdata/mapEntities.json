@@ -34,7 +34,7 @@
   {
     "name" : "rabbit",
     "position" : {
-      "x": 12,
+      "x": 15,
       "y": 16
     },
     "isPickupable" : true,
