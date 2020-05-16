@@ -20,3 +20,8 @@ class Movement(Enum):
     ROTATE_L = 1
     FORWARD = 2
     PICKUP = 3
+
+class Classifiers(Enum):
+    FOOD = 0
+    WATER = 1
+    REST = 2
