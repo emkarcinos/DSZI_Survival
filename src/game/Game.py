@@ -50,15 +50,15 @@ class Game:
         if len(argv) < 2:
             print("No arguments specified.")
             exit(1)
-        if argv[1] == "test":
+        elif argv[1] == "test":
             self.testRun(filesPath)
-        elif argv[1] == "ga":
-            if len(argv) == 3 and argv[2] == "-t":
-                print("Running Genetic Algorithm in multithreaded mode")
-                self.gaRun(filesPath, multithread=True)
+        elif argv[1] == "ga" and len(argv) >= 3:
+            if len(argv) >= 4 and argv[3] == "-t":
+                print("Running Genetic Algorithm in multithreaded mode, iter = ", argv[2])
+                self.gaRun(filesPath, int(argv[2]), multithread=True)
             else:
-                print("Running Genetic Algorithm in singlethreaded mode")
-                self.gaRun(filesPath)
+                print("Running Genetic Algorithm in singlethreaded mode, iter = ", argv[2])
+                self.gaRun(filesPath, int(argv[2]))
 
         else:
             print("Invalid gamemode. \n Possible options: test, ga")
@@ -144,7 +144,7 @@ class Game:
         # Start game loop
         self.mainLoop()
 
-    def gaRun(self, filesPath, multithread=False):
+    def gaRun(self, filesPath, iter, multithread=False):
         """
         Runs the game in GA mode - runs genetic algorithm in headless mode.
 
@@ -171,7 +171,7 @@ class Game:
 
         # Run GA:
         self.pgTimer.tick()
-        geneticAlgorithm(self.map, 30, 10, 0.1, multithread)
+        geneticAlgorithm(self.map, iter, 10, 0.1, multithread)
         print("Time elapsed: ", self.pgTimer.tick() // 1000)
 
     def mainLoop(self):
