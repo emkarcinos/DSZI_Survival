@@ -218,14 +218,17 @@ class Entity(pygame.sprite.Sprite):
             self.movementTarget = target
             from src.AI.AutomaticMovement import aStar
             self.movesList = aStar(self, self.movementTarget, map)
-            if not self.movesList:
-                self.movementTarget = None
 
     def updateEntityCoords(self):
         """
         Called each frame. Will consume moves from the moveList, if there are any.
 
         """
+        # Special case, where the selected entitiy was directly forwards the player
+        if self.movementTarget is not  None and not self.movesList:
+            self.movementTarget.on_interaction(self)
+            self.movementTarget = None
+
         if self.movementTarget is not None and self.movesList:
             nextMove = self.movesList[0]
             if self.move(nextMove):
