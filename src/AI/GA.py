@@ -2,7 +2,6 @@ import random
 from datetime import datetime
 
 import numpy
-import copy
 
 from src.AI.Affinities import Affinities
 from src.AI.ThreadedSimulation import ThreadedSimulation
@@ -11,7 +10,7 @@ from src.entities.Player import Player
 from src.game.Map import Map
 
 
-def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=False, threadCount=4):
+def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=False):
     """
     This algorithm will attempt to find the best affinities for player's goal choices.
 
@@ -19,6 +18,7 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
     :param iter: Generations count
     :param solutions: Solutions per generation
     :param mutationAmount: Mutation strength
+    :param multithread: If set to true, the algorithm will run multiple threads. Not really worth it atm.
     """
     # Based on 4 weights, that are affinities tied to the player
     weightsCount = 4
@@ -122,6 +122,13 @@ def crossover(genes1, genes2):
 
 
 def mutation(offspring, mutationAmount):
+    """
+    Apply a random offset to a random gene.
+
+    :param offspring: Array of offspring
+    :param mutationAmount: How strong the mutation is
+    :return: Offspring after mutation
+    """
     for player in offspring:
         randomGeneIdx = random.randrange(0, len(player))
         player[randomGeneIdx] = player[randomGeneIdx] + random.uniform(-1.0, 1.0) * mutationAmount
@@ -154,6 +161,9 @@ def pickEntity(player, map):
     Select an entity to become the next goal for the player. The entity is determined by
     player's affinities and the distances between the player and entities.
 
+    Entity selection is based based on the formula:
+    typeWeight / (distance / walkingAffinity) * affectedStat * fixed multiplier
+
     :param player: Player object
     :param map: Map object
     :type map: Map
@@ -165,8 +175,8 @@ def pickEntity(player, map):
 
     walkingAffinity = player.affinities.walking
     weights = player.affinities.getWeigths()
-    # Determine the weight of all entities based on the formula:
-    # typeWeight * (walkingAffinity / distance to entity) / affectedStat
+
+    # Determine the weight of all entities
     foodsWeights = []
     hunger = player.statistics.hunger
     for food in foods:
@@ -213,6 +223,16 @@ def pickEntity(player, map):
 
 
 def writeResults(iter, bestFit, bestMember):
+    """
+    Logs the results of the iteration to files.
+    The function will create two files - one that is human-readable,
+    and the other as Raw data used for plotting and analysis.
+    The output file is fixed to src/AI/resultsExplorer/.
+
+    :param iter: Current iteration index
+    :param bestFit: Best fitness in this generation
+    :param bestMember: Array of affinities of the best member in the generation
+    """
     if iter == 0:
         # Initialize human-readable log file
         with open("src/AI/resultsExplorer/results.txt", "w+") as f:
