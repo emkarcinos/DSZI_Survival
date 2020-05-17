@@ -40,12 +40,13 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
         f.write("\n")
 
     # Set the RNG seed for this GA
-    random.seed(random.randint(0, 100))
-
+    # 5 is good for weak start
+    random.seed(5)
     # Begin
     for i in range(iter):
         print("\nRunning {} generation...".format(i + 1))
 
+        # random.seed(random.randrange(0, 100000))
         fitness = []
         if not multithread:
             for player in population:
@@ -178,19 +179,22 @@ def pickEntity(player, map):
     hunger = player.statistics.hunger
     for food in foods:
         typeWeight = weights[0]
-        foodsWeights.append(typeWeight * hunger)
+        distance = abs(player.x - food.x) + abs(player.x - food.y)
+        foodsWeights.append(typeWeight / (distance * walkingAffinity) * hunger * 0.01)
 
     watersWeights = []
     thirst = player.statistics.thirst
     for water in waters:
         typeWeight = weights[1]
-        watersWeights.append(typeWeight * thirst)
+        distance = abs(player.x - water.x) + abs(player.x - water.y)
+        watersWeights.append(typeWeight / (distance * walkingAffinity) * thirst * 0.01)
 
     restsWeights = []
     stamina = player.statistics.stamina
     for rest in rests:
         typeWeight = weights[2]
-        restsWeights.append(typeWeight * stamina)
+        distance = abs(player.x - rest.x) + abs(player.x - rest.y)
+        restsWeights.append(typeWeight / (distance * walkingAffinity) / (stamina * 0.02))
 
     finalEntities = foods + waters + rests
     finalWeights = foodsWeights + watersWeights + restsWeights
