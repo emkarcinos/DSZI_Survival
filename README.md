@@ -13,8 +13,13 @@ Python 3.x
 pygame: 1.9.x
 ```
 ## Uruchomienie
+Projekt można uruchomić w dwóch trybach, które podajemy jako parametry:
+* test: Wizualne środowisko agenta, którym możemy sami prouszać
+* ga: Uruchomienie algorytmu genetycznego w tle. Musimy dodatkowo jako kolejny
+parametr podać ilość iteracji dla algorytmu. Możemy dodać -t, jeżeli
+chcemy uruchomić algorytm w wielu wątkach (Nie działa zbyt dobrze)
 ```
-$ python Run.py
+$ python Run.py {test|ga} [iter] [-t]
 ```
 ## Konfiguracja
 Plik z konfiguracją znajduje w ```data/config/mainConfig.json```.
