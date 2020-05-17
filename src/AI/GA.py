@@ -219,6 +219,9 @@ def writeResults(iter, bestFit, bestMember):
             f.write("GA Results from " + str(datetime.now()))
             f.write("\n")
 
+        with open("resultsRaw.txt", "w+") as f:
+            f.write("=HEADER=GA=\n")
+
     with open("results.txt", "a") as f:
         f.write("Population: {}\n".format(iter))
         f.write("Best fitness: {}\n".format(bestFit))
@@ -226,5 +229,6 @@ def writeResults(iter, bestFit, bestMember):
         f.write("\n\n")
 
     # Write raw arrays
-    with open("resultsRaw.txt", "w+") as f:
+    with open("resultsRaw.txt", "a") as f:
         f.write(str(bestMember + [bestFit]))
+        f.write("\n")
