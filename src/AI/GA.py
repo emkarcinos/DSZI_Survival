@@ -215,20 +215,20 @@ def pickEntity(player, map):
 def writeResults(iter, bestFit, bestMember):
     if iter == 0:
         # Initialize human-readable log file
-        with open("results.txt", "w+") as f:
+        with open("src/AI/resultsExplorer/results.txt", "w+") as f:
             f.write("GA Results from " + str(datetime.now()))
             f.write("\n")
 
-        with open("resultsRaw.txt", "w+") as f:
+        with open("src/AI/resultsExplorer/resultsRaw.txt", "w+") as f:
             f.write("=HEADER=GA=\n")
 
-    with open("results.txt", "a") as f:
+    with open("src/AI/resultsExplorer/results.txt", "a") as f:
         f.write("Population: {}\n".format(iter))
         f.write("Best fitness: {}\n".format(bestFit))
         f.write("Best offspring: " + str(bestMember))
         f.write("\n\n")
 
     # Write raw arrays
-    with open("resultsRaw.txt", "a") as f:
+    with open("src/AI/resultsExplorer/resultsRaw.txt", "a") as f:
         f.write(str(bestMember + [bestFit]))
         f.write("\n")
