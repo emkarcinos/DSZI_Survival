@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # Path to modules
 sys.path.insert(0, os.path.abspath('../src'))
 sys.path.insert(0, os.path.abspath('../src/AI'))
+sys.path.insert(0, os.path.abspath('../src/AI/resultsExplorer'))
 sys.path.insert(0, os.path.abspath('../src/game'))
 sys.path.insert(0, os.path.abspath('../src/entities'))
 sys.path.insert(0, os.path.abspath('../src/ui'))
