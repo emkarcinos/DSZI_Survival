@@ -3,6 +3,7 @@ A small script to help you analyze the output logs from GA algorithm.
 It shows you best and worst population with all values.
 Specify the input file as an exec parameter.
 """
+
 import sys
 from ast import literal_eval
 import matplotlib.pyplot as plt
@@ -10,6 +11,11 @@ import numpy
 
 
 def fitnessPlot(pop):
+    """
+    Draw a fitness plot and write it to a file
+
+    :param pop: Population array with fitness
+    """
     fig, ax = plt.subplots()
     ax.plot([i[4] for i in pop])
     ax.set_title("Best fitness by generation")
@@ -22,6 +28,11 @@ def fitnessPlot(pop):
 
 
 def printBestWorstGenes(pop):
+    """
+    Print info about best and worst specimen.
+
+    :param pop: Population array with fitness
+    """
     fitnesses = [i[4] for i in pop]
     bestIdxs = (numpy.where(fitnesses == numpy.max(fitnesses)))[0]
 
