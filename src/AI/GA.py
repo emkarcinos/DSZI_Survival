@@ -34,10 +34,6 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
         for i in range(solutions):
             maps.append(Map(map.filename, map.screen))
 
-    # Initialize log file
-    with open("results.txt", "w+") as f:
-        f.write("GA Results from " + str(datetime.now()))
-        f.write("\n")
 
     # Set the RNG seed for this GA
     # 5 is good for weak start
@@ -66,14 +62,10 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
         print("Best fitness: {}".format(max(fitness)))
         offspring = mating(parents, solutions, mutationAmount)
         print("Best offspring: ", offspring[0])
-        population = offspring
 
-        # Add info to logfile
-        with open("results.txt", "a") as f:
-            f.write("Population: {}\n".format(i))
-            f.write("Best fitness: {}\n".format(max(fitness)))
-            f.write("Best offspring: " + str(offspring[0]))
-            f.write("\n\n")
+        writeResults(i, max(fitness), offspring[0])
+
+        population = offspring
 
 
 def selectMatingPool(population, fitness, count):
@@ -218,3 +210,21 @@ def pickEntity(player, map):
     # choice = random.choices(finalEntities, finalWeights)[0]
 
     return choice
+
+
+def writeResults(iter, bestFit, bestMember):
+    if iter == 0:
+        # Initialize human-readable log file
+        with open("results.txt", "w+") as f:
+            f.write("GA Results from " + str(datetime.now()))
+            f.write("\n")
+
+    with open("results.txt", "a") as f:
+        f.write("Population: {}\n".format(iter))
+        f.write("Best fitness: {}\n".format(bestFit))
+        f.write("Best offspring: " + str(bestMember))
+        f.write("\n\n")
+
+    # Write raw arrays
+    with open("resultsRaw.txt", "w+") as f:
+        f.write(str(bestMember + [bestFit]))
