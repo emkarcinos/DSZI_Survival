@@ -24,12 +24,3 @@ class Affinities:
         :return: List of weights
         """
         return [self.food, self.water, self.rest]
-
-
-
-def pickWeightedAffinity(affinities: Affinities):
-    population = [Classifiers.FOOD, Classifiers.WATER, Classifiers.REST]
-    weights = affinities.getWeigths()
-
-    return random.choices(population, weights)[0]
-
