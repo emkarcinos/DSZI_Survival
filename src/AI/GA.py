@@ -207,15 +207,23 @@ def pickEntity(player, map):
 
     # Pick best weighted entities
     bestIdxs = (numpy.where(finalWeights == numpy.max(finalWeights)))[0]
-    bestEntities = []
-    for i in bestIdxs:
-        bestEntities.append(finalEntities[i])
+    # bestEntities = []
+    # for i in bestIdxs:
+    #     bestEntities.append(finalEntities[i])
 
-    choice = random.choice(bestEntities)
+    choice = finalEntities[bestIdxs[0]]
 
-    # Keeps the player from standing still
+    # If the choice happens to be the same as the last one
     if choice == map.getEntityOnCoord(player.getFacingCoord()):
-        choice = random.choice(finalEntities)
+        del finalWeights[bestIdxs[0]]
+        del finalEntities[bestIdxs[0]]
+
+        secondBestIdxs = (numpy.where(finalWeights == numpy.max(finalWeights)))[0]
+        # bestEntities = []
+        # for i in secondBestIdxs:
+        #     bestEntities.append(finalEntities[i])
+
+        choice = finalEntities[secondBestIdxs[0]]
     # Old method using RNG
     # choice = random.choices(finalEntities, finalWeights)[0]
 
