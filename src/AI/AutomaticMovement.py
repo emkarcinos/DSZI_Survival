@@ -72,8 +72,9 @@ def priority(elem: AStarNode, map, target):
     :param target: Target goal
     :return: Priority as int
     """
-    return approximateDistanceFromTarget(elem.state[0], elem.state[1], target) + stepCost(
-        map.getTileOnCoord((elem.state[0], elem.state[1])))
+    # return approximateDistanceFromTarget(elem.state[0], elem.state[1], target) + stepCost(
+    #     map.getTileOnCoord((elem.state[0], elem.state[1])))
+    return approximateDistanceFromTarget(elem.state[0], elem.state[1], target)
 
 
 def successor(movable: Entity, elemState, map, target):
