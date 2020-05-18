@@ -1,7 +1,6 @@
 from random import Random
 from time import sleep
 
-from src.AI.Affinities import pickWeightedAffinity
 from src.AI.GA import pickEntity
 from src.ui.UiConsole import UiConsole
 import pygame
