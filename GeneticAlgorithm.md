@@ -162,7 +162,7 @@ Worst:
 Affinities: food=0.3927852322929111, water=0.6888704071372844, rest=0.625376993269597, walking=0.5415515638814266
 ```
 ### Przykład symulacji dla najlepszego osobnika:
-![gif](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/raw/master/data/images/screenshot/bestFitnessRunExample.gif)
+![gif](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/raw/master/data/images/screenshots/bestFitnessRunExample.gif)
 
 ## Zastosowanie w całości projektu
 Dzięki wyliczonym przez algorytm wagom, gracz poruszający się w środowisku będzie znał swoje priorytety i będzie w stanie
