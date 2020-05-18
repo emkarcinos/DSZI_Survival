@@ -36,8 +36,8 @@ def geneticAlgorithm(map, iter, solutions, mutationAmount=0.05, multithread=Fals
 
 
     # Set the RNG seed for this GA
-    # 5 is good for weak start
-    random.seed(5)
+    # 125 is good for weak start
+    random.seed(125)
     # Begin
     for i in range(iter):
         print("\nRunning {} generation...".format(i + 1))
