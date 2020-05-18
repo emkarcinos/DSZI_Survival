@@ -150,16 +150,16 @@ dla 1000 generacji:
 
 * Najlepsze / najgorsze fitness:
 ```
-Best Fitness: 188
-Worst Fitness: 66
+Best Fitness: 186
+Worst Fitness: 71
 ```
 
 * Zestaw najlepszych / najgorszych wartości
 ```
 Best:
-Affinities: food=0.6246050649543714, water=0.7464600395102128, rest=0.09747026036072276, walking=0.8427814969457226
+Affinities: food=0.9659207331357987, water=1.06794833921562, rest=0.4224083038045297, walking=0.26676612275274836
 Worst:
-Affinities: food=0.5010343683602108, water=0.5248573924802746, rest=0.2191880576417362, walking=0.7195556582421176
+Affinities: food=0.3927852322929111, water=0.6888704071372844, rest=0.625376993269597, walking=0.5415515638814266
 ```
 
 ## Zastosowanie w całości projektu
