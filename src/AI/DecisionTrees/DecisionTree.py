@@ -12,3 +12,7 @@ class DecisionTree(object):
         self.root = root
         self.branches = []
         self.branchesNum = 0
+
+    def addBranch(self, newBranch):
+        self.branches.append(newBranch)
+        self.branchesNum += 1
