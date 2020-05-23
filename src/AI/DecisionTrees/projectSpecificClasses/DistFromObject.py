@@ -7,6 +7,6 @@ class DistFromObject(Enum):
 
     """
 
-    LT_3 = 0,
-    GE_3_LT_8 = 1,
+    LT_3 = 0
+    GE_3_LT_8 = 1
     GE_8 = 2
