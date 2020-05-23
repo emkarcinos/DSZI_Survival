@@ -29,7 +29,7 @@ class DecisionTree(object):
                         return branch.subtree.giveAnswer(example)
 
     @staticmethod
-    def printTree(tree, depth: int, indent: int = 20):
+    def printTree(tree, depth: int, indent: int = 50):
         if isinstance(tree.root, AttributeDefinition):
             print("NODE: {}".format(tree.root.name).rjust(indent * depth))
         else:
