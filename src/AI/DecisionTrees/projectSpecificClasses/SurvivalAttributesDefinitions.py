@@ -4,6 +4,13 @@ from src.AI.DecisionTrees.projectSpecificClasses.PlayerStatsValue import PlayerS
 
 
 class SurvivalAttributesDefinitions:
+    """
+    This class contains all attributes definitions which will be used to create decision tree examples
+    and decision tree learning.
+
+    There are definitions of attributes like hunger, thirst, etc...
+    """
+
     attrsDefinitionsCount = 6
 
     hungerAttrDef = AttributeDefinition(0, "Hunger", [PlayerStatsValue.ZERO_TO_QUARTER,

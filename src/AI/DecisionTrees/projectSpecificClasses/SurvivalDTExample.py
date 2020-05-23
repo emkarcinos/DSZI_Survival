@@ -7,6 +7,10 @@ from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import S
 
 
 class SurvivalDTExample(DecisionTreeExample):
+    """
+    This class will be used to create examples for decision trees with project specific attributes like hunger,
+    distance from food, etc.
+    """
     hungerVal: PlayerStatsValue
     thirstVal: PlayerStatsValue
     staminaVal: PlayerStatsValue
