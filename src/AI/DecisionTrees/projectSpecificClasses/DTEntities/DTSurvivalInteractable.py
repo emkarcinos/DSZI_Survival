@@ -2,7 +2,7 @@ from src.AI.DecisionTrees.projectSpecificClasses.DistFromObject import DistFromO
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import SurvivalClassification
 
 
-class DTSurvivalEntity:
+class DTSurvivalInteractable:
     DistFromObjectFromPlayer: DistFromObject
 
     def __init__(self, distanceFromPlayer: DistFromObject, classification: SurvivalClassification):
