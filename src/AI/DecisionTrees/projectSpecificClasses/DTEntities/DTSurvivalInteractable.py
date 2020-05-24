@@ -39,3 +39,7 @@ class DTSurvivalInteractable:
             return None
 
         return DTSurvivalInteractable(distanceFromPlayer, classification, interactable)
+
+    def getDescription(self):
+        dsc = "Classification: {}, Distance from player: {}".format(self.classification, self.distanceFromPlayer)
+        return dsc
