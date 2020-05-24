@@ -67,5 +67,5 @@ class DTSurvivalInteractable:
             return DistFromObject.GE_3_LT_8
         elif 8 <= accurateDistance < 15:
             return DistFromObject.GE_8_LT_15
-        elif accurateDistance > 15:
+        elif accurateDistance >= 15:
             return DistFromObject.GE_15
