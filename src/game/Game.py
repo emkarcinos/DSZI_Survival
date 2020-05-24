@@ -18,6 +18,7 @@ import src.AI.DecisionTrees.projectSpecificClasses.Examples as Examples
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalAttributesDefinitions import \
     SurvivalAttributesDefinitions as AttrDefs
 from src.AI.SurvivalDT import SurvivalDT
+from src.AI.GA_With_DT import geneticAlgorithmWithDecisionTree
 
 
 # Main Game class
@@ -68,6 +69,9 @@ class Game:
             else:
                 print("Running Genetic Algorithm in singlethreaded mode, iter = ", argv[2])
                 self.gaRun(filesPath, int(argv[2]))
+        elif argv[1] == "ga_dt" and len(argv) >= 3:
+            print("Running Genetic Algorithm with Decision Tree, iter = ", argv[2])
+            self.gaDTRun(filesPath, int(argv[2]))
 
         else:
             print("Invalid gamemode. \n Possible options: test, ga")
@@ -286,4 +290,34 @@ class Game:
 
                 # Flip the display
                 pygame.display.flip()
+
+    def gaDTRun(self, filesPath, iter):
+        """
+        Runs the game in GA with Decision Tree mode.
+
+        :param filesPath: Absolute path to game's root directory
+        """
+        self.running = True
+        print("Initializing screen, params: " + str(self.config["window"]) + "...", end=" ")
+
+        # Vertical rotation is unsupported due to UI layout
+        if self.config["window"]["height"] > self.config["window"]["width"]:
+            print("The screen cannot be in a vertical orientation. Exiting...")
+            exit(1)
+
+        # Initialize timers
+        # Virtual timer to track in-game time
+        self.ingameTimer = Timer()
+        self.ingameTimer.startClock()
+
+        # Initialize screen
+        self.screen = Screen(self, self.config["window"])
+        print("OK")
+
+        self.initializeMap(filesPath)
+
+        # Run GA:
+        self.pgTimer.tick()
+        geneticAlgorithmWithDecisionTree(self.map, iter, 10, 0.1)
+        print("Time elapsed: ", self.pgTimer.tick() // 1000)
 
