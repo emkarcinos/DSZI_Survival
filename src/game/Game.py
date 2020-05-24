@@ -275,6 +275,7 @@ class Game:
         self.map.addEntity(self.player, DONTADD=True)
 
         pause = False
+        decisionsMade = 0
 
         # main loop without user input
         while True:
@@ -297,6 +298,9 @@ class Game:
                 # If player is dead write information to console and break main loop
                 if not self.player.alive:
                     self.screen.ui.updateOnDeath(self.player)
+                    self.screen.ui.console.printToConsole("Score: {}".format(str(decisionsMade + self.player.movePoints)))
+                    self.screen.ui.console.printToConsole("Decisions made {}. Movements made {}.".
+                                                          format(decisionsMade, self.player.movePoints))
                     self.spritesList.update()
                     self.spritesList.draw(self.screen.pygameScreen)
                     pygame.display.flip()
@@ -305,6 +309,7 @@ class Game:
                 # Choose target for player using decision tree
                 if self.player.movementTarget is None:
                     self.player.gotoToTarget(survivalDecisionTree.pickEntity(self.player, self.map), self.map)
+                    decisionsMade += 1
                     if pauseAfterDecision:
                         pause = True
 
