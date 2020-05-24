@@ -60,3 +60,14 @@ class SurvivalDTExample(DecisionTreeExample):
             attrsAreEqual = False
 
         return attrsAreEqual
+
+    def getDescription(self):
+        dsc = "Classification: {}".format(self.classification)
+        dsc += "\nHunger: {}".format(self.hungerVal.name)
+        dsc += "\nThirst: {}".format(self.thirstVal.name)
+        dsc += "\nStamina: {}".format(self.staminaVal.name)
+        dsc += "\nDistance from food: {}".format(self.distFromFood.name)
+        dsc += "\nDistance from water: {}".format(self.distFromWater.name)
+        dsc += "\nDistance from rest place: {}".format(self.distFromRestPlace.name)
+
+        return dsc
