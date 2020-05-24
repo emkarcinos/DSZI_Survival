@@ -23,10 +23,12 @@ class ExamplesManager:
 
         lineNum = 0
         while True:
-            line = file.readline()
+            line: str = file.readline()
             if line == "":
                 break
             lineNum += 1
+
+            line = line.rstrip('\n')
             words = line.split("|")
 
             if len(words) != 7:
@@ -133,7 +135,7 @@ class ExamplesManager:
 
         example: SurvivalDTExample
         for example in examplesToAdd:
-            strToWrite = "\n{}|{}|{}|{}|{}|{}|{}".format(example.classification.name,
+            strToWrite = "{}|{}|{}|{}|{}|{}|{}\n".format(example.classification.name,
                                                          example.hungerVal.name,
                                                          example.thirstVal.name,
                                                          example.staminaVal.name,
