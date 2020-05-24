@@ -20,7 +20,8 @@ class SurvivalDTExample(DecisionTreeExample):
 
     def __init__(self, classification: SurvivalClassification, hungerVal: PlayerStatsValue, thirstVal: PlayerStatsValue,
                  staminaVal: PlayerStatsValue, distFromFood: DistFromObject, distFromWater: DistFromObject,
-                 distFromRestPlace: DistFromObject):
+                 distFromRestPlace: DistFromObject, dstFromWaterAfterFood: DistFromObject):
+        self.dstFromWaterAfterFood = dstFromWaterAfterFood
         self.hungerVal = hungerVal
         self.thirstVal = thirstVal
         self.staminaVal = staminaVal
@@ -33,7 +34,8 @@ class SurvivalDTExample(DecisionTreeExample):
                       Attribute(SurvivalAttributesDefinitions.staminaAttrDef, staminaVal),
                       Attribute(SurvivalAttributesDefinitions.foodDistanceAttrDef, distFromFood),
                       Attribute(SurvivalAttributesDefinitions.waterDistanceAttrDef, distFromWater),
-                      Attribute(SurvivalAttributesDefinitions.restDistanceAttrDef, distFromRestPlace)]
+                      Attribute(SurvivalAttributesDefinitions.restDistanceAttrDef, distFromRestPlace),
+                      Attribute(SurvivalAttributesDefinitions.dstFromWaterAfterFood, dstFromWaterAfterFood)]
 
         super().__init__(classification, attributes)
 
@@ -58,6 +60,8 @@ class SurvivalDTExample(DecisionTreeExample):
             attrsAreEqual = False
         elif self.distFromRestPlace != anotherExample.distFromRestPlace:
             attrsAreEqual = False
+        elif self.dstFromWaterAfterFood != anotherExample.dstFromWaterAfterFood:
+            attrsAreEqual = False
 
         return attrsAreEqual
 
@@ -69,5 +73,6 @@ class SurvivalDTExample(DecisionTreeExample):
         dsc += "\nDistance from food: {}".format(self.distFromFood.name)
         dsc += "\nDistance from water: {}".format(self.distFromWater.name)
         dsc += "\nDistance from rest place: {}".format(self.distFromRestPlace.name)
+        dsc += "\nDistance from water after food: {}".format(self.dstFromWaterAfterFood.name)
 
         return dsc

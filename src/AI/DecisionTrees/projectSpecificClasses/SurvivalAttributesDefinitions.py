@@ -11,7 +11,7 @@ class SurvivalAttributesDefinitions:
     There are definitions of attributes like hunger, thirst, etc...
     """
 
-    attrsDefinitionsCount = 6
+    attrsDefinitionsCount = 7
 
     hungerAttrDef = AttributeDefinition(0, "Hunger", [PlayerStatsValue.ZERO_TO_QUARTER,
                                                       PlayerStatsValue.QUARTER_TO_HALF,
@@ -33,12 +33,19 @@ class SurvivalAttributesDefinitions:
                                                DistFromObject.GE_15])
 
     waterDistanceAttrDef = AttributeDefinition(4, "Distance from water",
-                                               [DistFromObject.LT_3, DistFromObject.GE_3_LT_8, DistFromObject.GE_8_LT_15,
+                                               [DistFromObject.LT_3, DistFromObject.GE_3_LT_8,
+                                                DistFromObject.GE_8_LT_15,
                                                 DistFromObject.GE_15])
 
     restDistanceAttrDef = AttributeDefinition(5, "Distance from rest place",
                                               [DistFromObject.LT_3, DistFromObject.GE_3_LT_8, DistFromObject.GE_8_LT_15,
                                                DistFromObject.GE_15])
 
+    dstFromWaterAfterFood = AttributeDefinition(6, "Distance from water after food",
+                                                [DistFromObject.LT_3, DistFromObject.GE_3_LT_8,
+                                                 DistFromObject.GE_8_LT_15,
+                                                 DistFromObject.GE_15])
+
     allAttributesDefinitions = [hungerAttrDef, thirstAttrDef, staminaAttrDef,
-                                foodDistanceAttrDef, waterDistanceAttrDef, restDistanceAttrDef]
+                                foodDistanceAttrDef, waterDistanceAttrDef, restDistanceAttrDef,
+                                dstFromWaterAfterFood]

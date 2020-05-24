@@ -3,6 +3,7 @@ from typing import Any, Union, List
 
 from src.AI.DecisionTrees.projectSpecificClasses.DistFromObject import DistFromObject
 from src.AI.DecisionTrees.projectSpecificClasses.PlayerStatsValue import PlayerStatsValue
+from src.AI.DecisionTrees.projectSpecificClasses.SurvivalAttributesDefinitions import SurvivalAttributesDefinitions
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import SurvivalClassification
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalDTExample import SurvivalDTExample
 
@@ -32,7 +33,7 @@ class ExamplesManager:
             line = line.rstrip('\n')
             words = line.split("|")
 
-            if len(words) != 7:
+            if len(words) != SurvivalAttributesDefinitions.attrsDefinitionsCount + 1:
                 print("Not sufficient amount of words in line {}.".format(str(lineNum)))
                 continue
 
@@ -113,13 +114,25 @@ class ExamplesManager:
                 print("Distance from rest place not parsed at line {}.".format(str(lineNum)))
                 continue
 
+            # Distance from water after food
+            parseSuccess = False
+            dstFromWaterAfterFood: DistFromObject
+            for dstFromWaterAfterFood in DistFromObject:
+                if dstFromWaterAfterFood.name == words[7]:
+                    parseSuccess = True
+                    break
+            if not parseSuccess:
+                print("Distance from water after food not parsed at line {}.".format(str(lineNum)))
+                continue
+
             example = SurvivalDTExample(classification,
                                         hungerAmount,
                                         thirstAmount,
                                         staminaAmount,
                                         dstFromFood,
                                         dstFromWater,
-                                        dstFromRest)
+                                        dstFromRest,
+                                        dstFromWaterAfterFood)
 
             examples.append(example)
         file.close()
@@ -136,13 +149,14 @@ class ExamplesManager:
 
         example: SurvivalDTExample
         for example in examplesToAdd:
-            strToWrite = "{}|{}|{}|{}|{}|{}|{}\n".format(example.classification.name,
-                                                         example.hungerVal.name,
-                                                         example.thirstVal.name,
-                                                         example.staminaVal.name,
-                                                         example.distFromFood.name,
-                                                         example.distFromWater.name,
-                                                         example.distFromRestPlace.name)
+            strToWrite = "{}|{}|{}|{}|{}|{}|{}|{}\n".format(example.classification.name,
+                                                            example.hungerVal.name,
+                                                            example.thirstVal.name,
+                                                            example.staminaVal.name,
+                                                            example.distFromFood.name,
+                                                            example.distFromWater.name,
+                                                            example.distFromRestPlace.name,
+                                                            example.dstFromWaterAfterFood.name)
             file.write(strToWrite)
         file.close()
 
@@ -168,6 +182,7 @@ class ExamplesManager:
                                                random.choice(statsValues),
                                                random.choice(statsValues),
                                                random.choice(statsValues),
+                                               random.choice(distances),
                                                random.choice(distances),
                                                random.choice(distances),
                                                random.choice(distances))

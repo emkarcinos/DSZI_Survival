@@ -54,12 +54,11 @@ class SurvivalDT:
         dtRestPlaces.sort(key=lambda x: x.accurateDistanceFromPlayer)
         nearestDtRest = dtRestPlaces[0]
 
-
-
         currentSituation = SurvivalDTExample(None, playerStats.hungerAmount, playerStats.thirstAmount,
                                              playerStats.staminaAmount,
                                              nearestDtFood.dtDistanceFromPlayer, nearestDtWater.dtDistanceFromPlayer,
-                                             nearestDtRest.dtDistanceFromPlayer)
+                                             nearestDtRest.dtDistanceFromPlayer,
+                                             nearestDtFood.getDtDistanceFromOtherInteractable(nearestDtWater.interactable))
 
         treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation,
                                                                     dtFoods,
@@ -70,15 +69,19 @@ class SurvivalDT:
         if choice == map.getEntityOnCoord(player.getFacingCoord()):
             if treeDecision == SurvivalClassification.FOOD:
                 dtFoods.remove(dtFoods[0])
+                nearestDtFood = dtFoods[0]
             elif treeDecision == SurvivalClassification.WATER:
                 dtWaters.remove(dtWaters[0])
+                nearestDtWater = dtWaters[0]
             elif treeDecision == SurvivalClassification.REST:
                 dtRestPlaces.remove(dtRestPlaces[0])
+                nearestDtRest = dtRestPlaces[0]
 
             currentSituation = SurvivalDTExample(None, playerStats.hungerAmount, playerStats.thirstAmount,
                                                  playerStats.staminaAmount,
                                                  dtFoods[0].dtDistanceFromPlayer, dtWaters[0].dtDistanceFromPlayer,
-                                                 dtRestPlaces[0].dtDistanceFromPlayer)
+                                                 dtRestPlaces[0].dtDistanceFromPlayer,
+                                                 nearestDtFood.getDtDistanceFromOtherInteractable(nearestDtWater.interactable))
 
             treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation, dtFoods,
                                                                         dtRestPlaces, dtWaters)
