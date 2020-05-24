@@ -30,13 +30,17 @@ class DTSurvivalInteractable:
 
         distance = abs(playerX - interactable.x) + abs(playerY - interactable.y)
 
-        if distance < 3:
+        """
+        Add + 1 everywhere, because player doesn't have to step on interactable in order to interact with it.
+        So for example if dst between player and object is 3, player has to go 2 fields in order to interact with this object.
+        """
+        if distance < 3 + 1:
             distanceFromPlayer = DistFromObject.LT_3
-        elif 3 <= distance < 8:
+        elif 3 + 1 <= distance < 8 + 1:
             distanceFromPlayer = DistFromObject.GE_3_LT_8
-        elif 8 <= distance < 15:
+        elif 8 + 1 <= distance < 15 + 1:
             distanceFromPlayer = DistFromObject.GE_8_LT_15
-        elif distance >= 15:
+        elif distance >= 15 + 1:
             distanceFromPlayer = DistFromObject.GE_15
         else:
             return None
