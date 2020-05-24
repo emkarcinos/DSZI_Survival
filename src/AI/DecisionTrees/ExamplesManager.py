@@ -117,7 +117,7 @@ class ExamplesManager:
                                         dstFromRest)
 
             examples.append(example)
-
+            line = file.readline()
         file.close()
 
         return examples
@@ -132,11 +132,12 @@ class ExamplesManager:
 
         example: SurvivalDTExample
         for example in examplesToAdd:
-            strToWrite = "{}|{}|{}|{}|{}|{}|{}".format(example.classification.name,
+            strToWrite = "\n{}|{}|{}|{}|{}|{}|{}".format(example.classification.name,
                                                        example.hungerVal.name,
                                                        example.thirstVal.name,
                                                        example.staminaVal.name,
                                                        example.distFromFood.name,
                                                        example.distFromWater.name,
                                                        example.distFromRestPlace.name)
+            file.write(strToWrite)
         file.close()
