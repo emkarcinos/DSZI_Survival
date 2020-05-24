@@ -1,11 +1,13 @@
 import json
 from os import path
 from pathlib import Path
+import os
 
 import pygame
 
 from src.AI.Affinities import Affinities
 from src.AI.DecisionTrees.DecisionTree import DecisionTree
+from src.AI.DecisionTrees.ExamplesManager import ExamplesManager
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import SurvivalClassification
 from src.AI.GA import geneticAlgorithm
 from src.entities.Player import Player
@@ -14,7 +16,6 @@ from src.game.Map import Map
 from src.game.Screen import Screen
 from src.game.Timer import Timer
 import src.AI.DecisionTrees.InductiveDecisionTreeLearning as DT
-import src.AI.DecisionTrees.projectSpecificClasses.Examples as Examples
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalAttributesDefinitions import \
     SurvivalAttributesDefinitions as AttrDefs
 from src.AI.SurvivalDT import SurvivalDT
@@ -60,6 +61,7 @@ class Game:
             exit(1)
         elif argv[1] == "test":
             self.testRun(filesPath)
+        # Decision tree
         elif argv[1] == "dt":
             if len(argv) >= 3:
                 if argv[2] == "-p":
@@ -68,6 +70,7 @@ class Game:
                 else:
                     print("Running Decision Tree.")
                     self.dtRun(filesPath)
+        # Genetic algorithm
         elif argv[1] == "ga" and len(argv) >= 3:
             if len(argv) >= 4 and argv[3] == "-t":
                 print("Running Genetic Algorithm in multithreaded mode, iter = ", argv[2])
@@ -75,12 +78,19 @@ class Game:
             else:
                 print("Running Genetic Algorithm in singlethreaded mode, iter = ", argv[2])
                 self.gaRun(filesPath, int(argv[2]))
+        # Genetic algorithm with decision tree
         elif argv[1] == "ga_dt" and len(argv) >= 3:
             print("Running Genetic Algorithm with Decision Tree, iter = ", argv[2])
             self.gaDTRun(filesPath, int(argv[2]))
-
+        # Generating examples for decision tree
+        elif argv[1] == "g_e_dt":
+            print("Running in mode generating examples for decision tree.")
+            examplesFilePath = str(filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
+            dtExampleManager = ExamplesManager(examplesFilePath)
+            dtExampleManager.generateExamples()
+        # Invalid game mode
         else:
-            print("Invalid gamemode. \n Possible options: test, ga")
+            print("Invalid game mode. \n Possible options: test, ga")
             exit(1)
 
     def initializePygame(self):
@@ -230,8 +240,14 @@ class Game:
             print("The screen cannot be in a vertical orientation. Exiting...")
             exit(1)
 
+        # Read examples to decision tree learning
+        examplesFilePath = str(
+            filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
+        examplesManager = ExamplesManager(examplesFilePath)
+        examples = examplesManager.readExamples()
+
         # Create decision tree
-        survivalDecisionTree = SurvivalDT(DT.inductiveDecisionTreeLearning(Examples.examples,
+        survivalDecisionTree = SurvivalDT(DT.inductiveDecisionTreeLearning(examples,
                                                                            AttrDefs.allAttributesDefinitions,
                                                                            SurvivalClassification.FOOD,
                                                                            SurvivalClassification))
@@ -327,6 +343,12 @@ class Game:
 
         # Run GA:
         self.pgTimer.tick()
-        geneticAlgorithmWithDecisionTree(self.map, iter, 10, 0.1)
+
+        examplesFilePath = str(
+            filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
+        dtExamplesManager = ExamplesManager(examplesFilePath)
+        dtExamples = dtExamplesManager.readExamples()
+
+        geneticAlgorithmWithDecisionTree(self.map, iter, 10, dtExamples, 0.1)
         print("Time elapsed: ", self.pgTimer.tick() // 1000)
 

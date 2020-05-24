@@ -4,7 +4,6 @@ from datetime import datetime
 import numpy
 
 import src.AI.DecisionTrees.InductiveDecisionTreeLearning as DT
-import src.AI.DecisionTrees.projectSpecificClasses.Examples as Examples
 from src.AI.Affinities import Affinities
 from src.AI.DecisionTrees.DecisionTree import DecisionTree
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalAttributesDefinitions import \
@@ -14,17 +13,18 @@ from src.AI.SurvivalDT import SurvivalDT
 from src.entities.Player import Player
 
 
-def geneticAlgorithmWithDecisionTree(map, iter, solutions, mutationAmount=0.05):
+def geneticAlgorithmWithDecisionTree(map, iter, solutions, decisionTreeExamples, mutationAmount=0.05):
     """
     This is fusion of genetic algorithm and decision tree. Decision tree is giving travel goals for player.
 
+    :param decisionTreeExamples:
     :param map: Map with all entities
     :param iter: Generations count
     :param solutions: Solutions per generation
     :param mutationAmount: Mutation strength
     """
 
-    survivalDecisionTree = SurvivalDT(DT.inductiveDecisionTreeLearning(Examples.examples,
+    survivalDecisionTree = SurvivalDT(DT.inductiveDecisionTreeLearning(decisionTreeExamples,
                                                                        AttrDefs.allAttributesDefinitions,
                                                                        SurvivalClassification.FOOD,
                                                                        SurvivalClassification))
