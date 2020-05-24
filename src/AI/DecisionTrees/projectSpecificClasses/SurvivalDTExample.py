@@ -36,3 +36,27 @@ class SurvivalDTExample(DecisionTreeExample):
                       Attribute(SurvivalAttributesDefinitions.restDistanceAttrDef, distFromRestPlace)]
 
         super().__init__(classification, attributes)
+
+    def compareAttributes(self, anotherExample) -> bool:
+        """
+        Compares attributes of this example with another example's attributes.
+
+        :param anotherExample:
+        :return: True if attrs are equal, False otherwise
+        """
+        attrsAreEqual = True
+
+        if self.hungerVal != anotherExample.hungerVal:
+            attrsAreEqual = False
+        elif self.thirstVal != anotherExample.thirstVal:
+            attrsAreEqual = False
+        elif self.staminaVal != anotherExample.staminaVal:
+            attrsAreEqual = False
+        elif self.distFromFood != anotherExample.distFromFood:
+            attrsAreEqual = False
+        elif self.distFromWater != anotherExample.distFromWater:
+            attrsAreEqual = False
+        elif self.distFromRestPlace != anotherExample.distFromRestPlace:
+            attrsAreEqual = False
+
+        return attrsAreEqual
