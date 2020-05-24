@@ -244,36 +244,46 @@ class Game:
         self.player = Player((6, 2), self.map.tileSize, Affinities(0.3, 0.6, 0.1, 0.5))
         self.map.addEntity(self.player, DONTADD=True)
 
+        pause = False
+
         # main loop without user input
-        while self.running:
-            # Tick the timers
-            self.ingameTimer.updateTime(self.pgTimer.tick())
-            self.screen.ui.updateTime()
-
-            # If player is dead write information to console and break main loop
-            if not self.player.alive:
-                self.screen.ui.updateOnDeath(self.player)
-                self.spritesList.update()
-                self.spritesList.draw(self.screen.pygameScreen)
-                pygame.display.flip()
-                break
-
-            # Choose target for player using decision tree
-            if self.player.movementTarget is None:
-                self.player.gotoToTarget(survivalDecisionTree.pickEntity(self.player, self.map), self.map)
-
-            self.screen.ui.updateBarsBasedOnPlayerStats(self.player.statistics)
-
-            # Call update() method for each entity
-            self.spritesList.update()
-
-            # Draw all sprites
-            self.spritesList.draw(self.screen.pygameScreen)
-
-            # Flip the display
-            pygame.display.flip()
-
         while True:
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit(0)
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        pause = not pause
+
+            if pause or not self.running:
+                pass
+
+            else:
+                # Tick the timers
+                self.ingameTimer.updateTime(self.pgTimer.tick())
+                self.screen.ui.updateTime()
+
+                # If player is dead write information to console and break main loop
+                if not self.player.alive:
+                    self.screen.ui.updateOnDeath(self.player)
+                    self.spritesList.update()
+                    self.spritesList.draw(self.screen.pygameScreen)
+                    pygame.display.flip()
+                    self.running = False
+
+                # Choose target for player using decision tree
+                if self.player.movementTarget is None:
+                    self.player.gotoToTarget(survivalDecisionTree.pickEntity(self.player, self.map), self.map)
+
+                self.screen.ui.updateBarsBasedOnPlayerStats(self.player.statistics)
+
+                # Call update() method for each entity
+                self.spritesList.update()
+
+                # Draw all sprites
+                self.spritesList.draw(self.screen.pygameScreen)
+
+                # Flip the display
+                pygame.display.flip()
+
