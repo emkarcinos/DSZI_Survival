@@ -29,13 +29,16 @@ class SurvivalAttributesDefinitions:
                                                         PlayerStatsValue.THREE_QUARTERS_TO_FULL])
 
     foodDistanceAttrDef = AttributeDefinition(3, "Distance from food",
-                                              [DistFromObject.LT_3, DistFromObject.GE_3_LT_8, DistFromObject.GE_8])
+                                              [DistFromObject.LT_3, DistFromObject.GE_3_LT_8, DistFromObject.GE_8_LT_15,
+                                               DistFromObject.GE_15])
 
     waterDistanceAttrDef = AttributeDefinition(4, "Distance from water",
-                                              [DistFromObject.LT_3, DistFromObject.GE_3_LT_8, DistFromObject.GE_8])
+                                               [DistFromObject.LT_3, DistFromObject.GE_3_LT_8, DistFromObject.GE_8_LT_15,
+                                                DistFromObject.GE_15])
 
     restDistanceAttrDef = AttributeDefinition(5, "Distance from rest place",
-                                              [DistFromObject.LT_3, DistFromObject.GE_3_LT_8, DistFromObject.GE_8])
+                                              [DistFromObject.LT_3, DistFromObject.GE_3_LT_8, DistFromObject.GE_8_LT_15,
+                                               DistFromObject.GE_15])
 
     allAttributesDefinitions = [hungerAttrDef, thirstAttrDef, staminaAttrDef,
                                 foodDistanceAttrDef, waterDistanceAttrDef, restDistanceAttrDef]

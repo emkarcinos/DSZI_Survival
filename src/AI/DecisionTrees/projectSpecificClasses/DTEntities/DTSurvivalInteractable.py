@@ -33,8 +33,10 @@ class DTSurvivalInteractable:
             distanceFromPlayer = DistFromObject.LT_3
         elif 3 <= distance < 8:
             distanceFromPlayer = DistFromObject.GE_3_LT_8
-        elif distance >= 8:
-            distanceFromPlayer = DistFromObject.GE_8
+        elif 8 <= distance < 15:
+            distanceFromPlayer = DistFromObject.GE_8_LT_15
+        elif distance >= 15:
+            distanceFromPlayer = DistFromObject.GE_15
         else:
             return None
 
