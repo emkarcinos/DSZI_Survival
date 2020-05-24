@@ -16,10 +16,11 @@ class SurvivalDT:
     def __init__(self, entityPickingDecisionTree: DecisionTree):
         self.entityPickingDecisionTree = entityPickingDecisionTree
 
-    def pickEntity(self, player, map):
+    def pickEntity(self, player, map, pickForGa=False):
         """
         Select an entity to become the next goal for the player.
 
+        :param pickForGa: If picking is done for genetic algorithm then pick can't be the same as last.
         :param player: Player object
         :param map: Map object
         """
@@ -65,29 +66,32 @@ class SurvivalDT:
                                                                     dtRestPlaces,
                                                                     dtWaters)
 
-        # If the choice happens to be the same as the last one pick something else.
-        if choice == map.getEntityOnCoord(player.getFacingCoord()):
-            if treeDecision == SurvivalClassification.FOOD:
-                dtFoods.remove(dtFoods[0])
-                nearestDtFood = dtFoods[0]
-            elif treeDecision == SurvivalClassification.WATER:
-                dtWaters.remove(dtWaters[0])
-                nearestDtWater = dtWaters[0]
-            elif treeDecision == SurvivalClassification.REST:
-                dtRestPlaces.remove(dtRestPlaces[0])
-                nearestDtRest = dtRestPlaces[0]
+        """
+        If choice is being made for genetic algorithm then do not allow to pick same entity as before,
+        because fitness is being calculated by travelled fields, not time being alive.
+        So player shouldn't be standing and drinking water, but moving from one water field to another.
+        """
+        if pickForGa:
+            # If the choice happens to be the same as the last one pick something else.
+            if choice.interactable == map.getEntityOnCoord(player.getFacingCoord()):
+                if treeDecision == SurvivalClassification.FOOD:
+                    dtFoods.remove(dtFoods[0])
+                    nearestDtFood = dtFoods[0]
+                elif treeDecision == SurvivalClassification.WATER:
+                    dtWaters.remove(dtWaters[0])
+                    nearestDtWater = dtWaters[0]
+                elif treeDecision == SurvivalClassification.REST:
+                    dtRestPlaces.remove(dtRestPlaces[0])
+                    nearestDtRest = dtRestPlaces[0]
 
-            currentSituation = SurvivalDTExample(None, playerStats.hungerAmount, playerStats.thirstAmount,
-                                                 playerStats.staminaAmount,
-                                                 dtFoods[0].dtDistanceFromPlayer, dtWaters[0].dtDistanceFromPlayer,
-                                                 dtRestPlaces[0].dtDistanceFromPlayer,
-                                                 nearestDtFood.getDtDistanceFromOtherInteractable(nearestDtWater.interactable))
+                currentSituation = SurvivalDTExample(None, playerStats.hungerAmount, playerStats.thirstAmount,
+                                                     playerStats.staminaAmount,
+                                                     nearestDtFood.dtDistanceFromPlayer, nearestDtWater.dtDistanceFromPlayer,
+                                                     nearestDtRest.dtDistanceFromPlayer,
+                                                     nearestDtFood.getDtDistanceFromOtherInteractable(nearestDtWater.interactable))
 
-            treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation, dtFoods,
-                                                                        dtRestPlaces, dtWaters)
-
-        print("Tree choice: ")
-        print(choice.getDescription())
+                treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation, dtFoods,
+                                                                            dtRestPlaces, dtWaters)
 
         return choice.interactable
 

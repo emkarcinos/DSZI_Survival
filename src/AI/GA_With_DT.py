@@ -144,7 +144,7 @@ def doSimulation(weights, map, decisionTree: SurvivalDT):
     player.disableMovementTime()
     while player.alive:
         if player.movementTarget is None:
-            target = decisionTree.pickEntity(player, map)
+            target = decisionTree.pickEntity(player, map, pickForGa=True)
             player.gotoToTarget(target, map)
         player.update()
     fitness = player.movePoints
