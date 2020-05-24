@@ -21,9 +21,11 @@ class ExamplesManager:
 
         file = open(self.examplesFilePath, "r")
 
-        line = file.readline()
         lineNum = 0
-        while line != "":
+        while True:
+            line = file.readline()
+            if line == "":
+                break
             lineNum += 1
             words = line.split("|")
 
@@ -117,7 +119,6 @@ class ExamplesManager:
                                         dstFromRest)
 
             examples.append(example)
-            line = file.readline()
         file.close()
 
         return examples
@@ -133,11 +134,11 @@ class ExamplesManager:
         example: SurvivalDTExample
         for example in examplesToAdd:
             strToWrite = "\n{}|{}|{}|{}|{}|{}|{}".format(example.classification.name,
-                                                       example.hungerVal.name,
-                                                       example.thirstVal.name,
-                                                       example.staminaVal.name,
-                                                       example.distFromFood.name,
-                                                       example.distFromWater.name,
-                                                       example.distFromRestPlace.name)
+                                                         example.hungerVal.name,
+                                                         example.thirstVal.name,
+                                                         example.staminaVal.name,
+                                                         example.distFromFood.name,
+                                                         example.distFromWater.name,
+                                                         example.distFromRestPlace.name)
             file.write(strToWrite)
         file.close()
