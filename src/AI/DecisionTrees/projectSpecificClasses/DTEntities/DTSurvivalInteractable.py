@@ -7,11 +7,13 @@ from src.entities.Interactable import Interactable
 class DTSurvivalInteractable:
     DistFromObjectFromPlayer: DistFromObject
 
-    def __init__(self, distanceFromPlayer: DistFromObject, classification: SurvivalClassification,
-                 interactable: Interactable):
+    def __init__(self, dtDistanceFromPlayer: DistFromObject, classification: SurvivalClassification,
+                 interactable: Interactable, accurateDistanceFromPlayer: int):
         self.interactable = interactable
         self.classification = classification
-        self.distanceFromPlayer = distanceFromPlayer
+        self.dtDistanceFromPlayer = dtDistanceFromPlayer
+        self.accurateDistanceFromPlayer = accurateDistanceFromPlayer
+
 
     @staticmethod
     def dtInteractableFromInteractable(interactable: Interactable, playerX: int, playerY: int):
@@ -40,8 +42,8 @@ class DTSurvivalInteractable:
         else:
             return None
 
-        return DTSurvivalInteractable(distanceFromPlayer, classification, interactable)
+        return DTSurvivalInteractable(distanceFromPlayer, classification, interactable, distance)
 
     def getDescription(self):
-        dsc = "Classification: {}, Distance from player: {}".format(self.classification, self.distanceFromPlayer)
+        dsc = "Classification: {}, Distance from player: {}".format(self.classification, self.dtDistanceFromPlayer)
         return dsc

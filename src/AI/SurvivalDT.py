@@ -35,26 +35,26 @@ class SurvivalDT:
             dtFood = DTSurvivalInteractable.dtInteractableFromInteractable(food, player.x, player.y)
             dtFoods.append(dtFood)
 
-        dtFoods.sort(key=lambda x: x.distanceFromPlayer.value)
+        dtFoods.sort(key=lambda x: x.accurateDistanceFromPlayer)
 
         # Get waters sorted by distance from player
         dtWaters: List[DTSurvivalInteractable] = []
         for water in waters:
             dtWater = DTSurvivalInteractable.dtInteractableFromInteractable(water, player.x, player.y)
             dtWaters.append(dtWater)
-        dtWaters.sort(key=lambda x: x.distanceFromPlayer.value)
+        dtWaters.sort(key=lambda x: x.accurateDistanceFromPlayer)
 
         # Get rest places sorted by distance from player
         dtRestPlaces: List[DTSurvivalInteractable] = []
         for rest in rests:
             dtRest = DTSurvivalInteractable.dtInteractableFromInteractable(rest, player.x, player.y)
             dtRestPlaces.append(dtRest)
-        dtRestPlaces.sort(key=lambda x: x.distanceFromPlayer.value)
+        dtRestPlaces.sort(key=lambda x: x.accurateDistanceFromPlayer)
 
         currentSituation = SurvivalDTExample(None, playerStats.hungerAmount, playerStats.thirstAmount,
                                              playerStats.staminaAmount,
-                                             dtFoods[0].distanceFromPlayer, dtWaters[0].distanceFromPlayer,
-                                             dtRestPlaces[0].distanceFromPlayer)
+                                             dtFoods[0].dtDistanceFromPlayer, dtWaters[0].dtDistanceFromPlayer,
+                                             dtRestPlaces[0].dtDistanceFromPlayer)
 
         treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation,
                                                                     dtFoods,
@@ -72,8 +72,8 @@ class SurvivalDT:
 
             currentSituation = SurvivalDTExample(None, playerStats.hungerAmount, playerStats.thirstAmount,
                                                  playerStats.staminaAmount,
-                                                 dtFoods[0].distanceFromPlayer, dtWaters[0].distanceFromPlayer,
-                                                 dtRestPlaces[0].distanceFromPlayer)
+                                                 dtFoods[0].dtDistanceFromPlayer, dtWaters[0].dtDistanceFromPlayer,
+                                                 dtRestPlaces[0].dtDistanceFromPlayer)
 
             treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation, dtFoods,
                                                                         dtRestPlaces, dtWaters)
