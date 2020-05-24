@@ -70,6 +70,9 @@ class Game:
                 else:
                     print("Running Decision Tree.")
                     self.dtRun(filesPath)
+            else:
+                print("Running Decision Tree.")
+                self.dtRun(filesPath)
         # Genetic algorithm
         elif argv[1] == "ga" and len(argv) >= 3:
             if len(argv) >= 4 and argv[3] == "-t":
