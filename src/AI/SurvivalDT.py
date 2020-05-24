@@ -30,15 +30,6 @@ class SurvivalDT:
 
         playerStats = DTPlayerStats.dtStatsFromPlayerStats(player.statistics)
 
-        # Get foods sorted by distance from player
-        dtFoods: List[DTSurvivalInteractable] = []
-        for food in foods:
-            dtFood = DTSurvivalInteractable.dtInteractableFromInteractable(food, player.x, player.y)
-            dtFoods.append(dtFood)
-
-        dtFoods.sort(key=lambda x: x.accurateDistanceFromPlayer)
-        nearestDtFood = dtFoods[0]
-
         # Get waters sorted by distance from player
         dtWaters: List[DTSurvivalInteractable] = []
         for water in waters:
@@ -46,6 +37,19 @@ class SurvivalDT:
             dtWaters.append(dtWater)
         dtWaters.sort(key=lambda x: x.accurateDistanceFromPlayer)
         nearestDtWater = dtWaters[0]
+
+        # Get foods sorted by distance from player
+        dtFoods: List[DTSurvivalInteractable] = []
+        for food in foods:
+            dtFood = DTSurvivalInteractable.dtInteractableFromInteractable(food, player.x, player.y)
+            dtFoods.append(dtFood)
+
+        dtFoods.sort(key=lambda x: x.accurateDistanceFromPlayer)
+        # If there is no food on map return nearest water.
+        try:
+            nearestDtFood = dtFoods[0]
+        except IndexError:
+            return nearestDtWater.interactable
 
         # Get rest places sorted by distance from player
         dtRestPlaces: List[DTSurvivalInteractable] = []
