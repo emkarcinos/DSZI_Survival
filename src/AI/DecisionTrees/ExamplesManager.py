@@ -157,6 +157,7 @@ class ExamplesManager:
         while True:
 
             howManyExamplesGenerate = int(input("How many example do you want to generate? : "))
+            print()
 
             for i in range(howManyExamplesGenerate):
 
@@ -187,7 +188,9 @@ class ExamplesManager:
                     continue
 
                 # if not a duplicate then ask for classification
+                print()
                 print("Generated example: \n{}".format(newExample.getDescription()))
+                print()
 
                 givenClsIsGood = False
                 while not givenClsIsGood:
@@ -204,6 +207,6 @@ class ExamplesManager:
                 newExample.classification = classification
                 self.addExamplesToFile([newExample])
 
-            keepGenerating = input("Type 'E' to stop generating or anything else to continue")
+            keepGenerating = input("Type 'E' to stop generating or anything else to continue.\n")
             if keepGenerating == "E":
                 break
