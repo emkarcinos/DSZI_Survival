@@ -1,4 +1,4 @@
-from typing import Any, Union
+from typing import Any, Union, List
 
 from src.AI.DecisionTrees.projectSpecificClasses.DistFromObject import DistFromObject
 from src.AI.DecisionTrees.projectSpecificClasses.PlayerStatsValue import PlayerStatsValue
@@ -12,6 +12,11 @@ class ExamplesManager:
         self.examplesFilePath = examplesFilePath
 
     def readExamples(self):
+        """
+        This method reads examples for decision tree learning from file.
+
+        :return: List of read examples.
+        """
         examples = []
 
         file = open(self.examplesFilePath, "r")
@@ -113,4 +118,25 @@ class ExamplesManager:
 
             examples.append(example)
 
+        file.close()
+
         return examples
+
+    def addExamplesToFile(self, examplesToAdd: List[SurvivalDTExample]):
+        """
+        Appends given examples to examples file.
+
+        :param examplesToAdd:
+        """
+        file = open(self.examplesFilePath, "a+")
+
+        example: SurvivalDTExample
+        for example in examplesToAdd:
+            strToWrite = "{}|{}|{}|{}|{}|{}|{}".format(example.classification.name,
+                                                       example.hungerVal.name,
+                                                       example.thirstVal.name,
+                                                       example.staminaVal.name,
+                                                       example.distFromFood.name,
+                                                       example.distFromWater.name,
+                                                       example.distFromRestPlace.name)
+        file.close()
