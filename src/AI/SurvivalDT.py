@@ -56,9 +56,10 @@ class SurvivalDT:
                                              dtFoods[0].distanceFromPlayer, dtWaters[0].distanceFromPlayer,
                                              dtRestPlaces[0].distanceFromPlayer)
 
-        treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation, self.entityPickingDecisionTree,
+        treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation,
                                                                     dtFoods,
-                                                                    dtRestPlaces, dtWaters)
+                                                                    dtRestPlaces,
+                                                                    dtWaters)
 
         # If the choice happens to be the same as the last one pick something else.
         if choice == map.getEntityOnCoord(player.getFacingCoord()):
