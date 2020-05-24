@@ -5,7 +5,6 @@ from src.AI.DecisionTrees.projectSpecificClasses.DTEntities.DTSurvivalInteractab
 from src.AI.DecisionTrees.projectSpecificClasses.DTPlayerStats import DTPlayerStats
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import SurvivalClassification
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalDTExample import SurvivalDTExample
-from src.AI.GA_With_DT import pickEntityAfterTreeDecision
 from src.entities.Enums import Classifiers
 
 
@@ -57,8 +56,9 @@ class SurvivalDT:
                                              dtFoods[0].distanceFromPlayer, dtWaters[0].distanceFromPlayer,
                                              dtRestPlaces[0].distanceFromPlayer)
 
-        treeDecision, choice = pickEntityAfterTreeDecision(currentSituation, self.entityPickingDecisionTree, dtFoods,
-                                                           dtRestPlaces, dtWaters)
+        treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation, self.entityPickingDecisionTree,
+                                                                    dtFoods,
+                                                                    dtRestPlaces, dtWaters)
 
         # If the choice happens to be the same as the last one pick something else.
         if choice == map.getEntityOnCoord(player.getFacingCoord()):
@@ -74,7 +74,33 @@ class SurvivalDT:
                                                  dtFoods[0].distanceFromPlayer, dtWaters[0].distanceFromPlayer,
                                                  dtRestPlaces[0].distanceFromPlayer)
 
-            treeDecision, choice = pickEntityAfterTreeDecision(currentSituation, self.entityPickingDecisionTree, dtFoods,
-                                                               dtRestPlaces, dtWaters)
+            treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation, dtFoods,
+                                                                        dtRestPlaces, dtWaters)
 
-        return choice
+        print("Tree choice: ")
+        print(choice.getDescription())
+
+        return choice.interactable
+
+    def __pickEntityAfterTreeDecision__(self, currentSituation, dtFoods, dtRestPlaces, dtWaters):
+        """
+        This method is usable only in SurvivalDT.pickEntity method.
+
+        After decision tree decides for what type of entity player should go this method retrieves a proper object
+        from list of foods, rest places, waters.
+
+        :param currentSituation:
+        :param dtFoods:
+        :param dtRestPlaces:
+        :param dtWaters:
+        :return:
+        """
+        treeDecision = self.entityPickingDecisionTree.giveAnswer(currentSituation)
+        choice = None
+        if treeDecision == SurvivalClassification.FOOD:
+            choice = dtFoods[0]
+        elif treeDecision == SurvivalClassification.WATER:
+            choice = dtWaters[0]
+        elif treeDecision == SurvivalClassification.REST:
+            choice = dtRestPlaces[0]
+        return treeDecision, choice

@@ -1,6 +1,5 @@
 import random
 from datetime import datetime
-from typing import List
 
 import numpy
 
@@ -8,15 +7,11 @@ import src.AI.DecisionTrees.InductiveDecisionTreeLearning as DT
 import src.AI.DecisionTrees.projectSpecificClasses.Examples as Examples
 from src.AI.Affinities import Affinities
 from src.AI.DecisionTrees.DecisionTree import DecisionTree
-from src.AI.DecisionTrees.projectSpecificClasses.DTEntities.DTSurvivalInteractable import DTSurvivalInteractable
-from src.AI.DecisionTrees.projectSpecificClasses.DTPlayerStats import DTPlayerStats
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalAttributesDefinitions import \
     SurvivalAttributesDefinitions as AttrDefs
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import SurvivalClassification
-from src.AI.DecisionTrees.projectSpecificClasses.SurvivalDTExample import SurvivalDTExample
-from src.entities.Enums import Classifiers
+from src.AI.SurvivalDT import SurvivalDT
 from src.entities.Player import Player
-from src.game.Map import Map
 
 
 def geneticAlgorithmWithDecisionTree(map, iter, solutions, mutationAmount=0.05):
@@ -29,13 +24,13 @@ def geneticAlgorithmWithDecisionTree(map, iter, solutions, mutationAmount=0.05):
     :param mutationAmount: Mutation strength
     """
 
-    entityPickingDecisionTree = DT.inductiveDecisionTreeLearning(Examples.examples,
-                                                                 AttrDefs.allAttributesDefinitions,
-                                                                 SurvivalClassification.FOOD,
-                                                                 SurvivalClassification)
+    survivalDecisionTree = SurvivalDT(DT.inductiveDecisionTreeLearning(Examples.examples,
+                                                                       AttrDefs.allAttributesDefinitions,
+                                                                       SurvivalClassification.FOOD,
+                                                                       SurvivalClassification))
 
     print("\nDecision tree: \n")
-    DecisionTree.printTree(entityPickingDecisionTree, 0)
+    DecisionTree.printTree(survivalDecisionTree.entityPickingDecisionTree, 0)
     print()
 
     # Based on 4 weights, that are affinities tied to the player
@@ -57,7 +52,7 @@ def geneticAlgorithmWithDecisionTree(map, iter, solutions, mutationAmount=0.05):
         fitness = []
 
         for player in population:
-            fitness.append(doSimulation(player, map, entityPickingDecisionTree))
+            fitness.append(doSimulation(player, map, survivalDecisionTree))
 
         parents = selectMatingPool(population, fitness, int(solutions / 2))
 
@@ -137,10 +132,11 @@ def mutation(offspring, mutationAmount):
     return offspring
 
 
-def doSimulation(weights, map, decisionTree):
+def doSimulation(weights, map, decisionTree: SurvivalDT):
     """
     Runs the simulation. Returns fitness.
 
+    :param decisionTree:
     :param weights: A list of weights for players.
     :param map: Map object
     """
@@ -148,7 +144,7 @@ def doSimulation(weights, map, decisionTree):
     player.disableMovementTime()
     while player.alive:
         if player.movementTarget is None:
-            target = pickEntity(player, map, decisionTree)
+            target = decisionTree.pickEntity(player, map)
             player.gotoToTarget(target, map)
         player.update()
     fitness = player.movePoints
@@ -156,83 +152,6 @@ def doSimulation(weights, map, decisionTree):
     del player
     map.respawn()
     return fitness
-
-
-def pickEntity(player, map, entityPickingDecisionTree: DecisionTree):
-    """
-    Select an entity to become the next goal for the player. The goal is specified by decision tree.
-
-    :param entityPickingDecisionTree: 
-    :param player: Player object
-    :param map: Map object
-    :type map: Map
-    :type player: Player
-    """
-    foods = map.getInteractablesByClassifier(Classifiers.FOOD)
-    waters = map.getInteractablesByClassifier(Classifiers.WATER)
-    rests = map.getInteractablesByClassifier(Classifiers.REST)
-
-    playerStats = DTPlayerStats.dtStatsFromPlayerStats(player.statistics)
-
-    # Get foods sorted by distance from player
-    dtFoods: List[DTSurvivalInteractable] = []
-    for food in foods:
-        dtFood = DTSurvivalInteractable.dtInteractableFromInteractable(food, player.x, player.y)
-        dtFoods.append(dtFood)
-
-    dtFoods.sort(key=lambda x: x.distanceFromPlayer.value)
-
-    # Get waters sorted by distance from player
-    dtWaters: List[DTSurvivalInteractable] = []
-    for water in waters:
-        dtWater = DTSurvivalInteractable.dtInteractableFromInteractable(water, player.x, player.y)
-        dtWaters.append(dtWater)
-    dtWaters.sort(key=lambda x: x.distanceFromPlayer.value)
-
-    # Get rest places sorted by distance from player
-    dtRestPlaces: List[DTSurvivalInteractable] = []
-    for rest in rests:
-        dtRest = DTSurvivalInteractable.dtInteractableFromInteractable(rest, player.x, player.y)
-        dtRestPlaces.append(dtRest)
-    dtRestPlaces.sort(key=lambda x: x.distanceFromPlayer.value)
-
-    currentSituation = SurvivalDTExample(None, playerStats.hungerAmount, playerStats.thirstAmount,
-                                         playerStats.staminaAmount,
-                                         dtFoods[0].distanceFromPlayer, dtWaters[0].distanceFromPlayer,
-                                         dtRestPlaces[0].distanceFromPlayer)
-
-    treeDecision, choice = pickEntityAfterTreeDecision(currentSituation, entityPickingDecisionTree, dtFoods, dtRestPlaces, dtWaters)
-
-    # If the choice happens to be the same as the last one pick something else.
-    if choice == map.getEntityOnCoord(player.getFacingCoord()):
-        if treeDecision == SurvivalClassification.FOOD:
-            dtFoods.remove(dtFoods[0])
-        elif treeDecision == SurvivalClassification.WATER:
-            dtWaters.remove(dtWaters[0])
-        elif treeDecision == SurvivalClassification.REST:
-            dtRestPlaces.remove(dtRestPlaces[0])
-
-        currentSituation = SurvivalDTExample(None, playerStats.hungerAmount, playerStats.thirstAmount,
-                                             playerStats.staminaAmount,
-                                             dtFoods[0].distanceFromPlayer, dtWaters[0].distanceFromPlayer,
-                                             dtRestPlaces[0].distanceFromPlayer)
-
-        treeDecision, choice = pickEntityAfterTreeDecision(currentSituation, entityPickingDecisionTree, dtFoods, dtRestPlaces, dtWaters)
-
-    return choice
-
-
-def pickEntityAfterTreeDecision(currentSituation, decisionTree, dtFoods, dtRestPlaces, dtWaters):
-
-    treeDecision = decisionTree.giveAnswer(currentSituation)
-    choice = None
-    if treeDecision == SurvivalClassification.FOOD:
-        choice = dtFoods[0].interactable
-    elif treeDecision == SurvivalClassification.WATER:
-        choice = dtWaters[0].interactable
-    elif treeDecision == SurvivalClassification.REST:
-        choice = dtRestPlaces[0].interactable
-    return treeDecision, choice
 
 
 def writeResults(iter, bestFit, bestMember):
