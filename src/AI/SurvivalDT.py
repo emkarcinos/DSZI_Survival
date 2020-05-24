@@ -36,6 +36,7 @@ class SurvivalDT:
             dtFoods.append(dtFood)
 
         dtFoods.sort(key=lambda x: x.accurateDistanceFromPlayer)
+        nearestDtFood = dtFoods[0]
 
         # Get waters sorted by distance from player
         dtWaters: List[DTSurvivalInteractable] = []
@@ -43,6 +44,7 @@ class SurvivalDT:
             dtWater = DTSurvivalInteractable.dtInteractableFromInteractable(water, player.x, player.y)
             dtWaters.append(dtWater)
         dtWaters.sort(key=lambda x: x.accurateDistanceFromPlayer)
+        nearestDtWater = dtWaters[0]
 
         # Get rest places sorted by distance from player
         dtRestPlaces: List[DTSurvivalInteractable] = []
@@ -50,11 +52,14 @@ class SurvivalDT:
             dtRest = DTSurvivalInteractable.dtInteractableFromInteractable(rest, player.x, player.y)
             dtRestPlaces.append(dtRest)
         dtRestPlaces.sort(key=lambda x: x.accurateDistanceFromPlayer)
+        nearestDtRest = dtRestPlaces[0]
+
+
 
         currentSituation = SurvivalDTExample(None, playerStats.hungerAmount, playerStats.thirstAmount,
                                              playerStats.staminaAmount,
-                                             dtFoods[0].dtDistanceFromPlayer, dtWaters[0].dtDistanceFromPlayer,
-                                             dtRestPlaces[0].dtDistanceFromPlayer)
+                                             nearestDtFood.dtDistanceFromPlayer, nearestDtWater.dtDistanceFromPlayer,
+                                             nearestDtRest.dtDistanceFromPlayer)
 
         treeDecision, choice = self.__pickEntityAfterTreeDecision__(currentSituation,
                                                                     dtFoods,

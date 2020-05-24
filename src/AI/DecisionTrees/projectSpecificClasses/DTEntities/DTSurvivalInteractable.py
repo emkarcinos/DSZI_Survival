@@ -14,7 +14,6 @@ class DTSurvivalInteractable:
         self.dtDistanceFromPlayer = dtDistanceFromPlayer
         self.accurateDistanceFromPlayer = accurateDistanceFromPlayer
 
-
     @staticmethod
     def dtInteractableFromInteractable(interactable: Interactable, playerX: int, playerY: int):
         classification = None
@@ -47,3 +46,22 @@ class DTSurvivalInteractable:
     def getDescription(self):
         dsc = "Classification: {}, Distance from player: {}".format(self.classification, self.dtDistanceFromPlayer)
         return dsc
+
+    def getDtDistanceFromOtherInteractable(self, otherInteractable: Interactable):
+        """
+        Returns distance of this interactable from other interactable as enum, that can be used in decision tree
+        learning.
+
+        :param otherInteractable:
+        """
+        accurateDistance = abs(self.interactable.x - otherInteractable.x) + \
+                           abs(self.interactable.y - otherInteractable.y)
+
+        if accurateDistance < 3:
+            return DistFromObject.LT_3
+        elif 3 <= accurateDistance < 8:
+            return DistFromObject.GE_3_LT_8
+        elif 8 <= accurateDistance < 15:
+            return DistFromObject.GE_8_LT_15
+        elif accurateDistance > 15:
+            return DistFromObject.GE_15
