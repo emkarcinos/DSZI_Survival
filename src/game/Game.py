@@ -61,7 +61,13 @@ class Game:
         elif argv[1] == "test":
             self.testRun(filesPath)
         elif argv[1] == "dt":
-            self.dtRun(filesPath)
+            if len(argv) >= 3:
+                if argv[2] == "-p":
+                    print("Running Decision Tree in pause mode.")
+                    self.dtRun(filesPath, True)
+                else:
+                    print("Running Decision Tree.")
+                    self.dtRun(filesPath)
         elif argv[1] == "ga" and len(argv) >= 3:
             if len(argv) >= 4 and argv[3] == "-t":
                 print("Running Genetic Algorithm in multithreaded mode, iter = ", argv[2])
@@ -207,12 +213,13 @@ class Game:
             # Flip the display
             pygame.display.flip()
 
-    def dtRun(self, filesPath):
+    def dtRun(self, filesPath, pauseAfterDecision=False):
         """
         Runs game in decision tree mode.
 
         In this mode user can only watch how player performs decisions with usage of decision tree.
 
+        :param pauseAfterDecision: If pause mode is true, then simulation will be paused after each tree decision.
         :param filesPath:
         """
         self.running = True
@@ -279,6 +286,8 @@ class Game:
                 # Choose target for player using decision tree
                 if self.player.movementTarget is None:
                     self.player.gotoToTarget(survivalDecisionTree.pickEntity(self.player, self.map), self.map)
+                    if pauseAfterDecision:
+                        pause = True
 
                 self.screen.ui.updateBarsBasedOnPlayerStats(self.player.statistics)
 
