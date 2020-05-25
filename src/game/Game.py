@@ -8,6 +8,7 @@ import pygame
 from src.AI.Affinities import Affinities
 from src.AI.DecisionTrees.DecisionTree import DecisionTree
 from src.AI.DecisionTrees.ExamplesManager import ExamplesManager
+from src.AI.DecisionTrees.TestDecisionTree import testDecisionTree
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import SurvivalClassification
 from src.AI.GA import geneticAlgorithm
 from src.entities.Player import Player
@@ -67,6 +68,9 @@ class Game:
                 if argv[2] == "-p":
                     print("Running Decision Tree in pause mode.")
                     self.dtRun(filesPath, True)
+                elif argv[2] == "-test":
+                    print("Testing Decision Tree.")
+                    self.dtTestRun(filesPath, int(argv[3]))
                 else:
                     print("Running Decision Tree.")
                     self.dtRun(filesPath)
@@ -359,4 +363,15 @@ class Game:
 
         geneticAlgorithmWithDecisionTree(self.map, iter, 10, dtExamples, 0.1)
         print("Time elapsed: ", self.pgTimer.tick() // 1000)
+
+    def dtTestRun(self, filesPath, iterations):
+        # Read examples for decision tree testing
+        examplesFilePath = str(
+            filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
+        examplesManager = ExamplesManager(examplesFilePath)
+        examples = examplesManager.readExamples()
+        scores = testDecisionTree(examples, iterations)
+
+        avg = sum(scores) / iterations
+        print("Average: {}".format(str(avg)))
 
