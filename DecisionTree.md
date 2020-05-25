@@ -25,6 +25,7 @@ Metoda użyta do uczenia drzewa decyzyjnego to metoda **indukcyjnego uczenia drz
 
 ### Działanie ID3 
 * Definiujemy atrybuty, które będą posiadały przykłady służące do uczenia drzewa (**atrybuty**)
+
 ```python
 class AttributeDefinition:
     def __init__(self, id, name: str, values: List):
@@ -38,6 +39,7 @@ class Attribute:
         self.value = value
 ```
 * Tworzymy przykłady z wykorzystaniem atrybutów (**przykłady**)
+
 ```python
 class DecisionTreeExample:
     def __init__(self, classification, attributes: List[Attribute]):
