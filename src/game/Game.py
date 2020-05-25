@@ -68,9 +68,9 @@ class Game:
                 if argv[2] == "-p":
                     print("Running Decision Tree in pause mode.")
                     self.dtRun(filesPath, True)
-                elif argv[2] == "-test":
+                elif argv[2] == "-test" and len(argv) >= 5:
                     print("Testing Decision Tree.")
-                    self.dtTestRun(filesPath, int(argv[3]))
+                    self.dtTestRun(filesPath, iterations=int(argv[3]), trainingSetSize=float(argv[4]))
                 else:
                     print("Running Decision Tree.")
                     self.dtRun(filesPath)
@@ -364,13 +364,23 @@ class Game:
         geneticAlgorithmWithDecisionTree(self.map, iter, 10, dtExamples, 0.1)
         print("Time elapsed: ", self.pgTimer.tick() // 1000)
 
-    def dtTestRun(self, filesPath, iterations):
+    @staticmethod
+    def dtTestRun(filesPath, iterations: int, trainingSetSize: float = 0.9):
+        """
+
+
+        :param filesPath:
+        :param iterations:
+        :param trainingSetSize: How many % of examples that will be read from file make as trainingSet. Value from 0 to 1.
+        """
         # Read examples for decision tree testing
         examplesFilePath = str(
             filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
         examplesManager = ExamplesManager(examplesFilePath)
         examples = examplesManager.readExamples()
-        scores = testDecisionTree(examples, iterations)
+
+        # Testing tree
+        scores = testDecisionTree(examples, iterations, trainingSetSize)
 
         avg = sum(scores) / iterations
         print("Average: {}".format(str(avg)))
