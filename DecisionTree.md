@@ -93,7 +93,13 @@ def chooseAttribute(attributes: List[AttributeDefinition], examples: List[Decisi
 #### Obliczanie zysku informacji
 (Wszelkie obliczenia wedle wzorów podanych na zajęciach)
 * I(C) - Obliczamy zawartość informacji dla zbioru możliwych klasyfikacji
+
+![fig](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/raw/master/data/images/reportImages/DT/I%28C%29.png)
+
 * E(A) - Obliczamy ilość informacji potrzebną do zakończenia klasyfikacji po sprawdzeniu atrybutu
+
+![fig](https://git.wmi.amu.edu.pl/s444409/DSZI_Survival/raw/master/data/images/reportImages/DT/E%28A%29.png)
+
 * **G(A)** - **Przyrost informacji dla atrybutu A** = I(C) - E(A)
 
 **Implementacja**
