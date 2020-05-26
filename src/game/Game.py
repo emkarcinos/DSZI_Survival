@@ -422,9 +422,16 @@ class Game:
 
         ga = GeneticAlgorithm(firstGeneration, mutationProbability)
         movementList = ga.listOfTravel()
-        print(movementList)
-        print(type(movementList))
-        print(movementList[0])
+
+        self.entityToVisitList = []
+        for i in movementList:
+            self.entityToVisitList.append(self.map.getEntityOnCoord(i))
+
+        self.entityToVisitList.remove(self.entityToVisitList[0])
+
+        # for i in entityToVisitList:
+        #     self.player.gotoToTarget(i, self.map)
+        #     print("ile")
 
         # Start game loop
         self.mainLoop()

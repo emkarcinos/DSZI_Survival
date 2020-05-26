@@ -24,6 +24,8 @@ class EventManager:
         # TODO: Make this not retarded
         self.turnOff = False
 
+        self.iterator = 0
+
     # TODO
     def loadKeyboardSettings(self):
         pass
@@ -111,6 +113,12 @@ class EventManager:
             if self.player.movementTarget is None:
                 target = pickEntity(self.player, self.game.map)
                 self.player.gotoToTarget(target, self.game.map)
+
+        if keys[pygame.K_t]:
+            if self.player.movementTarget is None:
+                target = self.game.entityToVisitList[self.iterator]
+                self.player.gotoToTarget(target, self.game.map)
+                self.iterator += 1
 
         if keys[pygame.K_r]:
             self.game.map.respawn()
