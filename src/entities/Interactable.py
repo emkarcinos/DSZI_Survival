@@ -44,7 +44,7 @@ class Interactable(Entity):
             Player.herbs += 1
             print(Player.herbs)
 
-        if Player.herbs == 2:
+        if Player.herbs == 10:
             Player.statistics.set_hp(100)
             Player.statistics.set_stamina(100)
             Player.statistics.set_thirst(0)
