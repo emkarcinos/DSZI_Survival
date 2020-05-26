@@ -54,11 +54,14 @@ class Player(Entity):
 
         """
         # looses hunger
-        self.statistics.set_hunger(1.7)
+        # self.statistics.set_hunger(1.7)
+        self.statistics.set_hunger(0.7)
         # gets more thirsty
-        self.statistics.set_thirst(2.2)
+        # self.statistics.set_thirst(2.2)
+        self.statistics.set_thirst(1.2)
         # gets tired
-        self.statistics.set_stamina(-1.9)
+        # self.statistics.set_stamina(-1.9)
+        self.statistics.set_stamina(-0.9)
 
     def applyTimeFatigue(self):
         """
