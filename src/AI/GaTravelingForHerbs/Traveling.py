@@ -43,9 +43,9 @@ class Traveling:
         return str(self.coords)
 
 
-firstGeneration = [Traveling(START_COORD + sample(COORDS, len(COORDS)) + END_COORD) for _ in range(100)]
-mutationProbability = float(0.1)
-
-ga = GeneticAlgorithm(firstGeneration, mutationProbability)
-movementList = ga.run()
+# firstGeneration = [Traveling(START_COORD + sample(COORDS, len(COORDS)) + END_COORD) for _ in range(100)]
+# mutationProbability = float(0.1)
+#
+# ga = GeneticAlgorithm(firstGeneration, mutationProbability)
+# movementList = ga.run()
 

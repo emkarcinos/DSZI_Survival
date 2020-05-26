@@ -2,6 +2,7 @@ import json
 from os import path
 from pathlib import Path
 import os
+from random import sample
 
 import pygame
 
@@ -11,6 +12,8 @@ from src.AI.DecisionTrees.ExamplesManager import ExamplesManager
 from src.AI.DecisionTrees.TestDecisionTree import testDecisionTree
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import SurvivalClassification
 from src.AI.GA import geneticAlgorithm
+from src.AI.GaTravelingForHerbs.GeneticAlgorithm import GeneticAlgorithm
+from src.AI.GaTravelingForHerbs.Traveling import Traveling, START_COORD, COORDS, END_COORD
 from src.entities.Player import Player
 from src.game.EventManager import EventManager
 from src.game.Map import Map
@@ -92,9 +95,12 @@ class Game:
         # Generating examples for decision tree
         elif argv[1] == "g_e_dt":
             print("Running in mode generating examples for decision tree.")
-            examplesFilePath = str(filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
+            examplesFilePath = str(
+                filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
             dtExampleManager = ExamplesManager(examplesFilePath)
             dtExampleManager.generateExamples()
+        elif argv[1] == "ga_travel":
+            self.travelRun(filesPath)
         # Invalid game mode
         else:
             print("Invalid game mode. \n Possible options: test, ga")
@@ -302,7 +308,8 @@ class Game:
                 # If player is dead write information to console and break main loop
                 if not self.player.alive:
                     self.screen.ui.updateOnDeath(self.player)
-                    self.screen.ui.console.printToConsole("Score: {}".format(str(decisionsMade + self.player.movePoints)))
+                    self.screen.ui.console.printToConsole(
+                        "Score: {}".format(str(decisionsMade + self.player.movePoints)))
                     self.screen.ui.console.printToConsole("Decisions made {}. Movements made {}.".
                                                           format(decisionsMade, self.player.movePoints))
                     self.spritesList.update()
@@ -384,4 +391,45 @@ class Game:
 
         avg = sum(scores) / iterations
         print("Average: {}".format(str(avg)))
+
+    def travelRun(self, filesPath):
+        self.running = True
+        print("Initializing screen, params: " + str(self.config["window"]) + "...", end=" ")
+
+        # Vertical rotation is unsupported due to UI layout
+        if self.config["window"]["height"] > self.config["window"]["width"]:
+            print("The screen cannot be in a vertical orientation. Exiting...")
+            exit(1)
+
+        # Initialize timers
+        # Virtual timer to track in-game time
+        self.ingameTimer = Timer()
+        self.ingameTimer.startClock()
+
+        # Initialize screen
+        self.screen = Screen(self, self.config["window"])
+        print("OK")
+
+        self.initializeMap(filesPath)
+
+        # Initialize the player
+        self.player = Player((6, 2), self.map.tileSize, Affinities(0.3, 0.6, 0.1, 0.5))
+        self.map.addEntity(self.player, DONTADD=True)
+        self.eventManager = EventManager(self, self.player)
+
+        firstGeneration = [Traveling(START_COORD + sample(COORDS, len(COORDS)) + END_COORD) for _ in range(100)]
+        mutationProbability = float(0.1)
+
+        ga = GeneticAlgorithm(firstGeneration, mutationProbability)
+        movementList = ga.run()
+        print(movementList)
+
+        # for i in movementList:
+        #     self.map.getEntityOnCoord()
+        # Start game loop
+
+        self.mainLoop()
+
+
+
 
