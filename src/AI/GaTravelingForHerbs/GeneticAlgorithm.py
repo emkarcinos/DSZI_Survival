@@ -33,6 +33,12 @@ class GeneticAlgorithm:
 
             i += 1
             if self.stopCondition(i):
-                return theBestMatch
+                return str(theBestMatch)
+
+
+    def listOfTravel(self):
+        strTravel = self.run()
+        import ast
+        return ast.literal_eval(strTravel)
 
 

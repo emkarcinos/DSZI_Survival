@@ -421,13 +421,12 @@ class Game:
         mutationProbability = float(0.1)
 
         ga = GeneticAlgorithm(firstGeneration, mutationProbability)
-        movementList = ga.run()
+        movementList = ga.listOfTravel()
         print(movementList)
+        print(type(movementList))
+        print(movementList[0])
 
-        # for i in movementList:
-        #     self.map.getEntityOnCoord()
         # Start game loop
-
         self.mainLoop()
 
 
