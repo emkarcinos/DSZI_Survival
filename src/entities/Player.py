@@ -22,6 +22,7 @@ class Player(Entity):
         super().__init__("player.png", size, spawnpoint, False)
 
         self.statistics = Statistics(100, 0, 0, 100)
+        self.herbs = 0
         # How many steps has the player taken through its lifetime
         self.movePoints = 0
         # Tracks how much time has passed since the player is alive

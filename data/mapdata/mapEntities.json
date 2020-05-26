@@ -459,5 +459,35 @@
       "y": 15
     },
     "isPickupable" : false
+  },
+  {
+    "name" : "herb1",
+    "position" : {
+      "x": 12,
+      "y": 12
+    },
+    "isPickupable": true,
+    "effect" : {
+      "hp" : 0,
+      "stamina" : 0,
+      "thirst" : 0,
+      "hunger" : 0
+    },
+    "type" : "herb"
+  },
+  {
+    "name" : "herb2",
+    "position" : {
+      "x": 14,
+      "y": 8
+    },
+    "isPickupable": true,
+    "effect" : {
+      "hp" : 0,
+      "stamina" : 0,
+      "thirst" : 0,
+      "hunger" : 0
+    },
+    "type" : "herb"
   }
 ]

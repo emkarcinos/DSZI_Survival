@@ -25,3 +25,4 @@ class Classifiers(Enum):
     FOOD = 0
     WATER = 1
     REST = 2
+    HERB = 3

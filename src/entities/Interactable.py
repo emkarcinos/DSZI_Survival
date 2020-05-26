@@ -26,6 +26,8 @@ class Interactable(Entity):
             self.classifier = Classifiers.WATER
         elif classifier == "rest":
             self.classifier = Classifiers.REST
+        elif classifier == "herb":
+            self.classifier = Classifiers.HERB
 
     def on_interaction(self, Player):
         """
@@ -37,6 +39,16 @@ class Interactable(Entity):
         Player.statistics.set_stamina(self.Statistics.stamina)
         Player.statistics.set_thirst(self.Statistics.thirst)
         Player.statistics.set_hunger(self.Statistics.hunger)
+
+        if self.classifier == Classifiers.HERB:
+            Player.herbs += 1
+            print(Player.herbs)
+
+        if Player.herbs == 2:
+            Player.statistics.set_hp(100)
+            Player.statistics.set_stamina(100)
+            Player.statistics.set_thirst(0)
+            Player.statistics.set_hunger(0)
 
     def __str__(self):
         return "Entity - ID:{}, pos:({}x, {}y), {}".format(self.id, self.x, self.y, self.classifier.name)
