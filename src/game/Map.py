@@ -22,9 +22,10 @@ class Map:
         """
         # TODO: Should map be self-aware of its own loacation?
         self.screen = screen
+
         # tekstowa macierz terenów
         self.terrain = []
-        # tereny bez kolizji
+        # tereny nie kolizyjne, potrzebne też do metody movableList, która zwraca tereny na których nie ma żadnych entity
         self.terrainTilesList = []
         # grupa objektów kolizyjnych (tereny kolizyjne i entities)
         self.collidables = pygame.sprite.Group()
@@ -241,6 +242,20 @@ class Map:
                 if b.rect.x == x and b.rect.y == y:
                     return True
             return False
+
+    def insertHerbs(self, coordsList):
+        nr = 1
+        for i in range(10):
+            entity = Pickupable("herb" + str(nr) + ".png", self.tileSize, coordsList[i], Statistics(0, 0, 0, 0), "herb")
+            self.entitiesRawData.append(entity)
+            self.addEntity(entity)
+            nr += 1
+
+    def movableList(self):
+        terrainList = self.terrainTilesList
+        for i in self.entitiesRawData:
+            terrainList.remove(self.getTileOnCoord((i.x, i.y)))
+        return terrainList
 
     def __del__(self):
         for entity in self.entities.sprites():

@@ -24,3 +24,7 @@ class TerrainTile(pygame.sprite.Sprite):
         self.rect.x = x * tileSize
         self.rect.y = y * tileSize
         self.cost = cost
+
+    def __repr__(self):
+        coords = (self.x, self.y)
+        return str(coords)

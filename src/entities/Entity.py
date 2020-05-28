@@ -251,5 +251,9 @@ class Entity(pygame.sprite.Sprite):
         # If A* has ben called, move the entity
         self.updateEntityCoords()
 
-    def __str__(self):
-        return "Entity - ID:{}, pos:({}x, {}y)".format(self.id, self.x, self.y)
+    # def __str__(self):
+    #     return "Entity - ID:{}, pos:({}x, {}y)".format(self.id, self.x, self.y)
+
+    def __repr__(self):
+        coords = (self.x, self.y)
+        return str(coords)

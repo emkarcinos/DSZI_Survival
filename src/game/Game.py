@@ -1,8 +1,10 @@
 import json
+import random
 from os import path
 from pathlib import Path
 import os
 from random import sample
+from random import shuffle
 
 import pygame
 
@@ -13,7 +15,7 @@ from src.AI.DecisionTrees.TestDecisionTree import testDecisionTree
 from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import SurvivalClassification
 from src.AI.GA import geneticAlgorithm
 from src.AI.GaTravelingForHerbs.GeneticAlgorithm import GeneticAlgorithm
-from src.AI.GaTravelingForHerbs.Traveling import Traveling, START_COORD, COORDS, END_COORD
+from src.AI.GaTravelingForHerbs.Traveling import Traveling, START_COORD, END_COORD
 from src.entities.Player import Player
 from src.game.EventManager import EventManager
 from src.game.Map import Map
@@ -410,6 +412,7 @@ class Game:
         self.screen = Screen(self, self.config["window"])
         print("OK")
 
+        # Initialize map
         self.initializeMap(filesPath)
 
         # Initialize the player
@@ -417,25 +420,23 @@ class Game:
         self.map.addEntity(self.player, DONTADD=True)
         self.eventManager = EventManager(self, self.player)
 
-        firstGeneration = [Traveling(START_COORD + sample(COORDS, len(COORDS)) + END_COORD) for _ in range(100)]
-        mutationProbability = float(0.1)
+        self.travelCoords = random.sample(self.map.movableList(), 10)
+        import ast
+        self.travelCoords = ast.literal_eval(str(self.travelCoords))
 
+        self.map.insertHerbs(self.travelCoords)
+
+        # Initialize genetic algorithm
+        firstGeneration = [Traveling(START_COORD + sample(self.travelCoords, len(self.travelCoords)) + END_COORD) for _
+                           in range(100)]
+        mutationProbability = float(0.1)
         ga = GeneticAlgorithm(firstGeneration, mutationProbability)
-        movementList = ga.listOfTravel()
+        self.movementList = ga.listOfTravel()
 
         self.entityToVisitList = []
-        for i in movementList:
+        for i in self.movementList:
             self.entityToVisitList.append(self.map.getEntityOnCoord(i))
 
         self.entityToVisitList.remove(self.entityToVisitList[0])
 
-        # for i in entityToVisitList:
-        #     self.player.gotoToTarget(i, self.map)
-        #     print("ile")
-
-        # Start game loop
         self.mainLoop()
-
-
-
-
