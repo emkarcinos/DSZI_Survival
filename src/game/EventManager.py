@@ -26,6 +26,8 @@ class EventManager:
 
         self.iterator = 0
 
+        self.takenHerbs = self.player.herbs
+
     # TODO
     def loadKeyboardSettings(self):
         pass
@@ -115,10 +117,15 @@ class EventManager:
                 self.player.gotoToTarget(target, self.game.map)
 
         if keys[pygame.K_t]:
-            if self.player.movementTarget is None:
+            if self.player.movementTarget is None and self.iterator <= 10:
                 target = self.game.entityToVisitList[self.iterator]
                 self.player.gotoToTarget(target, self.game.map)
                 self.iterator += 1
+
+
+        if self.player.herbs > self.takenHerbs:
+            self.game.screen.ui.console.printToConsole("Ziele zebrane! Ilość: " + str(self.player.herbs))
+            self.takenHerbs = self.player.herbs
 
         if keys[pygame.K_r]:
             self.game.map.respawn()

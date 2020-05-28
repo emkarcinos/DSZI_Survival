@@ -29,27 +29,25 @@ class Interactable(Entity):
         elif classifier == "herb":
             self.classifier = Classifiers.HERB
 
-    def on_interaction(self, Player):
+    def on_interaction(self, player):
         """
         Applies outcome to the Player
 
         :param Player: Player object
         """
-        Player.statistics.set_hp(self.Statistics.hp)
-        Player.statistics.set_stamina(self.Statistics.stamina)
-        Player.statistics.set_thirst(self.Statistics.thirst)
-        Player.statistics.set_hunger(self.Statistics.hunger)
+        player.statistics.set_hp(self.Statistics.hp)
+        player.statistics.set_stamina(self.Statistics.stamina)
+        player.statistics.set_thirst(self.Statistics.thirst)
+        player.statistics.set_hunger(self.Statistics.hunger)
 
         if self.classifier == Classifiers.HERB:
-            Player.herbs += 1
-            print(Player.herbs)
+            player.herbs += 1
 
-        if Player.herbs == 10 and self.classifier == Classifiers.REST:
-            print("Should reset")
-            Player.statistics.set_hp(100)
-            Player.statistics.set_stamina(100)
-            Player.statistics.set_thirst(-100)
-            Player.statistics.set_hunger(-100)
+        if player.herbs == 10 and self.classifier == Classifiers.REST:
+            player.statistics.set_hp(100)
+            player.statistics.set_stamina(100)
+            player.statistics.set_thirst(-100)
+            player.statistics.set_hunger(-100)
 
     def __str__(self):
         return "Entity - ID:{}, pos:({}x, {}y), {}".format(self.id, self.x, self.y, self.classifier.name)
