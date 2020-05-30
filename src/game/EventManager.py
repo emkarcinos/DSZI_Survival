@@ -122,10 +122,17 @@ class EventManager:
                 self.player.gotoToTarget(target, self.game.map)
                 self.iterator += 1
 
-
         if self.player.herbs > self.takenHerbs:
             self.game.screen.ui.console.printToConsole("Ziele zebrane! Ilość: " + str(self.player.herbs))
             self.takenHerbs = self.player.herbs
+
+        if self.player.readyToCrafting:
+            self.game.screen.ui.console.printToConsole("Eliksir został utworzony i spożyty!")
+            self.player.statistics.set_hp(100)
+            self.player.statistics.set_stamina(100)
+            self.player.statistics.set_thirst(-100)
+            self.player.statistics.set_hunger(-100)
+            self.player.readyToCrafting = False
 
         if keys[pygame.K_r]:
             self.game.map.respawn()
@@ -138,8 +145,9 @@ class EventManager:
                         from src.entities.Interactable import Interactable
                         playerPickType = pickWeightedAffinity(self.player.affinities)
                         UiConsole.printToConsole("player picked" + str(playerPickType))
-                        self.player.gotoToTarget(Random().choice(self.game.map.getInteractablesByClassifier(playerPickType)),
-                                                 self.game.map)
+                        self.player.gotoToTarget(
+                            Random().choice(self.game.map.getInteractablesByClassifier(playerPickType)),
+                            self.game.map)
                     break
                 except IndexError:
                     pass

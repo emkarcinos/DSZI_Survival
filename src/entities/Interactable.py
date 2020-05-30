@@ -44,10 +44,8 @@ class Interactable(Entity):
             player.herbs += 1
 
         if player.herbs == 10 and self.classifier == Classifiers.REST:
-            player.statistics.set_hp(100)
-            player.statistics.set_stamina(100)
-            player.statistics.set_thirst(-100)
-            player.statistics.set_hunger(-100)
+            player.readyToCrafting = True
+
 
     def __str__(self):
         return "Entity - ID:{}, pos:({}x, {}y), {}".format(self.id, self.x, self.y, self.classifier.name)

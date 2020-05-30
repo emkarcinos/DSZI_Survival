@@ -23,6 +23,7 @@ class Player(Entity):
 
         self.statistics = Statistics(100, 0, 0, 100)
         self.herbs = 0
+        self.readyToCrafting = False
         # How many steps has the player taken through its lifetime
         self.movePoints = 0
         # Tracks how much time has passed since the player is alive
@@ -58,16 +59,16 @@ class Player(Entity):
         self.statistics.set_hunger(0.5)
         # gets more thirsty
         # self.statistics.set_thirst(2.2)
-        self.statistics.set_thirst(0.5)
+        self.statistics.set_thirst(0.8)
         # gets tired
         # self.statistics.set_stamina(-1.9)
-        self.statistics.set_stamina(-0.5)
+        self.statistics.set_stamina(-0.7)
 
     def applyTimeFatigue(self):
         """
         A separate method to lower the statistics. Invoked every frame.
         """
-        self.statistics.set_thirst(0.002)
+        self.statistics.set_thirst(0.006)
         self.statistics.set_hunger(0.003)
         self.statistics.set_stamina(-0.001)
 

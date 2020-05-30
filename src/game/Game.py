@@ -437,6 +437,8 @@ class Game:
         for i in self.movementList:
             self.entityToVisitList.append(self.map.getEntityOnCoord(i))
 
+        self.screen.ui.console.printToConsole("First generation: " + str(firstGeneration[0]))
         self.entityToVisitList.remove(self.entityToVisitList[0])
+        self.screen.ui.console.printToConsole("The best generation: " + str(self.entityToVisitList))
 
         self.mainLoop()
