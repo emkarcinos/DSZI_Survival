@@ -253,7 +253,7 @@ class Map:
 
     def movableList(self):
         terrainList = self.terrainTilesList
-        for i in self.entitiesRawData:
+        for i in self.entities:
             terrainList.remove(self.getTileOnCoord((i.x, i.y)))
         return terrainList
 
