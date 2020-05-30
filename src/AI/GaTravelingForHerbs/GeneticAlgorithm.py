@@ -11,7 +11,7 @@ class GeneticAlgorithm:
         return sorted_by_assess[:max_selected]
 
     def stopCondition(self, i):
-        return i == 100
+        return i == 64
 
     def run(self):
         population = self.firstPopulation
@@ -29,7 +29,7 @@ class GeneticAlgorithm:
 
             population = newPopulation
             theBestMatch = min(population, key=lambda x: x.fitness)
-            print("Generation: {} S: {} fitness: {}".format(i, theBestMatch, theBestMatch.fitness))
+            print("Generation: {} S: {} fitness: {}".format(i+1, theBestMatch, theBestMatch.fitness))
 
             i += 1
             if self.stopCondition(i):

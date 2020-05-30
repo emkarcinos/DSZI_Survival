@@ -1,10 +1,9 @@
 from random import randint, sample
 from math import sqrt
 
-from src.AI.GaTravelingForHerbs.GeneticAlgorithm import GeneticAlgorithm
-
 START_COORD = [(6, 2)]
 END_COORD = [(10, 7)]
+
 
 class Traveling:
     def __init__(self, coords):
@@ -21,13 +20,13 @@ class Traveling:
             sum += sqrt((nextCoord[0] - c[0]) ** 2 + (nextCoord[1] - c[1]) ** 2)
         return sum
 
-    def crossover(self, element2: 'Element') -> 'Element':
+    def crossover(self, parentCoords):
         childCoords = self.coords[1:int(len(self.coords) / 2)]
-        for coord in element2.coords:
+        for coord in parentCoords.coords:
             if coord not in childCoords and coord not in END_COORD + START_COORD:
                 childCoords.append(coord)
 
-            if len(childCoords) == len(element2.coords):
+            if len(childCoords) == len(parentCoords.coords):
                 break
         return Traveling(START_COORD + childCoords + END_COORD)
 
@@ -39,11 +38,3 @@ class Traveling:
 
     def __repr__(self):
         return str(self.coords)
-
-
-# firstGeneration = [Traveling(START_COORD + sample(COORDS, len(COORDS)) + END_COORD) for _ in range(100)]
-# mutationProbability = float(0.1)
-#
-# ga = GeneticAlgorithm(firstGeneration, mutationProbability)
-# movementList = ga.run()
-
