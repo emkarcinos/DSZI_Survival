@@ -32,6 +32,7 @@ class Interactable(Entity):
     def on_interaction(self, player):
         """
         Applies outcome to the Player
+        Add some ifs to handle collect herbs (traveling ga algorithm)
 
         :param Player: Player object
         """
@@ -45,7 +46,6 @@ class Interactable(Entity):
 
         if player.herbs == 10 and self.classifier == Classifiers.REST:
             player.readyToCrafting = True
-
 
     def __str__(self):
         return "Entity - ID:{}, pos:({}x, {}y), {}".format(self.id, self.x, self.y, self.classifier.name)

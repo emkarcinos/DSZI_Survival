@@ -101,6 +101,7 @@ class Game:
                 filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
             dtExampleManager = ExamplesManager(examplesFilePath)
             dtExampleManager.generateExamples()
+        # Traveling ga algorithm
         elif argv[1] == "ga_travel":
             self.travelRun(filesPath)
         # Invalid game mode
@@ -394,7 +395,7 @@ class Game:
         avg = sum(scores) / iterations
         print("Average: {}".format(str(avg)))
 
-    def travelRun(self, filesPath):
+    def travelRun(self, filesPath):  # Run game with traveling ga algorithm
         self.running = True
         print("Initializing screen, params: " + str(self.config["window"]) + "...", end=" ")
 
@@ -420,10 +421,12 @@ class Game:
         self.map.addEntity(self.player, DONTADD=True)
         self.eventManager = EventManager(self, self.player)
 
+        # Generate random travel list
         self.travelCoords = random.sample(self.map.movableList(), 10)
         import ast
         self.travelCoords = ast.literal_eval(str(self.travelCoords))
 
+        # Insert herbs on random travel coordinates
         self.map.insertHerbs(self.travelCoords)
 
         # Initialize genetic algorithm
@@ -433,12 +436,15 @@ class Game:
         ga = GeneticAlgorithm(firstGeneration, mutationProbability)
         self.movementList = ga.listOfTravel()
 
+        # Define list of entities which player should pass to collect herbs
         self.entityToVisitList = []
         for i in self.movementList:
             self.entityToVisitList.append(self.map.getEntityOnCoord(i))
 
-        self.screen.ui.console.printToConsole("First generation: " + str(firstGeneration[0]))
+        # Remove first element, because start coordinates is None
         self.entityToVisitList.remove(self.entityToVisitList[0])
+
+        self.screen.ui.console.printToConsole("First generation: " + str(firstGeneration[0]))
         self.screen.ui.console.printToConsole("The best generation: " + str(self.entityToVisitList))
 
         self.mainLoop()

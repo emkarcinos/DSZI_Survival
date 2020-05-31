@@ -243,7 +243,7 @@ class Map:
                     return True
             return False
 
-    def insertHerbs(self, coordsList):
+    def insertHerbs(self, coordsList):  # Insert herbs on right coordinates
         nr = 1
         for i in range(10):
             entity = Pickupable("herb" + str(nr) + ".png", self.tileSize, coordsList[i], Statistics(0, 0, 0, 0), "herb")
@@ -252,6 +252,10 @@ class Map:
             nr += 1
 
     def movableList(self):
+        """
+        Return list which is movable on beginning of game,
+        that is terrainTilesList without entity on self
+        """
         terrainList = self.terrainTilesList
         for i in self.entities:
             terrainList.remove(self.getTileOnCoord((i.x, i.y)))

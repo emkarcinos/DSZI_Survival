@@ -22,8 +22,8 @@ class Player(Entity):
         super().__init__("player.png", size, spawnpoint, False)
 
         self.statistics = Statistics(100, 0, 0, 100)
-        self.herbs = 0
-        self.readyToCrafting = False
+        self.herbs = 0  # Need to collect herbs (traveling ga algorithm)
+        self.readyToCrafting = False  # Need to reset statistics (traveling ga algorithm)
         # How many steps has the player taken through its lifetime
         self.movePoints = 0
         # Tracks how much time has passed since the player is alive
@@ -52,7 +52,7 @@ class Player(Entity):
     def applyWalkingFatigue(self):
         """
         Lowers player's statistics. Applied every few steps.
-
+        Modify to not die until collect all herbs.
         """
         # looses hunger
         # self.statistics.set_hunger(1.7)

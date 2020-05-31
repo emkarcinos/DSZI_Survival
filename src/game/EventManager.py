@@ -116,17 +116,17 @@ class EventManager:
                 target = pickEntity(self.player, self.game.map)
                 self.player.gotoToTarget(target, self.game.map)
 
-        if keys[pygame.K_t]:
+        if keys[pygame.K_t]:  # Handle traveling movement to collect herbs
             if self.player.movementTarget is None and self.iterator <= 10:
                 target = self.game.entityToVisitList[self.iterator]
                 self.player.gotoToTarget(target, self.game.map)
                 self.iterator += 1
 
-        if self.player.herbs > self.takenHerbs:
+        if self.player.herbs > self.takenHerbs:  # Console log when player collect herb
             self.game.screen.ui.console.printToConsole("Ziele zebrane! Ilość: " + str(self.player.herbs))
             self.takenHerbs = self.player.herbs
 
-        if self.player.readyToCrafting:
+        if self.player.readyToCrafting:  # Console log and reset statistics because of collect all herbs
             self.game.screen.ui.console.printToConsole("Eliksir został utworzony i spożyty!")
             self.player.statistics.set_hp(100)
             self.player.statistics.set_stamina(100)
