@@ -1,6 +1,6 @@
 # Wyznaczanie trasy algorytmem genetycznym
 **Autor:** *Mateusz Tylka*  
-
+**Uruchomienie:** *Po parametrze "ga_travel"*
 ## Cel algorytmu
 Celem tego algorytmu jest wyznaczenie optymalnej trasy w zbieraniu ziół o konkretnych pozycjach, które
 są generowane losowo. Algorytm decyduje po które zioło udać się najpierw, starając się, aby końcowa suma odległości
