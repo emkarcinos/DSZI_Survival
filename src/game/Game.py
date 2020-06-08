@@ -5,7 +5,8 @@ from pathlib import Path
 import os
 from random import sample
 from random import shuffle
-
+import pickle
+import cv2
 import pygame
 
 from src.AI.Affinities import Affinities
@@ -16,6 +17,8 @@ from src.AI.DecisionTrees.projectSpecificClasses.SurvivalClassification import S
 from src.AI.GA import geneticAlgorithm
 from src.AI.GaTravelingForHerbs.GeneticAlgorithm import GeneticAlgorithm
 from src.AI.GaTravelingForHerbs.Traveling import Traveling, START_COORD, END_COORD
+from src.AI.NeuralNetwork.predict_image import NN
+from src.entities.Enums import Classifiers
 from src.entities.Player import Player
 from src.game.EventManager import EventManager
 from src.game.Map import Map
@@ -101,6 +104,11 @@ class Game:
                 filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
             dtExampleManager = ExamplesManager(examplesFilePath)
             dtExampleManager.generateExamples()
+
+        elif argv[1] == "NN":
+            print("Running Neural Network for image classification")
+            self.run_neural_network(filesPath)
+
         # Traveling ga algorithm
         elif argv[1] == "ga_travel":
             self.travelRun(filesPath)
@@ -108,6 +116,112 @@ class Game:
         else:
             print("Invalid game mode. \n Possible options: test, ga")
             exit(1)
+
+    def run_neural_network(self, filesPath, pauseAfterDecision=False):
+
+        image_predictor = NN()
+
+        self.running = True
+        print("Initializing screen, params: " + str(self.config["window"]) + "...", end=" ")
+
+        # Vertical rotation is unsupported due to UI layout
+        if self.config["window"]["height"] > self.config["window"]["width"]:
+            print("The screen cannot be in a vertical orientation. Exiting...")
+            exit(1)
+
+        # Read examples to decision tree learning
+        examplesFilePath = str(
+            filesPath) + os.sep + "data" + os.sep + "AI_data" + os.sep + "dt_exmpls" + os.sep + "dt_examples"
+        examplesManager = ExamplesManager(examplesFilePath)
+        examples = examplesManager.readExamples()
+
+        # Create decision tree
+        survivalDecisionTree = SurvivalDT(DT.inductiveDecisionTreeLearning(examples,
+                                                                           AttrDefs.allAttributesDefinitions,
+                                                                           SurvivalClassification.FOOD,
+                                                                           SurvivalClassification))
+
+        print("\nDecision tree: \n")
+        DecisionTree.printTree(survivalDecisionTree.entityPickingDecisionTree, 0)
+        print()
+
+        # Initialize timers
+        # Virtual timer to track in-game time
+        self.ingameTimer = Timer()
+        self.ingameTimer.startClock()
+
+        # Initialize screen
+        self.screen = Screen(self, self.config["window"])
+        print("OK")
+
+        self.initializeMap(filesPath)
+
+        # Initialize the player
+        self.player = Player((15, 15), self.map.tileSize, Affinities(0.3, 0.6, 0.1, 0.5))
+        self.map.addEntity(self.player, DONTADD=True)
+
+        pause = False
+        decisionsMade = 0
+
+        # main loop without user input
+        while True:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit(0)
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        pause = not pause
+
+            if pause or not self.running:
+                pass
+
+            else:
+                # Tick the timers
+                self.ingameTimer.updateTime(self.pgTimer.tick())
+                self.screen.ui.updateTime()
+
+                # If player is dead write information to console and break main loop
+                if not self.player.alive:
+                    self.screen.ui.updateOnDeath(self.player)
+                    self.screen.ui.console.printToConsole(
+                        "Score: {}".format(str(decisionsMade + self.player.movePoints)))
+                    self.screen.ui.console.printToConsole("Decisions made {}. Movements made {}.".
+                                                          format(decisionsMade, self.player.movePoints))
+                    self.spritesList.update()
+                    self.spritesList.draw(self.screen.pygameScreen)
+                    pygame.display.flip()
+                    self.running = False
+
+                # Choose target for player using decision tree
+                if self.player.movementTarget is None:
+                    pickedEntity = survivalDecisionTree.pickEntity(self.player, self.map)
+                    if pickedEntity.classifier == Classifiers.FOOD:
+                        result = image_predictor.predict_image()
+                        self.screen.ui.console.printToConsole("I think it is a: " + result[1])
+                        if result[0]:
+                            self.screen.ui.console.printToConsole("I was right")
+                            pass
+                        else:
+                            self.screen.ui.console.printToConsole("I was wrong")
+                            self.player.alive = False
+                            continue
+
+                    self.player.gotoToTarget(survivalDecisionTree.pickEntity(self.player, self.map), self.map)
+                    decisionsMade += 1
+                    if pauseAfterDecision:
+                        pause = True
+
+                self.screen.ui.updateBarsBasedOnPlayerStats(self.player.statistics)
+
+                # Call update() method for each entity
+                self.spritesList.update()
+
+                # Draw all sprites
+                self.spritesList.draw(self.screen.pygameScreen)
+
+                # Flip the display
+                pygame.display.flip()
 
     def initializePygame(self):
         """
