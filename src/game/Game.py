@@ -192,6 +192,7 @@ class Game:
                     self.spritesList.draw(self.screen.pygameScreen)
                     pygame.display.flip()
                     self.running = False
+                    continue
 
                 # Choose target for player using decision tree
                 if self.player.movementTarget is None:
@@ -205,6 +206,7 @@ class Game:
                         else:
                             self.screen.ui.console.printToConsole("I was wrong")
                             self.player.alive = False
+                            self.player.deathReason = "Wrong food recognition"
                             continue
 
                     self.player.gotoToTarget(survivalDecisionTree.pickEntity(self.player, self.map), self.map)
@@ -433,6 +435,7 @@ class Game:
                     self.spritesList.draw(self.screen.pygameScreen)
                     pygame.display.flip()
                     self.running = False
+                    continue
 
                 # Choose target for player using decision tree
                 if self.player.movementTarget is None:

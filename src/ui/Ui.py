@@ -187,6 +187,8 @@ class Ui:
             deathReasonString = "Exhaustion"
         elif deathReason is StatisticNames.THIRST:
             deathReasonString = "Dehydration"
+        else:
+            deathReasonString = "Wrong food recognition"
 
         consoleLines.append("Death reason: " + deathReasonString)
 
