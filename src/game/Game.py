@@ -197,6 +197,7 @@ class Game:
                 # Choose target for player using decision tree
                 if self.player.movementTarget is None:
                     pickedEntity = survivalDecisionTree.pickEntity(self.player, self.map)
+                    self.screen.ui.console.printToConsole("I've decided to go for: {}".format(pickedEntity.classifier.name))
                     if pickedEntity.classifier == Classifiers.FOOD:
                         result = image_predictor.predict_image()
                         self.screen.ui.console.printToConsole("I think it is a: " + result[1])
@@ -439,8 +440,10 @@ class Game:
 
                 # Choose target for player using decision tree
                 if self.player.movementTarget is None:
-                    self.player.gotoToTarget(survivalDecisionTree.pickEntity(self.player, self.map), self.map)
+                    pickedEntity = survivalDecisionTree.pickEntity(self.player, self.map)
+                    self.player.gotoToTarget(pickedEntity, self.map)
                     decisionsMade += 1
+                    self.screen.ui.console.printToConsole("I've decided to go for: {}".format(pickedEntity.classifier.name))
                     if pauseAfterDecision:
                         pause = True
 
