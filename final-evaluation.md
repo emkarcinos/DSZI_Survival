@@ -29,3 +29,6 @@ Na bezludnej wyspie znajdują się tylko dwa rodzaje owoców:
 Po uruchomieniu aplikacji algorytm genetyczny wyznacza optymalną trasę/kolejność do zebrania ziół,
 dzięki którym jego statystyki zresetują się do początkowego pozytywnego poziomu. Optymalna ścieżka
 do zebrania ziół jest potrzebna, aby agent nie stracił zbyt wielu statystyk przed wykonaniem zadania.
+
+### Genetic Algorithm Affinities
+Celem algorytmu jest znalezienie 4 optymalnych wartości - skłonności (priorytetu) determinujących wybór kolejnego celu agenta. Wyznacznikiem czasu przetrwania jest ilość kroków pokonanych przez agenta (fitness).
