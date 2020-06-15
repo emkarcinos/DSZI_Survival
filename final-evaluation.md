@@ -15,3 +15,12 @@ czy powinien on w danej chwili:
  * zbierać pożywienie
  * pójść po wodę
  * odpocząć przy ognisku
+ 
+### Neural Network
+W trakcie działania programu sieć neuronowa pomaga podjąć decyzję czy znalezione pożywienie jest jadalne
+czy nie. W przypadku, w którm agent się pomyli dochodzi do zatrucia i do końca gry.
+Na bezludnej wyspie znajdują się tylko dwa rodzaje owoców:
+ * Jabłka
+ * Gruszki
+ 
+ Celem agenta jest przetrwanie jak najdłużej.
